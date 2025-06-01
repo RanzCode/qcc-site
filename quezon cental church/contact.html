@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Quezon Central Church</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="index.html" class="logo">
+                    <img src="https://via.placeholder.com/40x40/3B82F6/FFFFFF?text=QCC" alt="Quezon Central Church Logo" class="logo-img">
+                    <span class="logo-text">Quezon Central Church</span>
+                </a>
+                <nav class="nav">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="worship.html" class="nav-link">Saturday Worship</a>
+                    <a href="events.html" class="nav-link">Events</a>
+                    <a href="sermons.html" class="nav-link">Sermons</a>
+                    <a href="donate.html" class="nav-link">Donate</a>
+                    <a href="contact.html" class="nav-link active">Contact</a>
+                </nav>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html" class="mobile-nav-link">Home</a>
+        <a href="about.html" class="mobile-nav-link">About</a>
+        <a href="worship.html" class="mobile-nav-link">Saturday Worship</a>
+        <a href="events.html" class="mobile-nav-link">Events</a>
+        <a href="sermons.html" class="mobile-nav-link">Sermons</a>
+        <a href="donate.html" class="mobile-nav-link">Donate</a>
+        <a href="contact.html" class="mobile-nav-link">Contact</a>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-overlay"></div>
+            <img src="https://via.placeholder.com/1600x400/1F2937/FFFFFF?text=Contact+Us" alt="Contact Us" class="hero-image">
+            <div class="container hero-content">
+                <h1 class="hero-title">Contact Us</h1>
+                <p class="hero-subtitle">We'd love to hear from you! Reach out with any questions or prayer requests.</p>
+            </div>
+        </section>
+
+        <!-- Contact Information -->
+        <section class="contact-info-section">
+            <div class="container">
+                <div class="contact-info-grid">
+                    <div class="contact-info-card">
+                        <div class="contact-info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>Address</h3>
+                        <p>123 Church Street<br>Quezon City, Philippines</p>
+                        <a href="https://maps.google.com" target="_blank" class="contact-link">Get Directions</a>
+                    </div>
+                    <div class="contact-info-card">
+                        <div class="contact-info-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h3>Phone</h3>
+                        <p>(123) 456-7890</p>
+                        <a href="tel:+1234567890" class="contact-link">Call Us</a>
+                    </div>
+                    <div class="contact-info-card">
+                        <div class="contact-info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>Email</h3>
+                        <p>info@qcchurch.org</p>
+                        <a href="mailto:info@qcchurch.org" class="contact-link">Email Us</a>
+                    </div>
+                    <div class="contact-info-card">
+                        <div class="contact-info-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Office Hours</h3>
+                        <p>Monday - Friday<br>9:00 AM - 5:00 PM</p>
+                        <a href="worship.html" class="contact-link">Worship Times</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form and Map -->
+        <section class="contact-form-section">
+            <div class="container">
+                <div class="contact-form-grid">
+                    <div class="contact-form-container">
+                        <h2>Send Us a Message</h2>
+                        <form class="contact-form" id="contactForm">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" id="firstName" name="firstName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" id="lastName" name="lastName" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <select id="subject" name="subject" required>
+                                    <option value="">Select a subject</option>
+                                    <option value="general">General Inquiry</option>
+                                    <option value="prayer">Prayer Request</option>
+                                    <option value="membership">Membership Information</option>
+                                    <option value="volunteer">Volunteer Opportunities</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-full">Send Message</button>
+                        </form>
+                    </div>
+                    <div class="contact-map-container">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.4106261124403!2d121.0362!3d14.6305!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTTCsDM3JzQ5LjgiTiAxMjHCsDAyJzEwLjMiRQ!5e0!3m2!1sen!2sph!4v1616000000000!5m2!1sen!2sph"
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-subtitle">Find answers to common questions about our church</p>
+                </div>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <h3>What time are your worship services?</h3>
+                        <p>Our Saturday worship services begin with Sabbath School at 9:15 AM, followed by Divine Worship at 11:00 AM. We also have afternoon programs starting at 2:30 PM.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>How do I become a member of the church?</h3>
+                        <p>We welcome new members through baptism, profession of faith, or transfer from another church. Please contact our church office or speak with our pastor for more information about membership.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>Do you have programs for children?</h3>
+                        <p>Yes, we have age-appropriate Sabbath School classes for children of all ages, as well as youth programs and activities throughout the week.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h3>How can I get involved in church activities?</h3>
+                        <p>There are many ways to get involved! You can join a ministry team, volunteer for community service, participate in Bible study groups, or help with various church programs. Contact our church office to learn about current opportunities.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Newsletter Section -->
+        <section class="newsletter-section">
+            <div class="container">
+                <div class="newsletter-content">
+                    <h2>Stay Connected</h2>
+                    <p>Subscribe to our newsletter to receive updates on church events, announcements, and devotional content.</p>
+                    <form class="newsletter-form" id="newsletterForm">
+                        <input type="email" placeholder="Enter your email" required>
+                        <button type="submit" class="btn btn-primary">Subscribe</button>
+                    </form>
+                    <p class="newsletter-note">We respect your privacy and will never share your information.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <a href="index.html" class="footer-logo">
+                        <img src="https://via.placeholder.com/40x40/3B82F6/FFFFFF?text=QCC" alt="Quezon Central Church Logo">
+                        <span>Quezon Central Church</span>
+                    </a>
+                    <p class="footer-description">Serving the community through faith, love, and compassion since 1975.</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="worship.html">Saturday Worship</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="sermons.html">Sermons</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="devotionals.html">Daily Devotionals</a></li>
+                        <li><a href="sabbath-school.html">Sabbath School Lessons</a></li>
+                        <li><a href="egw-writings.html">EGW Writings</a></li>
+                        <li><a href="media.html">Media Library</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="prayer-requests.html">Prayer Requests</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="newsletter.html">Newsletter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Quezon Central Church. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <button class="chat-toggle" id="chatToggle">
+            <i class="fas fa-comments"></i>
+        </button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <i class="fas fa-comments"></i>
+                    <span>Church Chat</span>
+                </div>
+                <button class="chat-close" id="chatClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message church-message">
+                    <div class="message-content">
+                        <p>Hello! How can we help you today? Feel free to ask questions or submit a prayer request.</p>
+                        <span class="message-time">12:00 PM</span>
+                    </div>
+                </div>
+            </div>
+            <form class="chat-form" id="chatForm">
+                <textarea placeholder="Type your message..." id="chatInput"></textarea>
+                <button type="submit" class="chat-send">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="contact.js"></script>
+</body>
+</html>

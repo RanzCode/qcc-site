@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate - Quezon Central Church</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="index.html" class="logo">
+                    <img src="https://via.placeholder.com/40x40/3B82F6/FFFFFF?text=QCC" alt="Quezon Central Church Logo" class="logo-img">
+                    <span class="logo-text">Quezon Central Church</span>
+                </a>
+                <nav class="nav">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="worship.html" class="nav-link">Saturday Worship</a>
+                    <a href="events.html" class="nav-link">Events</a>
+                    <a href="sermons.html" class="nav-link">Sermons</a>
+                    <a href="donate.html" class="nav-link active">Donate</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </nav>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html" class="mobile-nav-link">Home</a>
+        <a href="about.html" class="mobile-nav-link">About</a>
+        <a href="worship.html" class="mobile-nav-link">Saturday Worship</a>
+        <a href="events.html" class="mobile-nav-link">Events</a>
+        <a href="sermons.html" class="mobile-nav-link">Sermons</a>
+        <a href="donate.html" class="mobile-nav-link">Donate</a>
+        <a href="contact.html" class="mobile-nav-link">Contact</a>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-overlay"></div>
+            <img src="https://via.placeholder.com/1600x400/1F2937/FFFFFF?text=Support+Our+Ministry" alt="Donate" class="hero-image">
+            <div class="container hero-content">
+                <h1 class="hero-title">Support Our Ministry</h1>
+                <p class="hero-subtitle">Your generous contributions help us continue our mission and outreach programs in the community.</p>
+            </div>
+        </section>
+
+        <!-- Donation Options Section -->
+        <section class="donation-options">
+            <div class="container">
+                <div class="donation-tabs">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" data-tab="online">
+                            <i class="fas fa-credit-card"></i>
+                            <span>Online Giving</span>
+                        </button>
+                        <button class="tab-btn" data-tab="qr">
+                            <i class="fas fa-qrcode"></i>
+                            <span>QR Code</span>
+                        </button>
+                        <button class="tab-btn" data-tab="other">
+                            <i class="fas fa-heart"></i>
+                            <span>Other Ways</span>
+                        </button>
+                    </div>
+
+                    <div class="tab-content active" id="online">
+                        <div class="donation-form-container">
+                            <h2>Online Donation</h2>
+                            <form class="donation-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="firstName">First Name</label>
+                                        <input type="text" id="firstName" name="firstName" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name</label>
+                                        <input type="text" id="lastName" name="lastName" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="donationType">Donation Type</label>
+                                    <select id="donationType" name="donationType" required>
+                                        <option value="tithe">Tithe</option>
+                                        <option value="offering">Offering</option>
+                                        <option value="building-fund">Building Fund</option>
+                                        <option value="mission">Mission Projects</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="amount">Donation Amount</label>
+                                    <div class="amount-input">
+                                        <i class="fas fa-dollar-sign"></i>
+                                        <input type="number" id="amount" name="amount" min="1" placeholder="Enter amount" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Donation Frequency</label>
+                                    <div class="radio-group">
+                                        <div class="radio-item">
+                                            <input type="radio" id="oneTime" name="frequency" value="one-time" checked>
+                                            <label for="oneTime">One-time</label>
+                                        </div>
+                                        <div class="radio-item">
+                                            <input type="radio" id="recurring" name="frequency" value="recurring">
+                                            <label for="recurring">Recurring</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group recurring-options" style="display: none;">
+                                    <label for="frequency">Frequency</label>
+                                    <select id="frequency" name="frequency">
+                                        <option value="weekly">Weekly</option>
+                                        <option value="monthly">Monthly</option>
+                                        <option value="quarterly">Quarterly</option>
+                                    </select>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary btn-full">Proceed to Payment</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="qr">
+                        <div class="qr-donation">
+                            <h2>Donate via QR Code</h2>
+                            <p>Scan the QR code below with your mobile banking app to make a donation</p>
+                            
+                            <div class="qr-container">
+                                <div class="qr-code">
+                                    <img src="https://via.placeholder.com/200x200/000000/FFFFFF?text=QR+CODE" alt="Donation QR Code">
+                                </div>
+                                
+                                <div class="qr-instructions">
+                                    <h3>How to use:</h3>
+                                    <ol>
+                                        <li><span class="step-number">1</span> Open your mobile banking or payment app</li>
+                                        <li><span class="step-number">2</span> Select the scan QR code option</li>
+                                        <li><span class="step-number">3</span> Scan the QR code displayed above</li>
+                                        <li><span class="step-number">4</span> Enter the amount you wish to donate</li>
+                                        <li><span class="step-number">5</span> Complete the transaction in your app</li>
+                                    </ol>
+                                    <p class="qr-note">For assistance with QR code donations, please contact our church office.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="other">
+                        <div class="other-methods">
+                            <h2>Other Ways to Give</h2>
+                            
+                            <div class="method-item">
+                                <div class="method-icon">
+                                    <i class="fas fa-calendar"></i>
+                                </div>
+                                <div class="method-content">
+                                    <h3>During Worship Service</h3>
+                                    <p>You can give during our Saturday worship services. Offering plates are passed during the designated time.</p>
+                                    <p class="method-note">Envelopes are available for those who wish to designate their gifts for specific purposes.</p>
+                                </div>
+                            </div>
+
+                            <div class="method-item">
+                                <div class="method-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="method-content">
+                                    <h3>Mail a Check</h3>
+                                    <p>You can mail your tithes and offerings to our church office.</p>
+                                    <div class="address-box">
+                                        <p><strong>Quezon Central Church</strong></p>
+                                        <p>123 Church Street</p>
+                                        <p>Quezon City, Philippines</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="method-item">
+                                <div class="method-icon">
+                                    <i class="fas fa-university"></i>
+                                </div>
+                                <div class="method-content">
+                                    <h3>Bank Transfer</h3>
+                                    <p>You can make a direct bank transfer to our church account.</p>
+                                    <div class="bank-details">
+                                        <p><strong>Bank:</strong> Philippine National Bank</p>
+                                        <p><strong>Account Name:</strong> Quezon Central Church</p>
+                                        <p><strong>Account Number:</strong> 1234-5678-9012</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Give Section -->
+        <section class="why-give">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Why We Give</h2>
+                    <p class="section-subtitle">Your contributions make a difference in our church and community</p>
+                </div>
+
+                <div class="impact-grid">
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Community Outreach</h3>
+                        <p>Your donations help us serve those in need through food drives, community services, and assistance programs.</p>
+                    </div>
+
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3>Church Operations</h3>
+                        <p>Your giving supports our worship services, facilities maintenance, and the day-to-day operations of our church.</p>
+                    </div>
+
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-hands-helping"></i>
+                        </div>
+                        <h3>Ministry Programs</h3>
+                        <p>Your support enables our youth programs, Bible studies, music ministry, and other spiritual growth initiatives.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="testimonials">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Stewardship Stories</h2>
+                    <p class="section-subtitle">Hear from members about the blessings of giving</p>
+                </div>
+
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <img src="https://via.placeholder.com/60x60/3B82F6/FFFFFF?text=MS" alt="Maria Santos">
+                            <div class="testimonial-info">
+                                <h4>Maria Santos</h4>
+                                <p>Church Member</p>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"Faithful giving has been a blessing in my life. I've seen how my contributions have helped our church reach more people with God's love."</p>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <div class="testimonial-header">
+                            <img src="https://via.placeholder.com/60x60/3B82F6/FFFFFF?text=JR" alt="Juan Reyes">
+                            <div class="testimonial-info">
+                                <h4>Juan Reyes</h4>
+                                <p>Church Member</p>
+                            </div>
+                        </div>
+                        <p class="testimonial-text">"Supporting our church's mission has allowed me to be part of something bigger than myself. It's amazing to see how our collective giving makes a difference."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Frequently Asked Questions</h2>
+                    <p class="section-subtitle">Find answers to common questions about giving</p>
+                </div>
+
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <h3>Is my donation tax-deductible?</h3>
+                        <p>Yes, all donations to Quezon Central Church are tax-deductible. You will receive a receipt for your contributions at the end of the year.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>How is my donation used?</h3>
+                        <p>Your donations support our church operations, ministry programs, community outreach, and mission projects. We are committed to financial transparency and good stewardship.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Can I designate my gift for a specific purpose?</h3>
+                        <p>Yes, you can designate your gift for a specific ministry or project. Simply indicate your preference when making your donation.</p>
+                    </div>
+
+                    <div class="faq-item">
+                        <h3>Is online giving secure?</h3>
+                        <p>Yes, our online giving platform uses industry-standard encryption and security measures to protect your personal and financial information.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-help">
+            <div class="container">
+                <div class="contact-content">
+                    <h2>Need Assistance?</h2>
+                    <p>If you have any questions about giving or need assistance, please contact our church office.</p>
+                    <div class="contact-buttons">
+                        <a href="contact.html" class="btn btn-primary">Contact Us</a>
+                        <a href="tel:+1234567890" class="btn btn-outline">Call (123) 456-7890</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <a href="index.html" class="footer-logo">
+                        <img src="https://via.placeholder.com/40x40/3B82F6/FFFFFF?text=QCC" alt="Quezon Central Church Logo">
+                        <span>Quezon Central Church</span>
+                    </a>
+                    <p class="footer-description">Serving the community through faith, love, and compassion since 1975.</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="worship.html">Saturday Worship</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="sermons.html">Sermons</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="devotionals.html">Daily Devotionals</a></li>
+                        <li><a href="sabbath-school.html">Sabbath School Lessons</a></li>
+                        <li><a href="egw-writings.html">EGW Writings</a></li>
+                        <li><a href="media.html">Media Library</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="prayer-requests.html">Prayer Requests</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="newsletter.html">Newsletter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">© 2025 Quezon Central Church. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="#" class="social-link"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Chat Widget -->
+    <div class="chat-widget" id="chatWidget">
+        <button class="chat-toggle" id="chatToggle">
+            <i class="fas fa-comments"></i>
+        </button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <i class="fas fa-comments"></i>
+                    <span>Church Chat</span>
+                </div>
+                <button class="chat-close" id="chatClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message church-message">
+                    <div class="message-content">
+                        <p>Hello! How can we help you today? Feel free to ask questions or submit a prayer request.</p>
+                        <span class="message-time">12:00 PM</span>
+                    </div>
+                </div>
+            </div>
+            <form class="chat-form" id="chatForm">
+                <textarea placeholder="Type your message..." id="chatInput"></textarea>
+                <button type="submit" class="chat-send">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

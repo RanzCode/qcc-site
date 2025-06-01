@@ -1,0 +1,2537 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    color: #1f2937;
+    background-color: #ffffff;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+/* Header Styles */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.nav-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 4rem;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #1f2937;
+}
+
+.logo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.logo-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.nav {
+    display: none;
+    gap: 1.5rem;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #6b7280;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: #3b82f6;
+}
+
+.mobile-menu-btn {
+    display: block;
+    background: none;
+    border: 1px solid #e5e7eb;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 4rem;
+    left: 0;
+    right: 0;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    z-index: 40;
+    padding: 1rem;
+}
+
+.mobile-menu.active {
+    display: block;
+}
+
+.mobile-nav-link {
+    display: block;
+    padding: 0.75rem 0;
+    text-decoration: none;
+    color: #6b7280;
+    font-weight: 500;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.mobile-nav-link:hover {
+    color: #3b82f6;
+}
+
+/* Button Styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #2563eb;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: #3b82f6;
+    border: 1px solid #3b82f6;
+}
+
+.btn-outline:hover {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.btn-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+}
+
+/* Hero Section */
+.hero {
+    position: relative;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 10;
+}
+
+.hero-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 20;
+    text-align: center;
+    color: white;
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    max-width: 32rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Section Styles */
+.section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.section-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.section-subtitle {
+    color: #6b7280;
+    max-width: 32rem;
+    margin: 0 auto;
+}
+
+.section-cta {
+    text-align: center;
+    margin-top: 2.5rem;
+}
+
+/* Worship Times Section */
+.worship-times {
+    padding: 4rem 0;
+    background-color: #f9fafb;
+}
+
+.worship-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.worship-card {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.worship-icon {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 2rem;
+}
+
+.worship-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.worship-card-text {
+    color: #6b7280;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.worship-time {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    color: #6b7280;
+    margin-top: auto;
+}
+
+/* Events Section */
+.events {
+    padding: 4rem 0;
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.event-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.event-card:hover {
+    transform: translateY(-2px);
+}
+
+.event-image {
+    aspect-ratio: 2/1;
+    overflow: hidden;
+}
+
+.event-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s;
+}
+
+.event-card:hover .event-image img {
+    transform: scale(1.05);
+}
+
+.event-content {
+    padding: 1.25rem;
+}
+
+.event-date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.event-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.event-description {
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+
+.event-location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+/* Sermons Section */
+.sermons {
+    padding: 4rem 0;
+    background-color: #f9fafb;
+}
+
+.sermons-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.sermon-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.sermon-card:hover {
+    transform: translateY(-2px);
+}
+
+.sermon-image {
+    position: relative;
+    aspect-ratio: 2/1;
+    overflow: hidden;
+}
+
+.sermon-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s;
+}
+
+.sermon-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    color: white;
+    font-size: 3rem;
+}
+
+.sermon-card:hover .sermon-overlay {
+    opacity: 1;
+}
+
+.sermon-card:hover .sermon-image img {
+    transform: scale(1.05);
+}
+
+.sermon-content {
+    padding: 1.25rem;
+}
+
+.sermon-date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.sermon-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.sermon-description {
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+
+/* Donation Section */
+.donation {
+    padding: 4rem 0;
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.donation-content {
+    text-align: center;
+    max-width: 48rem;
+    margin: 0 auto;
+}
+
+.donation-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+/* Contact Section */
+.contact {
+    padding: 4rem 0;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.contact-items {
+    margin: 1.5rem 0;
+}
+
+.contact-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.contact-item i {
+    color: #3b82f6;
+    margin-top: 0.125rem;
+    flex-shrink: 0;
+}
+
+.contact-item h3 {
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+}
+
+.contact-item p {
+    color: #6b7280;
+}
+
+.contact-cta {
+    margin-top: 2rem;
+}
+
+.contact-map {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    height: 300px;
+}
+
+/* Footer */
+.footer {
+    background-color: #f9fafb;
+    padding: 3rem 0;
+    border-top: 1px solid #e5e7eb;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #1f2937;
+    margin-bottom: 1rem;
+}
+
+.footer-logo img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.footer-logo span {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.footer-description {
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.footer-title {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.footer-links {
+    list-style: none;
+}
+
+.footer-links li {
+    margin-bottom: 0.5rem;
+}
+
+.footer-links a {
+    color: #6b7280;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: #3b82f6;
+}
+
+.footer-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 2rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.footer-copyright {
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.footer-social {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-link {
+    color: #6b7280;
+    font-size: 1.25rem;
+    transition: color 0.2s;
+}
+
+.social-link:hover {
+    color: #3b82f6;
+}
+
+/* Chat Widget */
+.chat-widget {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 50;
+}
+
+.chat-toggle {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-size: 1.5rem;
+    transition: background-color 0.2s;
+}
+
+.chat-toggle:hover {
+    background-color: #2563eb;
+}
+
+.chat-window {
+    display: none;
+    position: absolute;
+    bottom: 4rem;
+    right: 0;
+    width: 320px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.chat-window.active {
+    display: block;
+}
+
+.chat-header {
+    background-color: #3b82f6;
+    color: white;
+    padding: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+}
+
+.chat-close {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+}
+
+.chat-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.chat-messages {
+    height: 300px;
+    overflow-y: auto;
+    padding: 0.75rem;
+}
+
+.message {
+    margin-bottom: 0.75rem;
+}
+
+.message-content {
+    max-width: 80%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+}
+
+.church-message .message-content {
+    background-color: #f3f4f6;
+    margin-right: auto;
+}
+
+.user-message .message-content {
+    background-color: rgba(59, 130, 246, 0.1);
+    margin-left: auto;
+}
+
+.message-content p {
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+.message-time {
+    font-size: 0.75rem;
+    color: #6b7280;
+    display: block;
+    text-align: right;
+}
+
+.chat-form {
+    border-top: 1px solid #e5e7eb;
+    padding: 0.75rem;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.chat-form textarea {
+    flex: 1;
+    min-height: 40px;
+    resize: none;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    padding: 0.5rem;
+    font-family: inherit;
+    font-size: 0.875rem;
+}
+
+.chat-form textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+}
+
+.chat-send {
+    width: 40px;
+    height: 40px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-send:hover {
+    background-color: #2563eb;
+}
+
+/* Responsive Design */
+@media (min-width: 768px) {
+    .nav {
+        display: flex;
+    }
+    
+    .mobile-menu-btn {
+        display: none;
+    }
+    
+    .hero-title {
+        font-size: 3.75rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: row;
+    }
+    
+    .worship-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .events-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .sermons-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .donation-buttons {
+        flex-direction: row;
+        justify-content: center;
+    }
+    
+    .contact-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .contact-map {
+        height: 400px;
+    }
+    
+    .footer-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .footer-bottom {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+@media (min-width: 1024px) {
+    .events-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .sermons-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* ===== DONATION PAGE STYLES ===== */
+.donation-options {
+    padding: 4rem 0;
+}
+
+.donation-tabs {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* additional new pages */
+
+.tab-buttons {
+    display: flex;
+    border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 2rem;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 1rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: #6b7280;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab-btn.active {
+    color: #3b82f6;
+    border-bottom-color: #3b82f6;
+}
+
+.tab-content {
+    display: none;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 2rem;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.donation-form-container h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.amount-input {
+    position: relative;
+}
+
+.amount-input i {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+}
+
+.amount-input input {
+    padding-left: 2.5rem;
+}
+
+.radio-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.radio-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.recurring-options {
+    margin-top: 1rem;
+}
+
+/* QR Code Donation */
+.qr-donation {
+    text-align: center;
+}
+
+.qr-donation h2 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.qr-donation > p {
+    margin-bottom: 2rem;
+    color: #6b7280;
+}
+
+.qr-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.qr-code {
+    border: 1px solid #e5e7eb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: white;
+    display: inline-block;
+}
+
+.qr-instructions {
+    max-width: 400px;
+    text-align: left;
+}
+
+.qr-instructions h3 {
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.qr-instructions ol {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1rem;
+}
+
+.qr-instructions li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.step-number {
+    background: #3b82f6;
+    color: white;
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.qr-note {
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+/* Other Methods */
+.other-methods h2 {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.method-item {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.method-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.method-icon {
+    background: #eff6ff;
+    color: #3b82f6;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.method-content h3 {
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+}
+
+.method-content p {
+    color: #6b7280;
+    margin-bottom: 0.5rem;
+}
+
+.method-note {
+    font-size: 0.875rem;
+}
+
+.address-box,
+.bank-details {
+    background: #f9fafb;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+/* Why Give Section */
+.why-give {
+    padding: 4rem 0;
+    background: #f9fafb;
+}
+
+.impact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.impact-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.impact-icon {
+    background: #eff6ff;
+    color: #3b82f6;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+}
+
+.impact-card h3 {
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+}
+
+.impact-card p {
+    color: #6b7280;
+}
+
+/* ===== CONTACT PAGE STYLES ===== */
+.contact-info {
+    padding: 4rem 0;
+}
+
+.contact-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.contact-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    text-align: center;
+}
+
+.contact-icon {
+    background: #eff6ff;
+    color: #3b82f6;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+}
+
+.contact-card h3 {
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+}
+
+.contact-card p {
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+
+.contact-link {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.contact-link:hover {
+    text-decoration: underline;
+}
+
+.contact-main {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.contact-form-section h2 {
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.map-section {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.map-container {
+    height: 400px;
+}
+
+.prayer-request-section {
+    padding: 4rem 0;
+    background: #f9fafb;
+}
+
+.prayer-content {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.prayer-icon {
+    background: #eff6ff;
+    color: #3b82f6;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+}
+
+.prayer-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.prayer-content p {
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+
+.newsletter-section {
+    padding: 4rem 0;
+    background: #eff6ff;
+}
+
+.newsletter-content {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.newsletter-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.newsletter-content p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+.newsletter-form {
+    display: flex;
+    gap: 0.5rem;
+    max-width: 400px;
+    margin: 0 auto 1rem;
+}
+
+.newsletter-form input {
+    flex: 1;
+}
+
+.newsletter-note {
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+/* ===== EVENTS PAGE STYLES ===== */
+.calendar-nav {
+    padding: 2rem 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.calendar-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.month-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nav-btn {
+    background: none;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.25rem;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: #6b7280;
+    transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+    background: #f9fafb;
+    color: #3b82f6;
+}
+
+.current-month {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.calendar-filters {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-box i {
+    position: absolute;
+    left: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+}
+
+.search-box input {
+    padding-left: 2.5rem;
+    width: 200px;
+}
+
+.filter-select {
+    min-width: 150px;
+}
+
+/* Calendar */
+.calendar-section {
+    padding: 2rem 0;
+}
+
+.calendar-container {
+    overflow-x: auto;
+}
+
+.calendar {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e5e7eb;
+}
+
+.calendar th {
+    background: #f9fafb;
+    padding: 1rem;
+    text-align: center;
+    font-weight: 600;
+    border: 1px solid #e5e7eb;
+}
+
+.calendar-day {
+    border: 1px solid #e5e7eb;
+    padding: 0.5rem;
+    height: 120px;
+    vertical-align: top;
+    position: relative;
+}
+
+.calendar-day.inactive {
+    background: #f9fafb;
+    color: #9ca3af;
+}
+
+.calendar-day.has-event {
+    background: #fef3c7;
+}
+
+.day-number {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.event-item {
+    margin-bottom: 0.25rem;
+}
+
+.event-link {
+    display: block;
+    padding: 0.125rem 0.25rem;
+    background: #3b82f6;
+    color: white;
+    text-decoration: none;
+    font-size: 0.75rem;
+    border-radius: 0.25rem;
+    line-height: 1.2;
+}
+
+.event-link:hover {
+    background: #2563eb;
+}
+
+/* Upcoming Events */
+.upcoming-events {
+    padding: 4rem 0;
+    background: #f9fafb;
+}
+
+.events-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.event-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.event-image {
+    aspect-ratio: 2/1;
+    overflow: hidden;
+}
+
+.event-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover .event-image img {
+    transform: scale(1.05);
+}
+
+.event-content {
+    padding: 1.5rem;
+}
+
+.event-date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.event-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.event-description {
+    color: #6b7280;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+.event-details {
+    margin-bottom: 1rem;
+}
+
+.event-time,
+.event-location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+}
+
+/* Featured Event */
+.featured-event {
+    padding: 4rem 0;
+}
+
+.featured-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.featured-image {
+    aspect-ratio: 16/9;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.featured-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.event-badge {
+    display: inline-block;
+    background: #eff6ff;
+    color: #3b82f6;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.featured-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.featured-description {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.featured-info {
+    margin-bottom: 1.5rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.info-item i {
+    color: #3b82f6;
+    margin-top: 0.125rem;
+}
+
+.info-item h4 {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.info-item p {
+    color: #6b7280;
+}
+
+.featured-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Event Categories */
+.event-categories {
+    padding: 4rem 0;
+    background: #f9fafb;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.category-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+.category-card:hover {
+    border-color: #3b82f6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.category-icon {
+    background: #eff6ff;
+    color: #3b82f6;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.category-card:hover .category-icon {
+    background: #3b82f6;
+    color: white;
+}
+
+.category-card h3 {
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+}
+
+.category-card p {
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+/* Add to Calendar */
+.add-calendar {
+    padding: 4rem 0;
+}
+
+.calendar-content {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.calendar-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.calendar-content p {
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+
+.calendar-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.calendar-buttons .btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Additional CSS for new pages */
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .tab-buttons {
+        flex-direction: column;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .radio-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .qr-container {
+        flex-direction: column;
+    }
+    
+    .contact-main {
+        grid-template-columns: 1fr;
+    }
+    
+    .calendar-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .calendar-filters {
+        flex-direction: column;
+    }
+    
+    .search-box input {
+        width: 100%;
+    }
+    
+    .featured-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .featured-buttons {
+        justify-content: center;
+    }
+    
+    .calendar-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .events-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .categories-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .impact-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .contact-cards {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* worship css*/
+
+/* Worship Schedule Styles */
+.worship-schedule {
+    padding: 4rem 0;
+}
+
+.schedule-container {
+    max-width: 64rem;
+    margin: 0 auto;
+}
+
+.schedule-header {
+    background-color: #3b82f6;
+    color: white;
+    padding: 1rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.schedule-header h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.schedule-items {
+    border: 1px solid #e5e7eb;
+    border-top: none;
+    border-radius: 0 0 0.5rem 0.5rem;
+    overflow: hidden;
+}
+
+.schedule-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.schedule-item:last-child {
+    border-bottom: none;
+}
+
+.schedule-icon {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.schedule-content h4 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.schedule-content p {
+    color: #6b7280;
+}
+
+.schedule-time {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.join-us-section {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.join-us-section h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.join-us-section p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+    max-width: 32rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.join-us-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* What to Expect Styles */
+.what-to-expect {
+    padding: 4rem 0;
+    background-color: #f9fafb;
+}
+
+.expect-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 64rem;
+    margin: 0 auto;
+}
+
+.expect-card {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.expect-card h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.expect-list {
+    list-style: none;
+    padding: 0;
+}
+
+.expect-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.expect-list i {
+    color: #3b82f6;
+    margin-top: 0.125rem;
+    flex-shrink: 0;
+}
+
+.expect-note {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.expect-note p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+    max-width: 32rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Livestream Section Styles */
+.livestream-section {
+    padding: 4rem 0;
+}
+
+.livestream-container {
+    max-width: 64rem;
+    margin: 0 auto;
+}
+
+.livestream-player {
+    aspect-ratio: 16/9;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background-color: #f3f4f6;
+    margin-bottom: 2rem;
+}
+
+.livestream-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    padding: 2rem;
+}
+
+.livestream-placeholder i {
+    font-size: 4rem;
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+
+.livestream-placeholder h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.livestream-placeholder p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+.previous-services {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.service-item {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.service-item h4 {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.service-item p {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin-bottom: 0.5rem;
+}
+
+.service-item a {
+    color: #3b82f6;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.service-item a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design for Worship Page */
+@media (min-width: 768px) {
+    .schedule-item {
+        flex-direction: row;
+        align-items: center;
+    }
+    
+    .schedule-content {
+        flex: 1;
+    }
+    
+    .join-us-buttons {
+        flex-direction: row;
+        justify-content: center;
+    }
+    
+    .expect-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .previous-services {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* about css */
+
+/* About Page Styles */
+
+/* Our Story Section */
+.our-story {
+    padding: 4rem 0;
+}
+
+.story-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.story-content .section-title {
+    text-align: left;
+    margin-bottom: 1.5rem;
+}
+
+.story-text {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+}
+
+.story-image {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.story-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Mission & Vision Section */
+.mission-vision {
+    padding: 4rem 0;
+    background-color: #f9fafb;
+}
+
+.mission-vision-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    max-width: 64rem;
+    margin: 0 auto;
+}
+
+.mission-card,
+.vision-card {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.mission-icon,
+.vision-icon {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+}
+
+.mission-card h3,
+.vision-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+.mission-card p,
+.vision-card p {
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+/* Core Values Section */
+.core-values {
+    padding: 4rem 0;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.value-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.value-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.value-icon {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+}
+
+.value-card h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #1f2937;
+}
+
+.value-card p {
+    color: #6b7280;
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+/* Leadership Section */
+.leadership {
+    padding: 4rem 0;
+    background-color: #f9fafb;
+}
+
+.leadership-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.leader-card {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.leader-image {
+    margin-bottom: 1.5rem;
+}
+
+.leader-image img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto;
+}
+
+.leader-info h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    color: #1f2937;
+}
+
+.leader-title {
+    color: #3b82f6;
+    font-weight: 500;
+    margin-bottom: 1rem;
+}
+
+.leader-bio {
+    color: #6b7280;
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+/* Ministries Section */
+.ministries {
+    padding: 4rem 0;
+}
+
+.ministries-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.ministry-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ministry-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.ministry-icon {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+}
+
+.ministry-card h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #1f2937;
+}
+
+.ministry-card p {
+    color: #6b7280;
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+/* Beliefs Section */
+.beliefs {
+    padding: 4rem 0;
+    background-color: #f9fafb;
+}
+
+.beliefs-content {
+    max-width: 48rem;
+    margin: 0 auto;
+}
+
+.belief-item {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.belief-item h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #1f2937;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.belief-item h3 i {
+    color: #3b82f6;
+}
+
+.belief-item p {
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+/* Join Us Section */
+.join-us {
+    padding: 4rem 0;
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.join-us-content {
+    text-align: center;
+    max-width: 48rem;
+    margin: 0 auto;
+}
+
+.join-us-content h2 {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: #1f2937;
+}
+
+.join-us-content p {
+    color: #6b7280;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.join-us-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+}
+
+/* Responsive Design for About Page */
+@media (min-width: 768px) {
+    .story-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .mission-vision-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .values-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .leadership-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .ministries-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .join-us-buttons {
+        flex-direction: row;
+        justify-content: center;
+    }
+}
+
+@media (min-width: 1024px) {
+    .values-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .leadership-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .ministries-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* contact css */
+
+/* Contact Page Styles */
+.contact-info-section {
+    padding: 3rem 0;
+}
+
+.contact-info-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+.contact-info-card {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    text-align: center;
+    background: white;
+}
+
+.contact-info-icon {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 1.5rem;
+}
+
+.contact-info-card h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.contact-info-card p {
+    color: #6b7280;
+    margin-bottom: 1rem;
+}
+
+.contact-link {
+    color: #3b82f6;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.contact-link:hover {
+    text-decoration: underline;
+}
+
+/* Contact Form Section */
+.contact-form-section {
+    padding: 3rem 0;
+    background-color: #f9fafb;
+}
+
+.contact-form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.contact-form-container {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+}
+
+.contact-form-container h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #374151;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.btn-full {
+    width: 100%;
+}
+
+.contact-map-container {
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    height: 400px;
+}
+
+/* FAQ Section */
+.faq-section {
+    padding: 3rem 0;
+}
+
+.faq-container {
+    max-width: 48rem;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.faq-item h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+}
+
+.faq-item p {
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+/* Newsletter Section */
+.newsletter-section {
+    padding: 3rem 0;
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.newsletter-content {
+    text-align: center;
+    max-width: 48rem;
+    margin: 0 auto;
+}
+
+.newsletter-content h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.newsletter-content p {
+    color: #6b7280;
+    margin-bottom: 1.5rem;
+}
+
+.newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 24rem;
+    margin: 0 auto 1rem;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+}
+
+.newsletter-form input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.newsletter-note {
+    font-size: 0.75rem;
+    color: #6b7280;
+}
+
+/* Responsive Design for Contact Page */
+@media (min-width: 768px) {
+    .contact-info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .contact-form-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .newsletter-form {
+        flex-direction: row;
+    }
+}
+
+@media (min-width: 1024px) {
+    .contact-info-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
