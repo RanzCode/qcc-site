@@ -1845,11 +1845,11 @@ body {
 }
 
 .livestream-player {
-    aspect-ratio: 16/9;
+    aspect-ratio: 16/11;
     border-radius: 0.5rem;
     overflow: hidden;
     background-color: #f3f4f6;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
 }
 
 .livestream-placeholder {
