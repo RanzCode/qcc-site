@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quezon Central Church</title>
+    <link rel="icon" type="image/x-icon" href="../logo/qonnect.png">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="chatbot" href="chatbot.jsx">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="nav-wrapper">
+                <a href="index.html" class="logo">
+                    <img src="../logo/qonnect.png" alt="Quezon Central Church Logo" class="logo-img">
+                    <span class="logo-text">Quezon Central Church</span>
+                </a>
+                <nav class="nav">
+                    <a href="index.html" class="nav-link active">Home</a>
+                    <a href="about.html" class="nav-link">About</a>
+                    <a href="worship.html" class="nav-link">Sabbath Worship</a>
+                    <a href="events.html" class="nav-link">Events</a>
+                    <a href="sermons.html" class="nav-link">Sermons</a>
+                    <a href="donate.html" class="nav-link">Donate</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </nav>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html" class="mobile-nav-link">Home</a>
+        <a href="about.html" class="mobile-nav-link">About</a>
+        <a href="worship.html" class="mobile-nav-link">Sabbath Worship</a>
+        <a href="events.html" class="mobile-nav-link">Events</a>
+        <a href="sermons.html" class="mobile-nav-link">Sermons</a>
+        <a href="donate.html" class="mobile-nav-link">Donate</a>
+        <a href="contact.html" class="mobile-nav-link">Contact</a>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-overlay">
+            </div>
+            <img src= "../../logo/coverphoto.png" alt="Church Worship" class="hero-image">
+            <div class="container hero-content">
+                <h1 class="hero-title">Welcome to Sabbath Worship</h1>
+                <p class="hero-subtitle">Join us every Saturday as we gather to worship, learn, and grow together in faith.</p>
+                <div class="hero-buttons">
+                    <a href="worship.html" class="btn btn-primary">Join Us This Saturday</a>
+                    <a href="livestream.html" class="btn btn-outline">Watch Livestream</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Worship Times Section -->
+        <section class="worship-times">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Sabbath Worship Schedule</h2>
+                    <p class="section-subtitle">Join us for our weekly worship services and activities</p>
+                </div>
+                <div class="worship-grid">
+                    <div class="worship-card">
+                        <div class="worship-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3 class="worship-card-title">Sabbath School</h3>
+                        <p class="worship-card-text">Dive deeper into Bible study with our Sabbath School lessons</p>
+                        <div class="worship-time">
+                            <i class="fas fa-clock"></i>
+                            <span>9:15 AM - 10:45 AM</span>
+                        </div>
+                    </div>
+                    <div class="worship-card">
+                        <div class="worship-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h3 class="worship-card-title">Divine Worship</h3>
+                        <p class="worship-card-text">Experience uplifting music and inspiring messages</p>
+                        <div class="worship-time">
+                            <i class="fas fa-clock"></i>
+                            <span>11:00 AM - 12:00 PM</span>
+                        </div>
+                    </div>
+                    <div class="worship-card">
+                        <div class="worship-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h3 class="worship-card-title">Fellowship Lunch</h3>
+                        <p class="worship-card-text">Share a meal and build community with fellow members</p>
+                        <div class="worship-time">
+                            <i class="fas fa-clock"></i>
+                            <span>12:00 PM - 2:00 PM</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-cta">
+                    <a href="worship.html" class="btn btn-primary">View Full Schedule</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Upcoming Events Section -->
+        <section class="events">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Upcoming Events</h2>
+                    <p class="section-subtitle">Join us for these special events and activities</p>
+                </div>
+                <div class="events-grid" id="events-grid">
+                    <!-- Event cards will be dynamically inserted here -->
+                </div>
+                <div class="section-cta">
+                    <a href="events.html" class="btn btn-primary">View All Events</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Media Library Section -->
+        <section class="media-library">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Media Library</h2>
+                    <p class="section-subtitle">Explore our latest sermons, lessons, and music.</p>
+                </div>
+
+                <!-- Sermons Subsection -->
+                <div class="media-subsection">
+                    <h3 class="subsection-title">Sermons</h3>
+                    <div class="media-grid" id="sermons-grid">
+                        <!-- Sermon cards will be dynamically inserted here -->
+                    </div>
+                    <div class="section-cta">
+                        <button class="watch-more" onclick="window.location.href='https://www.youtube.com/playlist?list=YOUR_SERMONS_PLAYLIST_ID'">Watch More</button>
+                    </div>
+                </div>
+
+                <!-- Sabbath School Lessons Subsection -->
+                <div class="media-subsection">
+                    <h3 class="subsection-title">Sabbath School Lessons</h3>
+                    <div class="media-grid" id="sabbath-school-grid">
+                        <!-- Sabbath School cards will be dynamically inserted here -->
+                    </div>
+                    <div class="section-cta">
+                        <button class="watch-more" onclick="window.location.href='https://www.youtube.com/playlist?list=YOUR_LESSONS_PLAYLIST_ID'">Watch More</button>
+                    </div>
+                </div>
+
+                <!-- Music Media Subsection -->
+                <div class="media-subsection">
+                    <h3 class="subsection-title">Music Media</h3>
+                    <div class="media-grid" id="music-media-grid">
+                        <!-- Music cards will be dynamically inserted here -->
+                    </div>
+                    <div class="section-cta">
+                        <button class="watch-more" onclick="window.location.href='https://www.youtube.com/playlist?list=YOUR_MUSIC_PLAYLIST_ID'">Watch More</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Donation Section -->
+        <section class="donation">
+            <div class="container">
+                <div class="donation-content">
+                    <h2 class="section-title">Support Our Ministry</h2>
+                    <p class="section-subtitle">Your generous contributions help us continue our mission and outreach programs in the community.</p>
+                    <div class="donation-buttons">
+                        <a href="donate.html" class="btn btn-primary">Donate Now</a>
+                        <a href="donate.html#qr" class="btn btn-outline">Scan QR Code</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h2 class="section-title">Connect With Us</h2>
+                        <p class="section-subtitle">We'd love to hear from you! Reach out with any questions or prayer requests.</p>
+                        <div class="contact-items">
+                            <div class="contact-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <h3>Address</h3>
+                                    <p>8 Colonel Salgado, Quezon City, 1102 Kalakhang Maynila, Philippines</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <h3>Worship Hours</h3>
+                                    <p>Every Saturday: 8:30 AM - 12:00 PM | 3:00 PM - Sunset</p>
+                                </div>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-comments"></i>
+                                <div>
+                                    <h3>Contact</h3>
+                                    <p>qccfsda@gmail.com | (123) 456-7890</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="contact-cta">
+                            <a href="contact.html" class="btn btn-primary">Contact Us</a>
+                        </div>
+                    </div>
+                    <div class="contact-map">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d482.55780083500093!2d121.0478985!3d14.6296732!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b7bb1d644e59%3A0xcdf40cf904d35517!2sQuezon%20City%20Central%20Church!5e0!3m2!1sen!2sph!4v1750261688866!5m2!1sen!2sph"
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-section">
+                    <a href="index.html" class="footer-logo">
+                        <img src="../logo/qonnect.png" alt="Quezon Central Church Logo">
+                        <span>Quezon Central Church</span>
+                    </a>
+                    <p class="footer-description">Serving the community through faith, love, and compassion since 2016.</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="worship.html">Sabbath Worship</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="sermons.html">Sermons</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Resources</h3>
+                    <ul class="footer-links">
+                        <li><a href="devotionals.html">Daily Devotionals</a></li>
+                        <li><a href="sabbath-school.html">Sabbath School Lessons</a></li>
+                        <li><a href="https.egwwritings.org/">EGW Writings</a></li>
+                        <li><a href="media.html">Media Library</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Connect</h3>
+                    <ul class="footer-links">
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="prayer-requests.html">Prayer Requests</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="newsletter.html">Newsletter</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-copyright">©2025 Quezon Central Church. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/share/1Aq5AoyzRJ/" class="social-link"><i class="fab fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/qonnectmedia?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="https://youtube.com/@quezoncentral8764?si=uBOk5xTX7DsFTvB8" class="social-link"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!--Chat Widget-->
+
+    
+    <div class="chat-widget" id="chatWidget">
+        <link rel="chatbot" href="chatbot.tsx">
+        <button class="chat-toggle" id="chatToggle">
+            <i class="fas fa-comments"></i>
+        </button>
+        <div class="chat-window" id="chatWindow">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <i class="fas fa-comments"></i>
+                    <span>Church Chat</span>
+                </div>
+                <button class="chat-close" id="chatClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="message church-message">
+                    <div class="message-content">
+                        <p>Hello! How can we help you today? Feel free to ask questions or submit a prayer request.</p>
+                        <span class="message-time">12:00 PM</span>
+                    </div>
+                </div>
+            </div>
+            <form class="chat-form" id="chatForm">
+                <textarea placeholder="Type your message..." id="chatInput"></textarea>
+                <button type="submit" class="chat-send">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
