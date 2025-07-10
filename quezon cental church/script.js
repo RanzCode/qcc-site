@@ -262,3 +262,59 @@ function initializeAnimations() {
         observer.observe(el);
     });
 }
+
+// === DONATION SECTION LOGIC ===
+document.addEventListener('DOMContentLoaded', function () {
+    // Tab switching for donation section
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    const tabContents = document.querySelectorAll('.tab-content');
+    tabButtons.forEach(btn => {
+        btn.addEventListener('click', function () {
+            // Remove active from all
+            tabButtons.forEach(b => b.classList.remove('active'));
+            tabContents.forEach(tc => tc.classList.remove('active'));
+            // Add active to selected
+            btn.classList.add('active');
+            const tab = btn.getAttribute('data-tab');
+            document.getElementById(tab).classList.add('active');
+        });
+    });
+
+    // Show/hide recurring options
+    const oneTimeRadio = document.getElementById('oneTime');
+    const recurringRadio = document.getElementById('recurring');
+    const recurringOptions = document.querySelector('.recurring-options');
+    if (oneTimeRadio && recurringRadio && recurringOptions) {
+        oneTimeRadio.addEventListener('change', function () {
+            if (oneTimeRadio.checked) {
+                recurringOptions.style.display = 'none';
+            }
+        });
+        recurringRadio.addEventListener('change', function () {
+            if (recurringRadio.checked) {
+                recurringOptions.style.display = 'block';
+            }
+        });
+    }
+
+    // Donation form submit handler
+    const donationForm = document.querySelector('.donation-form');
+    if (donationForm) {
+        donationForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            // Collect form data
+            const formData = new FormData(donationForm);
+            const data = Object.fromEntries(formData.entries());
+            // Simple validation
+            if (!data.firstName || !data.lastName || !data.email || !data.donationType || !data.amount) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            // Simulate payment (replace with real integration)
+            alert(`Thank you, ${data.firstName}! Your donation of ₱${data.amount} (${data.donationType}) has been received. [Simulated]`);
+            donationForm.reset();
+            // Hide recurring options if shown
+            if (recurringOptions) recurringOptions.style.display = 'none';
+        });
+    }
+});

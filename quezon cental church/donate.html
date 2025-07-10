@@ -49,7 +49,7 @@
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-overlay"></div>
-            <img src="https://via.placeholder.com/1600x400/1F2937/FFFFFF?text=Support+Our+Ministry" alt="Donate" class="hero-image">
+            <img src="GcashQRcode.png" alt="Donate" class="hero-image">
             <div class="container hero-content">
                 <h1 class="hero-title">Support Our Ministry</h1>
                 <p class="hero-subtitle">Your generous contributions help us continue our mission and outreach programs in the community.</p>
@@ -145,13 +145,13 @@
                     <div class="tab-content" id="qr">
                         <div class="qr-donation">
                             <h2>Donate via QR Code</h2>
+                            <label style="display:block; font-weight:600; margin-bottom:10px;">GCash QR for Church Donations (Personal Account - see note below)</label>
                             <p>Scan the QR code below with your mobile banking app to make a donation</p>
                             
                             <div class="qr-container">
                                 <div class="qr-code">
-                                    <img src="https://via.placeholder.com/200x200/000000/FFFFFF?text=QR+CODE" alt="Donation QR Code">
+                                    <img src="assets/GcashQRcode.png" alt="GCash QR Code for Church Donations" style="max-width:200px; width:100%; height:auto; border:2px solid #eee; border-radius:8px;">
                                 </div>
-                                
                                 <div class="qr-instructions">
                                     <h3>How to use:</h3>
                                     <ol>
@@ -163,6 +163,13 @@
                                     </ol>
                                     <p class="qr-note">For assistance with QR code donations, please contact our church office.</p>
                                 </div>
+                            </div>
+                            <div class="qr-extra-note" style="margin-top:20px; background:#fffbe6; border-left:4px solid #fbbf24; padding:16px 20px; border-radius:6px;">
+                                <strong>🔔 Note:</strong><br>
+                                This GCash account is a personal account temporarily used for our church while we process official account setup.<br>
+                                Please include a note or message with your transaction specifying the purpose (e.g., “Tithes,” “Offerings,” “Community Outreach,” etc.) so we can record it properly.<br><br>
+                                <strong>📱 Account Holder:</strong> ER••N R.<br>
+                                Thank you for your support and generosity. God bless!
                             </div>
                         </div>
                     </div>
@@ -417,5 +424,28 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+    // Auto-activate QR tab if #qr is in the URL
+    document.addEventListener('DOMContentLoaded', function() {
+        if (window.location.hash === '#qr') {
+            // Find the QR tab button and tab content
+            var qrTabBtn = document.querySelector('.tab-btn[data-tab="qr"]');
+            var tabBtns = document.querySelectorAll('.tab-btn');
+            var tabContents = document.querySelectorAll('.tab-content');
+            if (qrTabBtn) {
+                // Remove active from all
+                tabBtns.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(tab => tab.classList.remove('active'));
+                // Activate QR tab
+                qrTabBtn.classList.add('active');
+                var qrTabContent = document.getElementById('qr');
+                if (qrTabContent) {
+                    qrTabContent.classList.add('active');
+                    qrTabContent.scrollIntoView({behavior: 'smooth', block: 'start'});
+                }
+            }
+        }
+    });
+    </script>
 </body>
 </html>
