@@ -124,6 +124,7 @@ const eventsData = [
         description: 'Join us as we serve our local community.',
         buttonText: 'Register',
         formUrl: 'https://forms.gle/your-registration-form'
+        
     },
     {
         imageUrl: 'https://via.placeholder.com/400x200/3B82F6/FFFFFF?text=Event+2',
