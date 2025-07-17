@@ -91,26 +91,8 @@
         <section class="featured-sermon">
             <div class="container">
                 <h2 class="section-title">Featured Sermon</h2>
-                <div class="featured-content">
-                    <div class="featured-video">
-                        <div class="video-placeholder">
-                            <i class="fab fa-youtube"></i>
-                        </div>
-                    </div>
-                    <div class="featured-info">
-                        <div class="sermon-date">
-                            <i class="fas fa-calendar"></i>
-                            <span>May 20, 2025</span>
-                        </div>
-                        <h3>Walking in Faith: Trusting God in Uncertain Times</h3>
-                        <p>Pastor John Smith explores how we can strengthen our faith and trust in God during challenging and uncertain times. This powerful message reminds us of God's faithfulness and promises.</p>
-                        <div class="sermon-tags">
-                            <span class="tag">Faith</span>
-                            <span class="tag">Trust</span>
-                            <span class="tag">Sabbath Worship</span>
-                        </div>
-                        <a href="#" class="btn btn-primary">Watch Sermon</a>
-                    </div>
+                <div class="featured-content" id="featured-sermon">
+                    <!-- Featured sermon will be dynamically inserted here -->
                 </div>
             </div>
         </section>
@@ -121,118 +103,9 @@
                 <div class="section-header">
                     <h2 class="section-title">Recent Sermons</h2>
                 </div>
-                <div class="sermons-grid">
-                    <div class="sermon-card">
-                        <div class="sermon-thumbnail">
-                            <img src="https://via.placeholder.com/400x200/3B82F6/FFFFFF?text=Sermon+1" alt="Sermon 1">
-                            <div class="play-overlay">
-                                <i class="fab fa-youtube"></i>
-                            </div>
-                        </div>
-                        <div class="sermon-info">
-                            <div class="sermon-date">
-                                <i class="fas fa-calendar"></i>
-                                <span>May 19, 2025</span>
-                            </div>
-                            <h3>The Power of Prayer</h3>
-                            <p>Discover how prayer can transform your life and deepen your relationship with God.</p>
-                            <a href="#" class="btn btn-outline btn-sm">Watch Sermon</a>
-                        </div>
-                    </div>
-
-                    <div class="sermon-card">
-                        <div class="sermon-thumbnail">
-                            <img src="https://via.placeholder.com/400x200/3B82F6/FFFFFF?text=Sermon+2" alt="Sermon 2">
-                            <div class="play-overlay">
-                                <i class="fab fa-youtube"></i>
-                            </div>
-                        </div>
-                        <div class="sermon-info">
-                            <div class="sermon-date">
-                                <i class="fas fa-calendar"></i>
-                                <span>May 18, 2025</span>
-                            </div>
-                            <h3>Living with Purpose</h3>
-                            <p>Understanding God's plan for your life and walking in His purpose.</p>
-                            <a href="#" class="btn btn-outline btn-sm">Watch Sermon</a>
-                        </div>
-                    </div>
-
-                    <div class="sermon-card">
-                        <div class="sermon-thumbnail">
-                            <img src="https://via.placeholder.com/400x200/3B82F6/FFFFFF?text=Sermon+3" alt="Sermon 3">
-                            <div class="play-overlay">
-                                <i class="fab fa-youtube"></i>
-                            </div>
-                        </div>
-                        <div class="sermon-info">
-                            <div class="sermon-date">
-                                <i class="fas fa-calendar"></i>
-                                <span>May 17, 2025</span>
-                            </div>
-                            <h3>Faith in Action</h3>
-                            <p>How to live out your faith in practical ways every day.</p>
-                            <a href="#" class="btn btn-outline btn-sm">Watch Sermon</a>
-                        </div>
-                    </div>
-
-                    <div class="sermon-card">
-                        <div class="sermon-thumbnail">
-                            <img src="https://via.placeholder.com/400x200/3B82F6/FFFFFF?text=Sermon+4" alt="Sermon 4">
-                            <div class="play-overlay">
-                                <i class="fab fa-youtube"></i>
-                            </div>
-                        </div>
-                        <div class="sermon-info">
-                            <div class="sermon-date">
-                                <i class="fas fa-calendar"></i>
-                                <span>May 16, 2025</span>
-                            </div>
-                            <h3>God's Grace</h3>
-                            <p>Understanding the depth of God's grace and mercy in our lives.</p>
-                            <a href="#" class="btn btn-outline btn-sm">Watch Sermon</a>
-                        </div>
-                    </div>
-
-                    <div class="sermon-card">
-                        <div class="sermon-thumbnail">
-                            <img src="https://via.placeholder.com/400x200/3B82F6/FFFFFF?text=Sermon+5" alt="Sermon 5">
-                            <div class="play-overlay">
-                                <i class="fab fa-youtube"></i>
-                            </div>
-                        </div>
-                        <div class="sermon-info">
-                            <div class="sermon-date">
-                                <i class="fas fa-calendar"></i>
-                                <span>May 15, 2025</span>
-                            </div>
-                            <h3>Hope in Trials</h3>
-                            <p>Finding hope and strength during difficult times through God's promises.</p>
-                            <a href="#" class="btn btn-outline btn-sm">Watch Sermon</a>
-                        </div>
-                    </div>
-
-                    <div class="sermon-card">
-                        <div class="sermon-thumbnail">
-                            <img src="https://via.placeholder.com/400x200/3B82F6/FFFFFF?text=Sermon+6" alt="Sermon 6">
-                            <div class="play-overlay">
-                                <i class="fab fa-youtube"></i>
-                            </div>
-                        </div>
-                        <div class="sermon-info">
-                            <div class="sermon-date">
-                                <i class="fas fa-calendar"></i>
-                                <span>May 14, 2025</span>
-                            </div>
-                            <h3>Love in Action</h3>
-                            <p>Demonstrating Christ's love through our words and actions.</p>
-                            <a href="#" class="btn btn-outline btn-sm">Watch Sermon</a>
-                        </div>
-                    </div>
+                <div class="sermons-grid" id="sermons-grid">
+                    <!-- Sermon cards will be dynamically inserted here -->
                 </div>
-                    <div class="view-all">
-                        <a href="#" class="btn btn-outline">View All</a>
-                    </div>
             </div>
         </section>
 
@@ -373,9 +246,9 @@
                     <ul class="footer-links">
                         <li><a href="devotionals.html">Daily Devotionals</a></li>
                         <li><a href="sabbath-school.html">Morning Manna (SSL)</a></li>
-                        <li><a href="https://www.youtube.com/playlist?list=YOUR_SERMONS_PLAYLIST_ID">Sermons</a></li>
-                        <li><a href="https://www.youtube.com/playlist?list=YOUR_LESSONS_PLAYLIST_ID">Sabbath School Lessons</a></li>
-                        <li><a href="https://www.youtube.com/playlist?list=YOUR_MUSIC_PLAYLIST_ID">Music Media</a></li>
+                        <li><a href="https://www.youtube.com/playlist?list=PL615tmMR_c6UIx4yXrDinZCcfiS1BOTsV">Sermons</a></li>
+                        <li><a href="https://www.youtube.com/playlist?list=PL615tmMR_c6X0KfJvu07enaghDhdgYRFe">Sabbath School Lessons</a></li>
+                        <li><a href="https://www.youtube.com/@qonnectmediamusic/playlists">Music Media</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -432,5 +305,87 @@
     </div>
 
     <script src="script.js"></script>
+    <!-- Google API Client -->
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script>
+    window.onload = function() {
+        // Google Slides API integration for Sabbath School Lessons
+        const API_KEY = 'YOUR_GOOGLE_API_KEY'; // <-- Replace with your API key
+        const PRESENTATION_ID = 'YOUR_PRESENTATION_ID'; // <-- Replace with your presentationId
+        const lessonsGrid = document.querySelector('.lessons-grid');
+        const PLACEHOLDER_IMG = 'https://via.placeholder.com/400x300';
+
+        function showFallback() {
+            lessonsGrid.innerHTML = '<div style="padding:2rem;text-align:center;color:#b91c1c;font-weight:600;">Unable to load Sabbath School Lessons at the moment.</div>';
+        }
+
+        function renderSlides(slides) {
+            lessonsGrid.innerHTML = '';
+            slides.slice(0, 4).forEach(slide => {
+                // Try to extract title and text content
+                let title = 'Untitled Lesson';
+                let description = '';
+                if (slide.pageElements) {
+                    slide.pageElements.forEach(el => {
+                        if (el.shape && el.shape.text && el.shape.text.textElements) {
+                            const text = el.shape.text.textElements.map(te => te.textRun ? te.textRun.content : '').join('').trim();
+                            if (text && !title || title === 'Untitled Lesson') {
+                                title = text;
+                            } else if (text) {
+                                description += text + ' ';
+                            }
+                        }
+                    });
+                }
+                description = description.trim();
+                // Render lesson card
+                const card = document.createElement('div');
+                card.className = 'lesson-card';
+                card.innerHTML = `
+                    <div class="lesson-image">
+                        <img src="${PLACEHOLDER_IMG}" alt="${title}">
+                        <div class="quarter-badge">Slide</div>
+                    </div>
+                    <div class="lesson-info">
+                        <h3>${title}</h3>
+                        <p>${description || ''}</p>
+                        <div class="lesson-meta">
+                            <a href="#" class="lesson-link">View Lesson <i class="fas fa-chevron-right"></i></a>
+                        </div>
+                    </div>
+                `;
+                lessonsGrid.appendChild(card);
+            });
+        }
+
+        function loadSlides() {
+            gapi.load('client', () => {
+                gapi.client.init({
+                    apiKey: API_KEY,
+                    discoveryDocs: [
+                        'https://slides.googleapis.com/$discovery/rest?version=v1'
+                    ]
+                }).then(() => {
+                    return gapi.client.slides.presentations.get({
+                        presentationId: PRESENTATION_ID
+                    });
+                }).then(response => {
+                    const slides = response.result.slides || [];
+                    if (slides.length === 0) return showFallback();
+                    renderSlides(slides);
+                }, showFallback);
+            });
+        }
+
+        // Only run on sermons.html
+        if (window.location.pathname.includes('sermons.html')) {
+            try {
+                loadSlides();
+            } catch (e) {
+                showFallback();
+            }
+        }
+    };
+    </script>
 </body>
 </html>

@@ -22,10 +22,8 @@
                     <a href="index.html" class="nav-link">Home</a>
                     <a href="about.html" class="nav-link active">About</a>
                     <a href="worship.html" class="nav-link">Sabbath Worship</a>
-                    <a href="events.html" class="nav-link">Events</a>
-                    <a href="sermons.html" class="nav-link">Sermons</a>
-                    <a href="donate.html" class="nav-link">Donate</a>
                     <a href="contact.html" class="nav-link">Contact</a>
+                    <button class="nav-link login-btn" id="openLoginModal" style="margin-left:8px;">Log in / Sign up</button>
                 </nav>
                 <button class="mobile-menu-btn" id="mobileMenuBtn">
                     <i class="fas fa-bars"></i>
@@ -39,9 +37,6 @@
         <a href="index.html" class="mobile-nav-link">Home</a>
         <a href="about.html" class="mobile-nav-link">About</a>
         <a href="worship.html" class="mobile-nav-link">Sabbath Worship</a>
-        <a href="events.html" class="mobile-nav-link">Events</a>
-        <a href="sermons.html" class="mobile-nav-link">Sermons</a>
-        <a href="donate.html" class="mobile-nav-link">Donate</a>
         <a href="contact.html" class="mobile-nav-link">Contact</a>
     </div>
 
@@ -405,6 +400,82 @@ They are united in their mission of creation, redemption, and restoration.
         </div>
     </div>
 
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal" style="display:none;position:fixed;z-index:1000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.4);align-items:center;justify-content:center;">
+      <div style="background:#fff;padding:2rem 2rem 1.5rem 2rem;border-radius:0.75rem;max-width:350px;width:90%;margin:auto;position:relative;box-shadow:0 2px 16px rgba(0,0,0,0.12);">
+        <button id="closeLoginModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.2rem;cursor:pointer;">&times;</button>
+        <h2 style="text-align:center;font-size:1.5rem;font-weight:700;margin-bottom:1.5rem;">Log in or Sign up</h2>
+        <button class="social-btn" style="width:100%;margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:0.75rem;padding:0.75rem 0;border:1px solid #e5e7eb;border-radius:0.375rem;background:#fff;color:#1f2937;font-weight:600;font-size:1rem;cursor:pointer;" id="gmailLogin"><i class="fab fa-google"></i> Continue with Gmail</button>
+        <button class="social-btn" style="width:100%;margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:0.75rem;padding:0.75rem 0;border:1px solid #e5e7eb;border-radius:0.375rem;background:#fff;color:#1f2937;font-weight:600;font-size:1rem;cursor:pointer;" id="facebookLoginBtn"><i class="fab fa-facebook"></i> Continue with Facebook</button>
+      </div>
+    </div>
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <!-- Facebook SDK -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+    <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+    <script>
+function isLoggedIn() {
+  return localStorage.getItem('isLoggedIn') === 'true';
+}
+function showLoginModal() {
+  var loginModal = document.getElementById('loginModal');
+  if (loginModal) loginModal.style.display = 'flex';
+}
+document.addEventListener('DOMContentLoaded', function() {
+  // Modal logic
+  var loginModal = document.getElementById('loginModal');
+  var closeLoginModal = document.getElementById('closeLoginModal');
+  var openLoginModal = document.getElementById('openLoginModal');
+  if (closeLoginModal) closeLoginModal.onclick = function() { loginModal.style.display = 'none'; };
+  if (openLoginModal && loginModal) {
+    openLoginModal.onclick = function() { loginModal.style.display = 'flex'; };
+  }
+  window.onclick = function(event) {
+    if (event.target === loginModal) loginModal.style.display = 'none';
+  };
+
+  // Google login
+  var gmailLogin = document.getElementById('gmailLogin');
+  if (gmailLogin) {
+    gmailLogin.onclick = function() {
+      google.accounts.id.initialize({
+        client_id: '811392455616-5bcnc9196mlv2hu2soqjmd379oo0rui5.apps.googleusercontent.com', // <-- Replace this with your actual client ID
+        callback: function(response) {
+          // You should verify the token on your backend in production
+          if (response.credential) {
+            localStorage.setItem('isLoggedIn', 'true');
+            window.location.reload();
+          }
+        }
+      });
+      google.accounts.id.prompt();
+    };
+  }
+
+  // Facebook login
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : 'YOUR_FACEBOOK_APP_ID',      // <-- put your real Facebook App ID here
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v19.0'
+    });
+  };
+  var facebookLoginBtn = document.getElementById('facebookLoginBtn');
+  if (facebookLoginBtn) facebookLoginBtn.onclick = function() {
+    FB.login(function(response) {
+      if (response.authResponse) {
+        FB.api('/me', {fields: 'name,email'}, function(userInfo) {
+          localStorage.setItem('isLoggedIn', 'true');
+          window.location.reload();
+        });
+      }
+    }, {scope: 'email'});
+  };
+});
+</script>
     <script src="script.js"></script>
 </body>
 </html>

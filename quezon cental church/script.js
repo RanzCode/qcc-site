@@ -110,6 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
     loadMedia();
     loadDevotional();
     initializeAnimations();
+    if (window.location.pathname.includes('sermons.html')) {
+        loadSermonsPage();
+    }
 });
 
 function openForm(url) {
@@ -311,3 +314,74 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
+function loadSermonsPage() {
+    fetch('/api/sermons?limit=7')
+        .then(res => res.json())
+        .then(data => {
+            const sermons = data.sermons || [];
+            if (sermons.length === 0) return;
+
+            // Find featured sermon (most views)
+            let featured = sermons[0];
+            sermons.forEach(s => {
+                if ((s.youtubeViewCount || 0) > (featured.youtubeViewCount || 0)) featured = s;
+            });
+            // Remove featured from the list
+            const recent = sermons.filter(s => s._id !== featured._id).slice(0, 6);
+
+            // Render featured sermon
+            const featuredContainer = document.getElementById('featured-sermon');
+            if (featuredContainer) {
+                featuredContainer.innerHTML = `
+                    <div class="featured-video">
+                        <a href="${featured.youtubeUrl || '#'}" target="_blank">
+                            <img src="${featured.youtubeThumbnail || 'https://via.placeholder.com/560x315?text=No+Thumbnail'}" alt="${featured.title}" class="featured-img">
+                            <div class="play-overlay"><i class="fab fa-youtube"></i></div>
+                        </a>
+                    </div>
+                    <div class="featured-info">
+                        <div class="sermon-date"><i class="fas fa-calendar"></i> <span>${formatDate(featured.date)}</span></div>
+                        <h3>${featured.title}</h3>
+                        <p>${featured.description || ''}</p>
+                        <div class="sermon-tags">
+                            ${(featured.tags || []).map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+                        <div class="sermon-meta"><i class="fas fa-eye"></i> ${featured.youtubeViewCount || 0} views</div>
+                        <a href="${featured.youtubeUrl || '#'}" class="btn btn-primary" target="_blank">Watch Sermon</a>
+                    </div>
+                `;
+            }
+
+            // Render recent sermons
+            const grid = document.getElementById('sermons-grid');
+            if (grid) {
+                grid.innerHTML = '';
+                recent.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'sermon-card';
+                    card.innerHTML = `
+                        <div class="sermon-thumbnail">
+                            <a href="${item.youtubeUrl || '#'}" target="_blank">
+                                <img src="${item.youtubeThumbnail || 'https://via.placeholder.com/400x200?text=No+Thumbnail'}" alt="${item.title}">
+                                <div class="play-overlay"><i class="fab fa-youtube"></i></div>
+                            </a>
+                        </div>
+                        <div class="sermon-info">
+                            <div class="sermon-date"><i class="fas fa-calendar"></i> <span>${formatDate(item.date)}</span></div>
+                            <h3><a href="${item.youtubeUrl || '#'}" target="_blank">${item.title}</a></h3>
+                            <p>${item.description || ''}</p>
+                            <div class="sermon-meta"><i class="fas fa-eye"></i> ${item.youtubeViewCount || 0} views</div>
+                            <a href="${item.youtubeUrl || '#'}" class="btn btn-outline btn-sm" target="_blank">Watch Sermon</a>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                });
+            }
+        });
+}
+
+function formatDate(dateStr) {
+    const d = new Date(dateStr);
+    return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+}
