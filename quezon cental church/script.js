@@ -119,6 +119,17 @@ function openForm(url) {
     window.open(url, '_blank');
 }
 
+// Intercept openForm to require login
+const originalOpenForm = window.openForm;
+window.openForm = function(url) {
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+        const loginModal = document.getElementById('loginModal');
+        if (loginModal) loginModal.style.display = 'flex';
+        return;
+    }
+    originalOpenForm(url);
+};
+
 // Placeholder data - replace with your API calls
 const eventsData = [
     {
@@ -315,6 +326,68 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
+// === LOGIN/LOGOUT BUTTON LOGIC ===
+document.addEventListener('DOMContentLoaded', function () {
+    // Header and mobile menu buttons
+    const nav = document.querySelector('.nav');
+    const loginBtn = document.getElementById('openLoginModal');
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileLoginBtn = document.getElementById('openLoginModalMobile');
+
+    // Remove existing logout button if any
+    let logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) logoutBtn.remove();
+    let mobileLogoutBtn = document.getElementById('logoutBtnMobile');
+    if (mobileLogoutBtn) mobileLogoutBtn.remove();
+
+    function handleAuthButtons() {
+        const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        if (nav && loginBtn) {
+            if (loggedIn) {
+                loginBtn.style.display = 'none';
+                // Add logout button if not present
+                if (!document.getElementById('logoutBtn')) {
+                    const btn = document.createElement('button');
+                    btn.className = 'nav-link login-btn';
+                    btn.id = 'logoutBtn';
+                    btn.textContent = 'Log out';
+                    btn.style.marginLeft = '8px';
+                    btn.onclick = function () {
+                        localStorage.removeItem('isLoggedIn');
+                        window.location.reload();
+                    };
+                    nav.appendChild(btn);
+                }
+            } else {
+                loginBtn.style.display = '';
+                const existing = document.getElementById('logoutBtn');
+                if (existing) existing.remove();
+            }
+        }
+        if (mobileMenu && mobileLoginBtn) {
+            if (loggedIn) {
+                mobileLoginBtn.style.display = 'none';
+                if (!document.getElementById('logoutBtnMobile')) {
+                    const btn = document.createElement('button');
+                    btn.className = 'mobile-nav-link login-btn';
+                    btn.id = 'logoutBtnMobile';
+                    btn.textContent = 'Log out';
+                    btn.onclick = function () {
+                        localStorage.removeItem('isLoggedIn');
+                        window.location.reload();
+                    };
+                    mobileMenu.appendChild(btn);
+                }
+            } else {
+                mobileLoginBtn.style.display = '';
+                const existing = document.getElementById('logoutBtnMobile');
+                if (existing) existing.remove();
+            }
+        }
+    }
+    handleAuthButtons();
+});
+
 function loadSermonsPage() {
     fetch('/api/sermons?limit=7')
         .then(res => res.json())
@@ -385,3 +458,52 @@ function formatDate(dateStr) {
     const d = new Date(dateStr);
     return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    // View Full Schedule button logic
+    const viewFullScheduleBtn = document.getElementById('viewFullScheduleBtn');
+    const loginModal = document.getElementById('loginModal');
+    if (viewFullScheduleBtn) {
+        viewFullScheduleBtn.addEventListener('click', function (e) {
+            e.preventDefault();
+            if (localStorage.getItem('isLoggedIn') === 'true') {
+                // Scroll to Events section
+                const eventsSection = document.querySelector('section.events');
+                if (eventsSection) {
+                    eventsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    // fallback: go to events.html if section not found
+                    window.location.href = 'events.html';
+                }
+            } else {
+                // Show login modal
+                if (loginModal) loginModal.style.display = 'flex';
+            }
+        });
+    }
+    // View All Events button logic
+    const viewAllEventsBtn = document.getElementById('viewAllEventsBtn');
+    if (viewAllEventsBtn) {
+        viewAllEventsBtn.addEventListener('click', function (e) {
+            if (localStorage.getItem('isLoggedIn') !== 'true') {
+                e.preventDefault();
+                if (loginModal) loginModal.style.display = 'flex';
+            }
+            // If logged in, default navigation proceeds
+        });
+    }
+    // Donate Now and Scan QR Code buttons logic
+    const donateNowBtn = document.getElementById('donateNowBtn');
+    const scanQrBtn = document.getElementById('scanQrBtn');
+    [donateNowBtn, scanQrBtn].forEach(function(btn) {
+        if (btn) {
+            btn.addEventListener('click', function(e) {
+                if (localStorage.getItem('isLoggedIn') !== 'true') {
+                    e.preventDefault();
+                    if (loginModal) loginModal.style.display = 'flex';
+                }
+                // If logged in, default navigation proceeds
+            });
+        }
+    });
+});
