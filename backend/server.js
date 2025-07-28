@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 // Import routes
 const adminRoutes = require('./routes/admin');
 const authRoutes = require('./routes/auth');
+const chatRoutes = require('./routes/chat');
 const contactRoutes = require('./routes/contact');
 const donationsRoutes = require('./routes/donations');
 const eventsRoutes = require('./routes/events');
@@ -27,9 +28,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Test route
+app.get('/api', (req, res) => {
+  res.json('🚀 API is working!');
+});
+
 // Mount routes
 app.use('/api/admin', adminRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/chat', chatRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/donations', donationsRoutes);
 app.use('/api/events', eventsRoutes);
@@ -39,5 +46,6 @@ app.use('/api/sermons', sermonsRoutes);
 
 const PORT = process.env.PORT || 3001; // for example, use 3001
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+  console.log(`🚀 Server running at 
+  http://locahost:${PORT}`);
 }); 

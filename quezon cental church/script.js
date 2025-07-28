@@ -34,7 +34,7 @@ if (chatClose) {
 }
 
 if (chatForm) {
-    chatForm.addEventListener('submit', (e) => {
+    chatForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         
         const message = chatInput.value.trim();
@@ -59,21 +59,66 @@ if (chatForm) {
         // Scroll to bottom
         chatMessages.scrollTop = chatMessages.scrollHeight;
         
-        // Simulate response
-        setTimeout(() => {
+        // Show typing indicator
+        const typingIndicator = document.createElement('div');
+        typingIndicator.className = 'message church-message typing-indicator';
+        typingIndicator.innerHTML = `
+            <div class="message-content">
+                <p><i class="fas fa-circle"></i><i class="fas fa-circle"></i><i class="fas fa-circle"></i></p>
+            </div>
+        `;
+        chatMessages.appendChild(typingIndicator);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        try {
+            // Send message to backend
+            const response = await fetch('http://localhost:3001/api/chat/send', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message })
+            });
+            
+            const data = await response.json();
+            
+            // Remove typing indicator
+            chatMessages.removeChild(typingIndicator);
+            
+            // Add church response
             const responseTime = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
             const churchMessage = document.createElement('div');
             churchMessage.className = 'message church-message';
             churchMessage.innerHTML = `
                 <div class="message-content">
-                    <p>Thank you for your message. One of our team members will respond to you soon. If this is a prayer request, rest assured it will be shared with our prayer team.</p>
+                    <p>${data.message}</p>
                     <span class="message-time">${responseTime}</span>
                 </div>
             `;
             
             chatMessages.appendChild(churchMessage);
             chatMessages.scrollTop = chatMessages.scrollHeight;
-        }, 1000);
+            
+        } catch (error) {
+            console.error('Chat error:', error);
+            
+            // Remove typing indicator
+            chatMessages.removeChild(typingIndicator);
+            
+            // Show error message
+            const responseTime = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+            const errorMessage = document.createElement('div');
+            errorMessage.className = 'message church-message';
+            errorMessage.innerHTML = `
+                <div class="message-content">
+                    <p>I'm sorry, I'm experiencing technical difficulties right now. Please try again in a moment or contact our church directly for assistance.</p>
+                    <span class="message-time">${responseTime}</span>
+                </div>
+            `;
+            
+            chatMessages.appendChild(errorMessage);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
     });
 }
 
@@ -507,3 +552,37 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const mobileMenuButton = document.querySelector('.mobile-menu-button');
+    const mobileMenu = document.querySelector('.mobile-menu');
+
+    if (mobileMenuButton) {
+        mobileMenuButton.addEventListener('click', () => {
+            if (mobileMenu) {
+                mobileMenu.classList.toggle('hidden');
+            }
+        });
+    }
+});
+
+// Fetch API status from the backend
+async function getApiStatus() {
+  try {
+    const response = await fetch('http://localhost:3001/api');
+    const data = await response.text();
+    const apiStatusElement = document.getElementById('api-status');
+    if (apiStatusElement) {
+      apiStatusElement.textContent = data;
+    }
+  } catch (error) {
+    console.error('Error fetching API status:', error);
+    const apiStatusElement = document.getElementById('api-status');
+    if (apiStatusElement) {
+      apiStatusElement.textContent = 'Error connecting to API';
+    }
+  }
+}
+
+// Call the function on page load
+document.addEventListener('DOMContentLoaded', getApiStatus);
