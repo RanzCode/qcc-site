@@ -1,0 +1,82 @@
+/* Media Grid Wrapper and Floating Button Styles */
+.media-grid-wrapper {
+    position: relative;
+    margin-bottom: 3rem;
+    min-height: 200px;
+}
+
+.yt-video {
+    position: relative;
+}
+
+.floating-playlist-button {
+    position: absolute;
+    top: 67%;
+    left: 85%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: clamp(0.5rem, 2vw, 0.75rem);
+    padding: clamp(0.6rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
+    background: rgba(185, 49, 49, 0.95);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: clamp(0.85rem, 2.5vw, 1rem);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    white-space: nowrap;
+}
+
+.floating-playlist-button:hover {
+    transform: translate(-50%, -50%) scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background: #cc0000;
+    filter: brightness(1.1);
+}
+
+.floating-playlist-button i {
+    font-size: clamp(1.2em, 3vw, 1.5em);
+    background: white;
+    color: #FF0000;
+    width: clamp(28px, 4vw, 36px);
+    height: clamp(28px, 4vw, 36px);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .floating-playlist-button {
+        left: 82%;
+    }
+}
+
+@media (max-width: 768px) {
+    .floating-playlist-button {
+        left: 80%;
+        top: 65%;
+    }
+}
+
+@media (max-width: 480px) {
+    .floating-playlist-button {
+        left: 75%;
+        top: 60%;
+        padding: clamp(0.5rem, 1.5vw, 0.6rem) clamp(0.8rem, 2vw, 1rem);
+    }
+}
+
+/* Media Grid */
+.media-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 1rem;
+}

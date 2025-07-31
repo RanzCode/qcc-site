@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const newsletterForm = document.getElementById('newsletterForm');
 
     // API base URL - update this to your backend URL
-    const API_BASE_URL = 'http://localhost:3000/api';
+    const API_BASE_URL = 'http://localhost:3001/api';
 
     // Contact form submission
     if (contactForm) {

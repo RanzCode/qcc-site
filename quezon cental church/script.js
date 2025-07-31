@@ -1,3 +1,118 @@
+// Fetch YouTube playlist items and render them in the Music Media subsection (music-media-grid)
+async function fetchMusicMediaPlaylistItems() {
+  const API_URL = "https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PL676CTzKxGm4Xu8H_ZLvVpB9W3ny454s7&key=AIzaSyB8DeJQCLlcnhyICxknGGhQojpmqvjbKII";
+  const musicGrid = document.getElementById('music-media-grid');
+  if (!musicGrid) return;
+  musicGrid.innerHTML = '<div class="loading-message">Loading videos...</div>';
+  try {
+    const res = await fetch(API_URL);
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    const data = await res.json();
+    if (!data.items || data.items.length === 0) {
+      throw new Error('No videos found');
+    }
+    
+    musicGrid.innerHTML = '';
+    data.items.forEach((el) => {
+      if (el.snippet && el.snippet.resourceId && el.snippet.resourceId.videoId) {
+        const videoId = el.snippet.resourceId.videoId;
+        const title = el.snippet.title || 'Untitled Video';
+        
+        const card = document.createElement('div');
+        card.className = 'yt-video';
+        card.setAttribute('data-video-id', videoId);
+        card.setAttribute('data-yt-link', `https://www.youtube.com/watch?v=${videoId}`);
+        
+        card.innerHTML = `
+          <iframe 
+            src="https://www.youtube.com/embed/${videoId}?enablejsapi=1" 
+            allowfullscreen
+            loading="lazy"
+          ></iframe>
+          <h3>${title}</h3>
+        `;
+        musicGrid.appendChild(card);
+      }
+    });
+
+    // Add mouseover/mouseout/click events for autoplay and navigation
+    const videoDivs = musicGrid.querySelectorAll('.yt-video');
+    let lastPlaying = null;
+    videoDivs.forEach(div => {
+      const iframe = div.querySelector('iframe');
+      div.addEventListener('mouseenter', () => {
+        if (lastPlaying && lastPlaying !== iframe) {
+          lastPlaying.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        }
+        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        lastPlaying = iframe;
+      });
+      div.addEventListener('mouseleave', () => {
+        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+      });
+      div.addEventListener('click', (e) => {
+        if (e.target.tagName !== 'IFRAME') {
+          window.open(div.getAttribute('data-yt-link'), '_blank');
+        }
+      });
+    });
+  } catch (err) {
+    musicGrid.innerHTML = '<h3>Sorry, something went wrong. Try again later.</h3>';
+    console.error(err);
+  }
+}
+// Fetch YouTube playlist items and render them in the Sabbath School Lessons subsection (sabbath-school-grid)
+async function fetchSabbathSchoolPlaylistItems() {
+  const API_URL = "https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PL615tmMR_c6X0KfJvu07enaghDhdgYRFe&key=AIzaSyB8DeJQCLlcnhyICxknGGhQojpmqvjbKII";
+  const sabbathGrid = document.getElementById('sabbath-school-grid');
+  if (!sabbathGrid) return;
+  sabbathGrid.innerHTML = '<h3>Loading videos...</h3>';
+  try {
+    const res = await fetch(API_URL, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+    const data = await res.json();
+    sabbathGrid.innerHTML = '';
+    data.items.forEach((el) => {
+      sabbathGrid.innerHTML += `
+        <div class="yt-video" data-video-id="${el.snippet.resourceId.videoId}" data-yt-link="https://www.youtube.com/watch?v=${el.snippet.resourceId.videoId}">
+          <iframe src="https://www.youtube.com/embed/${el.snippet.resourceId.videoId}?enablejsapi=1" allowfullscreen></iframe>
+          <h3>${el.snippet.title}</h3>
+        </div>
+      `;
+    });
+
+    // Add mouseover/mouseout/click events for autoplay and navigation
+    const videoDivs = sabbathGrid.querySelectorAll('.yt-video');
+    let lastPlaying = null;
+    videoDivs.forEach(div => {
+      const iframe = div.querySelector('iframe');
+      div.addEventListener('mouseenter', () => {
+        if (lastPlaying && lastPlaying !== iframe) {
+          lastPlaying.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        }
+        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        lastPlaying = iframe;
+      });
+      div.addEventListener('mouseleave', () => {
+        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+      });
+      div.addEventListener('click', (e) => {
+        if (e.target.tagName !== 'IFRAME') {
+          window.open(div.getAttribute('data-yt-link'), '_blank');
+        }
+      });
+    });
+  } catch (err) {
+    sabbathGrid.innerHTML = '<h3>Sorry, something went wrong. Try again later.</h3>';
+    console.error(err);
+  }
+}
 // Mobile Menu Toggle
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const mobileMenu = document.getElementById('mobileMenu');
@@ -150,13 +265,22 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
 // --- DYNAMIC CONTENT LOADING ---
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadEvents();
-    loadMedia();
-    loadDevotional();
-    initializeAnimations();
-    if (window.location.pathname.includes('sermons.html')) {
-        loadSermonsPage();
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        // Load all sections in parallel
+        await Promise.all([
+            loadEvents(),
+            loadMedia(),
+            loadDevotional(),
+            initializeAnimations()
+        ]);
+        
+        // Load sermons page if needed
+        if (window.location.pathname.includes('sermons.html')) {
+            await loadSermonsPage();
+        }
+    } catch (error) {
+        console.error('Error initializing page:', error);
     }
 });
 
@@ -242,10 +366,21 @@ function loadEvents() {
     });
 }
 
-function loadMedia() {
-    populateMediaGrid('sermons-grid', sermonsData);
-    populateMediaGrid('sabbath-school-grid', sabbathSchoolData);
-    populateMediaGrid('music-media-grid', musicMediaData);
+async function loadMedia() {
+    try {
+        // Load all media sections
+        await Promise.all([
+            fetchSermonsPlaylistItems(),
+            fetchSabbathSchoolPlaylistItems(),
+            fetchMusicMediaPlaylistItems()
+        ]);
+    } catch (error) {
+        console.error('Error loading media:', error);
+        // Fallback to sample data if API fails
+        populateMediaGrid('sermons-grid', sermonsData);
+        populateMediaGrid('sabbath-school-grid', sabbathSchoolData);
+        populateMediaGrid('music-media-grid', musicMediaData);
+    }
 }
 
 function populateMediaGrid(gridId, data) {
@@ -270,6 +405,50 @@ function populateMediaGrid(gridId, data) {
         `;
         mediaGrid.appendChild(card);
     });
+
+    // Add View Full Playlist card
+    const playlistUrls = {
+        'sermons-grid': 'https://www.youtube.com/watch?v=sPNG91LDuk8&list=PL615tmMR_c6UIx4yXrDinZCcfiS1BOTsV',
+        'sabbath-school-grid': 'https://www.youtube.com/watch?v=61rrTBOoFcA&list=PL615tmMR_c6X0KfJvu07enaghDhdgYRFe',
+        'music-media-grid': 'https://www.youtube.com/watch?v=Isdf9yz6_Xk&list=PL676CTzKxGm4Xu8H_ZLvVpB9W3ny454s7'
+    };
+
+    const playlistUrl = playlistUrls[gridId] || '#';
+
+    const playlistCard = document.createElement('div');
+    playlistCard.className = 'media-card view-playlist-card';
+    playlistCard.innerHTML = `
+        <div class="playlist-card-content">
+            <div class="youtube-logo">
+                <svg viewBox="0 0 90 90" width="90" height="90">
+                    <rect width="90" height="90" rx="22" fill="#FF0000"/>
+                    <polygon points="36,27 36,63 63,45" fill="white"/>
+                </svg>
+            </div>
+            <a href="${playlistUrl}" target="_blank" class="view-playlist-button">
+                <svg width="24" height="24" viewBox="0 0 24 24" class="yt-icon">
+                    <rect width="24" height="24" rx="5" fill="currentColor"/>
+                    <polygon points="9.5,7 9.5,17 16.5,12" fill="white"/>
+                </svg>
+                View Full Playlist
+            </a>
+        </div>
+    `;
+    mediaGrid.appendChild(playlistCard);
+}
+
+// Helper to get playlist ID for each grid
+function getPlaylistIdForGrid(gridId) {
+    switch (gridId) {
+        case 'sermons-grid':
+            return 'PL615tmMR_c6UIx4yXrDinZCcfiS1BOTsV';
+        case 'sabbath-school-grid':
+            return 'PL615tmMR_c6X0KfJvu07enaghDhdgYRFe';
+        case 'music-media-grid':
+            return 'PL676CTzKxGm4Xu8H_ZLvVpB9W3ny454s7';
+        default:
+            return '';
+    }
 }
 
 function loadDevotional() {
@@ -586,3 +765,68 @@ async function getApiStatus() {
 
 // Call the function on page load
 document.addEventListener('DOMContentLoaded', getApiStatus);
+
+
+// Fetch YouTube playlist items and render them in the Sermons subsection (sermons-grid)
+async function fetchYouTubePlaylistItems() {
+  // Only fetch the Sermons playlist (replace playlistId if needed)
+  const API_URL = "https://youtube.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=PL615tmMR_c6UIx4yXrDinZCcfiS1BOTsV&key=AIzaSyB8DeJQCLlcnhyICxknGGhQojpmqvjbKII";
+  const sermonsGrid = document.getElementById('sermons-grid');
+  if (!sermonsGrid) return;
+  sermonsGrid.innerHTML = '<h3>Loading videos...</h3>';
+  try {
+    const res = await fetch(API_URL, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
+      }
+    });
+    const data = await res.json();
+    sermonsGrid.innerHTML = '';
+    data.items.forEach((el, idx) => {
+      sermonsGrid.innerHTML += `
+        <div class="yt-video" data-video-id="${el.snippet.resourceId.videoId}" data-yt-link="https://www.youtube.com/watch?v=${el.snippet.resourceId.videoId}">
+          <iframe src="https://www.youtube.com/embed/${el.snippet.resourceId.videoId}?enablejsapi=1" allowfullscreen></iframe>
+          <h3>${el.snippet.title}</h3>
+        </div>
+      `;
+    });
+
+    // Add mouseover/mouseout/click events for autoplay and navigation
+    const videoDivs = sermonsGrid.querySelectorAll('.yt-video');
+    let lastPlaying = null;
+    videoDivs.forEach(div => {
+      const iframe = div.querySelector('iframe');
+      // Mouseover: play
+      div.addEventListener('mouseenter', function() {
+        // Pause last playing
+        if (lastPlaying && lastPlaying !== iframe) {
+          lastPlaying.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        }
+        // Play this
+        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+        lastPlaying = iframe;
+      });
+      // Mouseout: pause
+      div.addEventListener('mouseleave', function() {
+        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+        lastPlaying = null;
+      });
+      // Click: go to YouTube
+      div.addEventListener('click', function(e) {
+        // Only open link if not clicking on the iframe itself
+        if (e.target.tagName !== 'IFRAME') {
+          window.open(div.getAttribute('data-yt-link'), '_blank');
+        }
+      });
+    });
+  } catch (err) {
+    console.log(err);
+    sermonsGrid.innerHTML = '<h3>Sorry something went wrong, try again later</h3>';
+  }
+}
+
+// Call the function on page load
+document.addEventListener('DOMContentLoaded', fetchYouTubePlaylistItems);
+document.addEventListener('DOMContentLoaded', fetchSabbathSchoolPlaylistItems);
+document.addEventListener('DOMContentLoaded', fetchMusicMediaPlaylistItems);

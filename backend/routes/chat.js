@@ -4,7 +4,7 @@ const router = express.Router();
 
 // Ollama API configuration
 const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || 'http://localhost:11434';
-const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'llama3';
+const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'llama3:latest';
 
 // FSDA Doctrinal System Prompt
 const FSDA_SYSTEM_PROMPT = `You are a helpful AI assistant for the Quezon Central Free Seventh Day Adventist Church. Your responses must be:
