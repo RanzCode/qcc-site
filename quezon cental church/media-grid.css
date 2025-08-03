@@ -6,16 +6,15 @@
 }
 
 .yt-video {
-    position: relative;
+    
 }
 
 .floating-playlist-button {
-    position: absolute;
-    top: 67%;
-    left: 85%;
-    transform: translate(-50%, -50%);
+    transform: translate(0%, 0%);
     display: flex;
     align-items: center;
+    margin: auto;
+    justify-content: center;
     gap: clamp(0.5rem, 2vw, 0.75rem);
     padding: clamp(0.6rem, 2vw, 0.75rem) clamp(1rem, 3vw, 1.5rem);
     background: rgba(185, 49, 49, 0.95);
@@ -29,10 +28,11 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     z-index: 10;
     white-space: nowrap;
+    
 }
 
 .floating-playlist-button:hover {
-    transform: translate(-50%, -50%) scale(1.05);
+    transform: translate(0%, 0%) scale(1.05);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     background: #cc0000;
     filter: brightness(1.1);
