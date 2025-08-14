@@ -40,7 +40,105 @@ const FSDA_SYSTEM_PROMPT = `You are a helpful AI assistant for the Quezon Centra
 
 Remember: Your purpose is to help people grow closer to Jesus Christ and understand His truth with love and grace.`;
 
-// Fallback responses for when Ollama is unavailable
+// Store conversation histories in memory (consider using a database for production)
+const conversationHistories = new Map();
+
+// Chat endpoint that maintains conversation history
+router.post('/chat', async (req, res) => {
+    try {
+        const { message, conversationId } = req.body;
+        
+        if (!message) {
+            return res.status(400).json({ error: 'Message is required' });
+        }
+
+        // Get or initialize conversation history
+        let history = conversationHistories.get(conversationId) || [];
+        
+        // Create a simpler prompt for faster processing
+        const lastMessages = history.slice(-4); // Only keep last 2 exchanges (4 messages)
+        let formattedPrompt = "You are a helpful church assistant. Be concise.\n\n";
+        
+        // Add recent conversation history
+        for (const msg of lastMessages) {
+            if (msg.role === 'user') {
+                formattedPrompt += "Human: " + msg.content + "\n";
+            } else if (msg.role === 'assistant') {
+                formattedPrompt += "Assistant: " + msg.content + "\n";
+            }
+        }
+        
+        // Add the current message
+        formattedPrompt += "Human: " + message + "\nAssistant:";
+
+        // Configure axios request with timeout and error handling
+        const axiosConfig = {
+            timeout: 60000, // 60 second timeout
+            validateStatus: function (status) {
+                return status >= 200 && status < 300; // Only accept success status codes
+            }
+        };
+
+        // Make request to Ollama
+        const response = await axios.post(`${OLLAMA_BASE_URL}/api/generate`, {
+            model: OLLAMA_MODEL,
+            prompt: formattedPrompt,
+            stream: false
+        }, axiosConfig);
+
+        // Get the assistant's response
+        const assistantMessage = response.data.response;
+
+        // Update conversation history
+        history = [
+            ...history,
+            { role: 'user', content: message },
+            { role: 'assistant', content: assistantMessage }
+        ];
+
+        // Keep only the last 10 messages to prevent context from getting too long
+        if (history.length > 20) {
+            history = history.slice(history.length - 20);
+        }
+
+        // Store updated history
+        conversationHistories.set(conversationId, history);
+
+        // Send response back to client
+        res.json({
+            response: assistantMessage,
+            conversationId: conversationId
+        });
+
+    } catch (error) {
+        console.error('Chat error:', error);
+        
+        let errorMessage = 'An error occurred while processing your request.';
+        let statusCode = 500;
+
+        if (error.code === 'ECONNREFUSED') {
+            errorMessage = 'Cannot connect to Ollama. Please make sure Ollama is running.';
+            statusCode = 503;
+        } else if (error.code === 'ETIMEDOUT' || error.code === 'ECONNABORTED') {
+            errorMessage = 'The request took too long to process. Please try a shorter message or try again later.';
+        const response = await axios.post(
+            `${OLLAMA_BASE_URL}/api/generate`,
+            {
+                model: OLLAMA_MODEL,
+                prompt: formattedPrompt,
+                stream: false
+            },
+            axiosConfig
+        });
+    }
+});
+
+// Endpoint to clear conversation history
+router.delete('/chat/:conversationId', (req, res) => {
+    const { conversationId } = req.params;
+    conversationHistories.delete(conversationId);
+    res.json({ message: 'Conversation history cleared' });
+});
 const FALLBACK_RESPONSES = {
   bible: [
     "I'd be happy to help you with Bible questions! However, I'm currently experiencing technical difficulties. Please try again in a moment, or feel free to contact our church directly for spiritual guidance.",
@@ -180,4 +278,4 @@ router.get('/health', async (req, res) => {
   }
 });
 
-module.exports = router; 
+module.exports = router;

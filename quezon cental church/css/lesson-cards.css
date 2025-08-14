@@ -1,0 +1,118 @@
+.lessons-card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.lesson-card {
+    position: relative;
+    background: #1f2937;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    transition: transform 0.3s ease;
+    overflow: hidden;
+}
+
+.adobe-icon {
+    width: 40px;
+    height: 40px;
+    margin: 1rem 0;
+    display: block;
+}
+
+.lesson-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    background: linear-gradient(90deg, #03a9f4, #f441a5);
+    border-radius: 1rem;
+    padding: 3px;
+    z-index: -1;
+    transition: filter 0.4s ease;
+}
+
+.lesson-card:hover {
+    transform: translateY(-5px);
+}
+
+.lesson-card:hover::before {
+    filter: blur(1.2em);
+}
+
+.lesson-card h3 {
+    color: white;
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.lesson-card .page-range {
+    color: #9ca3af;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+}
+
+.adobe-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8em 1.2em;
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(90deg, #03a9f4, #f441a5);
+    border-radius: 0.5em;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
+}
+
+.adobe-link:hover {
+    transform: scale(1.02);
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.adobe-link:active {
+    transform: scale(0.98);
+}
+
+.adobe-link i {
+    font-size: 1.2rem;
+}
+
+/* Dark theme enhancements */
+.lesson-card {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+                0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.lesson-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+                0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .lessons-card-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        padding: 0 0.5rem;
+    }
+
+    .lesson-card {
+        padding: 1.25rem;
+    }
+
+    .adobe-link {
+        padding: 0.6em 1em;
+        font-size: 0.95rem;
+    }
+}

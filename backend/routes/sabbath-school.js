@@ -1,7 +1,7 @@
 const express = require('express');
 const { google } = require('googleapis');
 const { body, validationResult } = require('express-validator');
-const SabbathSchool = require('../models/SabbathSchool');
+// const SabbathSchool = require('../models/SabbathSchool');
 const { authenticateToken, requirePermission, requireEditor } = require('../middleware/auth');
 
 const router = express.Router();
@@ -12,39 +12,7 @@ const youtube = google.youtube({
     auth: process.env.YOUTUBE_API_KEY
 });
 
-// Get all Sabbath School lessons (public)
-router.get('/', async (req, res) => {
-    try {
-        const { page = 1, limit = 12, quarter, year, status = 'published', featured } = req.query;
-        const skip = (page - 1) * limit;
-
-        const filter = { status, isPublic: true };
-        if (quarter) filter.quarter = quarter;
-        if (year) filter.year = parseInt(year);
-        if (featured === 'true') filter.isFeatured = true;
-
-        const lessons = await SabbathSchool.find(filter)
-            .populate('createdBy', 'firstName lastName')
-            .sort({ date: -1 })
-            .skip(skip)
-            .limit(parseInt(limit));
-
-        const total = await SabbathSchool.countDocuments(filter);
-
-        res.json({
-            lessons,
-            pagination: {
-                page: parseInt(page),
-                limit: parseInt(limit),
-                total,
-                pages: Math.ceil(total / limit)
-            }
-        });
-    } catch (error) {
-        console.error('Get Sabbath School lessons error:', error);
-        res.status(500).json({ error: 'Failed to get Sabbath School lessons' });
-    }
-});
+// File intentionally left blank as Sabbath School Lessons routes are removed.
 
 // Get featured Sabbath School lessons
 router.get('/featured', async (req, res) => {

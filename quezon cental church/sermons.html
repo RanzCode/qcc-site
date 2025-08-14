@@ -6,6 +6,7 @@
     <title>Sermons - Quezon Central Church</title>
     <link rel="icon" type="image/x-icon" href="../logo/qonnect.png">
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/lesson-cards.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -56,47 +57,6 @@
             </div>
         </section>
 
-        <!-- Search and Filter Section -->
-        <section class="search-filter">
-            <div class="container">
-                <div class="search-controls">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" placeholder="Search sermons..." id="sermonSearch">
-                    </div>
-                    <div class="filter-controls">
-                        <select id="categoryFilter">
-                            <option value="">All Categories</option>
-                            <option value="sabbath-worship">Sabbath Worship</option>
-                            <option value="bible-study">Bible Study</option>
-                            <option value="youth-sermons">Youth Sermons</option>
-                            <option value="special-events">Special Events</option>
-                        </select>
-                        <select id="yearFilter">
-                            <option value="">All Years</option>
-                            <option value="2025">2025</option>
-                            <option value="2024">2024</option>
-                            <option value="2023">2023</option>
-                            <option value="2022">2022</option>
-                        </select>
-                        <button class="filter-btn">
-                            <i class="fas fa-filter"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Featured Sermon -->
-        <section class="featured-sermon">
-            <div class="container">
-                <h2 class="section-title">Featured Sermon</h2>
-                <div class="featured-content" id="featured-sermon">
-                    <!-- Featured sermon will be dynamically inserted here -->
-                </div>
-            </div>
-        </section>
-
         <!-- Recent Sermons -->
         <section class="recent-sermons">
             <div class="container">
@@ -109,100 +69,98 @@
             </div>
         </section>
 
-        <!-- Sabbath School Lessons -->
-        <section class="sabbath-school">
+        <!-- Sabbath School Lessons Section -->
+        <section class="sabbath-school" id="ssl-section">
             <div class="container">
                 <div class="section-header">
                     <h2 class="section-title">Sabbath School Lessons</h2>
                 </div>
-                <div class="lessons-grid">
+                <div class="lessons-card-grid">
                     <div class="lesson-card">
-                        <div class="lesson-image">
-                            <img src="https://via.placeholder.com/400x300/3B82F6/FFFFFF?text=Quarter+1" alt="Sabbath School Lesson Quarter 1">
-                            <div class="quarter-badge">Q1 2025</div>
-                        </div>
-                        <div class="lesson-info">
-                            <h3>The Book of Romans</h3>
-                            <p>A deep study of Paul's letter to the Romans and its relevance for today.</p>
-                            <div class="lesson-meta">
-                                <div class="lesson-count">
-                                    <i class="fas fa-book-open"></i>
-                                    <span>13 Lessons</span>
-                                </div>
-                                <a href="#" class="lesson-link">
-                                    View Lessons
-                                    <i class="fas fa-chevron-right"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <h3>Lesson 1 <span class="page-range">(pp. 3-61)</span></h3>
+                        <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:689b695f-cf94-4c9b-8481-2c0731101f32" target="_blank" rel="noopener" class="adobe-link">
+                            <i class="fab fa-adobe"></i> View in Adobe Cloud
+                        </a>
                     </div>
-
                     <div class="lesson-card">
-                        <div class="lesson-image">
-                            <img src="https://via.placeholder.com/400x300/3B82F6/FFFFFF?text=Quarter+2" alt="Sabbath School Lesson Quarter 2">
-                            <div class="quarter-badge">Q2 2025</div>
-                        </div>
-                        <div class="lesson-info">
-                            <h3>The Gospel of John</h3>
-                            <p>Exploring the life and teachings of Jesus through John's Gospel.</p>
-                            <div class="lesson-meta">
-                                <div class="lesson-count">
-                                    <i class="fas fa-book-open"></i>
-                                    <span>13 Lessons</span>
-                                </div>
-                                <a href="#" class="lesson-link">
-                                    View Lessons
-                                    <i class="fas fa-chevron-right"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <h3>Lesson 2 <span class="page-range">(pp. 62-111)</span></h3>
+                        <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:2965aefc-56d4-4bc9-922b-3ffe165d7fdc" target="_blank" rel="noopener" class="adobe-link">
+                            <i class="fab fa-adobe"></i> View in Adobe Cloud
+                        </a>
                     </div>
-
                     <div class="lesson-card">
-                        <div class="lesson-image">
-                            <img src="https://via.placeholder.com/400x300/3B82F6/FFFFFF?text=Quarter+3" alt="Sabbath School Lesson Quarter 3">
-                            <div class="quarter-badge">Q3 2025</div>
-                        </div>
-                        <div class="lesson-info">
-                            <h3>Psalms</h3>
-                            <p>Finding comfort and inspiration in the book of Psalms.</p>
-                            <div class="lesson-meta">
-                                <div class="lesson-count">
-                                    <i class="fas fa-book-open"></i>
-                                    <span>13 Lessons</span>
-                                </div>
-                                <a href="#" class="lesson-link">
-                                    View Lessons
-                                    <i class="fas fa-chevron-right"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <h3>Lesson 3 <span class="page-range">(pp. 112-157)</span></h3>
+                        <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:f89feb97-e5aa-4fd2-8061-409d0bf9018f" target="_blank" rel="noopener" class="adobe-link">
+                            <i class="fab fa-adobe"></i> View in Adobe Cloud
+                        </a>
                     </div>
-
                     <div class="lesson-card">
-                        <div class="lesson-image">
-                            <img src="https://via.placeholder.com/400x300/3B82F6/FFFFFF?text=Quarter+4" alt="Sabbath School Lesson Quarter 4">
-                            <div class="quarter-badge">Q4 2025</div>
-                        </div>
-                        <div class="lesson-info">
-                            <h3>Revelation</h3>
-                            <p>Understanding the prophetic messages in the book of Revelation.</p>
-                            <div class="lesson-meta">
-                                <div class="lesson-count">
-                                    <i class="fas fa-book-open"></i>
-                                    <span>13 Lessons</span>
-                                </div>
-                                <a href="#" class="lesson-link">
-                                    View Lessons
-                                    <i class="fas fa-chevron-right"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <h3>Lesson 4 <span class="page-range">(pp. 158-205)</span></h3>
+                        <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:fc5a5028-9daa-490d-8749-392dce0eac99" target="_blank" rel="noopener" class="adobe-link">
+                            <i class="fab fa-adobe"></i> View in Adobe Cloud
+                        </a>
+                    </div>
+                    <div class="lesson-card">
+                        <h3>Lesson 5 <span class="page-range">(pp. 206-251)</span></h3>
+                        <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:ed6832be-c625-4b87-91d5-0fbbccd138bc" target="_blank" rel="noopener" class="adobe-link">
+                            <i class="fab fa-adobe"></i> View in Adobe Cloud
+                        </a>
+                    </div>
+                    <div class="lesson-card">
+                        <h3>Lesson 6 <span class="page-range">(pp. 252-308)</span></h3>
+                        <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:694f8e1b-6fe8-45e0-a3de-790035c59614" target="_blank" rel="noopener" class="adobe-link">
+                            <i class="fab fa-adobe"></i> View in Adobe Cloud
+                        </a>
+                    </div>
+                    <div class="lesson-card">
+                        <h3>Lesson 7 <span class="page-range">(pp. 309-369)</span></h3>
+                        <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:30e50735-2381-4c96-b164-b02d1352dc58" target="_blank" rel="noopener" class="adobe-link">
+                            <i class="fab fa-adobe"></i> View in Adobe Cloud
+                        </a>
+                    </div>
+                    <div class="lesson-card">
+                        <h3>Lesson 8 <span class="page-range">(pp. 370-410)</span></h3>
+                        <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:79bbf73a-23ee-40f9-a7a9-6522d26d1673" target="_blank" rel="noopener" class="adobe-link">
+                            <i class="fab fa-adobe"></i> View in Adobe Cloud
+                        </a>
+                    </div>
+                    <div class="lesson-card">
+                        <h3>Lesson 9 <span class="page-range">(pp. 411-467)</span></h3>
+                        <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:a486b7c9-a29b-4cef-b51c-a330c3ffef1c" target="_blank" rel="noopener" class="adobe-link">
+                            <i class="fab fa-adobe"></i> View in Adobe Cloud
+                        </a>
+                    </div>
+                    <div class="lesson-card">
+                        <h3>Lesson 10 <span class="page-range">(pp. 468-507)</span></h3>
+                        <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:c8cbebd2-2d38-4e37-9cd1-f1e1947970be" target="_blank" rel="noopener" class="adobe-link">
+                            <i class="fab fa-adobe"></i> View in Adobe Cloud
+                        </a>
+                    </div>
+                    <div class="lesson-card">
+                        <h3>Lesson 11 <span class="page-range">(pp. 508-560)</span></h3>
+                        <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:7739b5e0-8d48-4056-b713-0d83f59b78b4" target="_blank" rel="noopener" class="adobe-link">
+                            <i class="fab fa-adobe"></i> View in Adobe Cloud
+                        </a>
+                    </div>
+                    <div class="lesson-card">
+                        <h3>Lesson 12 <span class="page-range">(pp. 561-615)</span></h3>
+                        <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:8309b29f-b5f6-4343-9d96-03c352e4b39a" target="_blank" rel="noopener" class="adobe-link">
+                            <i class="fab fa-adobe"></i> View in Adobe Cloud
+                        </a>
+                    </div>
+                    <div class="lesson-card">
+                        <h3>Lesson 13 <span class="page-range">(pp. 616-675)</span></h3>
+                        <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:d32d8090-9c23-434a-8ed9-09143d16089c" target="_blank" rel="noopener" class="adobe-link">
+                            <i class="fab fa-adobe"></i> View in Adobe Cloud
+                        </a>
+                    </div>
+                    <div class="lesson-card">
+                        <h3>All Lessons</h3>
+                        <a href="https://acrobat.adobe.com/id/urn:aaid:sc:AP:60b90d35-8d60-4a44-bedd-a59789916345" target="_blank" rel="noopener" class="adobe-link">
+                            <i class="fab fa-adobe"></i> View in Adobe Cloud
+                        </a>
                     </div>
                 </div>
-                    <div class="view-all">
-                        <a href="#" class="btn btn-outline">View All</a>
-                    </div>   
             </div>
         </section>
 
@@ -305,87 +263,105 @@
     </div>
 
     <script src="script.js"></script>
-    <!-- Google API Client -->
-    <script src="https://apis.google.com/js/api.js"></script>
+    <!-- PDF.js CDN -->
+    <script src="/pdfjs/pdf.min.js"></script>
     <script>
-    window.onload = function() {
-        // Google Slides API integration for Sabbath School Lessons
-        const API_KEY = 'YOUR_GOOGLE_API_KEY'; // <-- Replace with your API key
-        const PRESENTATION_ID = 'YOUR_PRESENTATION_ID'; // <-- Replace with your presentationId
-        const lessonsGrid = document.querySelector('.lessons-grid');
-        const PLACEHOLDER_IMG = 'https://via.placeholder.com/400x300';
+    // PDF.js viewer for Sabbath School Lessons (multi-PDF)
+    document.addEventListener('DOMContentLoaded', function() {
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageRendering = false;
+        let pageNumPending = null;
+        const scale = 1.25;
+        const canvas = document.getElementById('pdfjs-canvas');
+        const ctx = canvas.getContext('2d');
+        const pageNumSpan = document.getElementById('pdfjs-page-num');
+        const pageCountSpan = document.getElementById('pdfjs-page-count');
+        const prevBtn = document.getElementById('pdfjs-prev');
+        const nextBtn = document.getElementById('pdfjs-next');
+        const viewerWrapper = document.getElementById('pdfjs-viewer-wrapper');
+        const closeBtn = document.getElementById('close-pdfjs-viewer');
+        let currentPdfUrl = '';
 
-        function showFallback() {
-            lessonsGrid.innerHTML = '<div style="padding:2rem;text-align:center;color:#b91c1c;font-weight:600;">Unable to load Sabbath School Lessons at the moment.</div>';
+        // Set workerSrc for PDF.js
+        if (window['pdfjsLib']) {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = '/pdfjs/pdf.worker.min.js';
         }
 
-        function renderSlides(slides) {
-            lessonsGrid.innerHTML = '';
-            slides.slice(0, 4).forEach(slide => {
-                // Try to extract title and text content
-                let title = 'Untitled Lesson';
-                let description = '';
-                if (slide.pageElements) {
-                    slide.pageElements.forEach(el => {
-                        if (el.shape && el.shape.text && el.shape.text.textElements) {
-                            const text = el.shape.text.textElements.map(te => te.textRun ? te.textRun.content : '').join('').trim();
-                            if (text && !title || title === 'Untitled Lesson') {
-                                title = text;
-                            } else if (text) {
-                                description += text + ' ';
-                            }
-                        }
-                    });
-                }
-                description = description.trim();
-                // Render lesson card
-                const card = document.createElement('div');
-                card.className = 'lesson-card';
-                card.innerHTML = `
-                    <div class="lesson-image">
-                        <img src="${PLACEHOLDER_IMG}" alt="${title}">
-                        <div class="quarter-badge">Slide</div>
-                    </div>
-                    <div class="lesson-info">
-                        <h3>${title}</h3>
-                        <p>${description || ''}</p>
-                        <div class="lesson-meta">
-                            <a href="#" class="lesson-link">View Lesson <i class="fas fa-chevron-right"></i></a>
-                        </div>
-                    </div>
-                `;
-                lessonsGrid.appendChild(card);
+        function renderPage(num) {
+            pageRendering = true;
+            pdfDoc.getPage(num).then(function(page) {
+                const viewport = page.getViewport({ scale: scale });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                const renderTask = page.render(renderContext);
+
+                renderTask.promise.then(function() {
+                    pageRendering = false;
+                    pageNumSpan.textContent = num;
+                    pageCountSpan.textContent = pdfDoc.numPages;
+                    prevBtn.disabled = (num <= 1);
+                    nextBtn.disabled = (num >= pdfDoc.numPages);
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending);
+                        pageNumPending = null;
+                    }
+                });
             });
         }
 
-        function loadSlides() {
-            gapi.load('client', () => {
-                gapi.client.init({
-                    apiKey: API_KEY,
-                    discoveryDocs: [
-                        'https://slides.googleapis.com/$discovery/rest?version=v1'
-                    ]
-                }).then(() => {
-                    return gapi.client.slides.presentations.get({
-                        presentationId: PRESENTATION_ID
-                    });
-                }).then(response => {
-                    const slides = response.result.slides || [];
-                    if (slides.length === 0) return showFallback();
-                    renderSlides(slides);
-                }, showFallback);
-            });
-        }
-
-        // Only run on sermons.html
-        if (window.location.pathname.includes('sermons.html')) {
-            try {
-                loadSlides();
-            } catch (e) {
-                showFallback();
+        function queueRenderPage(num) {
+            if (pageRendering) {
+                pageNumPending = num;
+            } else {
+                renderPage(num);
             }
         }
-    };
+
+        prevBtn.addEventListener('click', function() {
+            if (pageNum <= 1) return;
+            pageNum--;
+            queueRenderPage(pageNum);
+        });
+
+        nextBtn.addEventListener('click', function() {
+            if (pageNum >= pdfDoc.numPages) return;
+            pageNum++;
+            queueRenderPage(pageNum);
+        });
+
+        function loadPdf(pdfFile) {
+            currentPdfUrl = 'pdfs/' + pdfFile;
+            viewerWrapper.style.display = 'flex';
+            closeBtn.style.display = 'block';
+            pageNum = 1;
+            pdfjsLib.getDocument(currentPdfUrl).promise.then(function(pdfDoc_) {
+                pdfDoc = pdfDoc_;
+                pageCountSpan.textContent = pdfDoc.numPages;
+                renderPage(pageNum);
+            });
+        }
+
+        // Attach event listeners to all view buttons
+        document.querySelectorAll('.view-pdf-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                const pdfFile = btn.getAttribute('data-pdf');
+                loadPdf(pdfFile);
+            });
+        });
+
+        // Close viewer button
+        closeBtn.addEventListener('click', function() {
+            viewerWrapper.style.display = 'none';
+            closeBtn.style.display = 'none';
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+    });
     </script>
 </body>
 </html>
