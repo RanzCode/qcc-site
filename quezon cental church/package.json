@@ -1,0 +1,33 @@
+{
+  "name": "quezon-central-church-messenger",
+  "version": "1.0.0",
+  "description": "Messenger API integration for Quezon Central Church chat widget",
+  "main": "webhook-server.js",
+  "scripts": {
+    "start": "node webhook-server.js",
+    "dev": "nodemon webhook-server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "messenger",
+    "facebook",
+    "webhook",
+    "church",
+    "chat"
+  ],
+  "author": "Quezon Central Church",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "crypto": "^1.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

@@ -28,6 +28,21 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Root route
+app.get('/', (req, res) => {
+  res.json({
+    message: '🏛️ Quezon Central Church API',
+    status: 'running',
+    endpoints: {
+      api: '/api',
+      chat: '/api/chat',
+      contact: '/api/contact',
+      events: '/api/events',
+      sermons: '/api/sermons'
+    }
+  });
+});
+
 // Test route
 app.get('/api', (req, res) => {
   res.json('🚀 API is working!');
@@ -46,6 +61,5 @@ app.use('/api/sermons', sermonsRoutes);
 
 const PORT = process.env.PORT || 3001; // for example, use 3001
 app.listen(PORT, () => {
-  console.log(`🚀 Server running at 
-  http://locahost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 }); 

@@ -295,11 +295,8 @@
         </div>
     </footer>
 
-    <!--Chat Widget-->
-
-    
+    <!--Chat Widget with Messenger Integration-->
     <div class="chat-widget" id="chatWidget">
-        <link rel="chatbot" href="chatbot.tsx">
         <button class="chat-toggle" id="chatToggle">
             <i class="fas fa-comments"></i>
         </button>
@@ -309,17 +306,36 @@
                     <i class="fas fa-comments"></i>
                     <span>Church Chat</span>
                 </div>
-                <button class="chat-close" id="chatClose">
-                    <i class="fas fa-times"></i>
-                </button>
+                <div class="chat-options">
+                    <button class="messenger-connect-btn" id="messengerConnectBtn" title="Connect to Messenger">
+                        <i class="fab fa-facebook-messenger"></i>
+                    </button>
+                    <button class="chat-close" id="chatClose">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
             </div>
             <div class="chat-messages" id="chatMessages">
                 <div class="message church-message">
                     <div class="message-content">
-                        <p>Hello! How can we help you today? Feel free to ask questions or submit a prayer request.</p>
+                        <p>Hello! How can we help you today? Feel free to ask questions, submit a prayer request, or connect with us on Messenger.</p>
                         <span class="message-time">12:00 PM</span>
                     </div>
                 </div>
+            </div>
+            <div class="chat-options-bar" id="chatOptionsBar">
+                <button class="chat-option-btn" onclick="showMessengerOption()">
+                    <i class="fab fa-facebook-messenger"></i>
+                    <span>Message on Messenger</span>
+                </button>
+                <button class="chat-option-btn" onclick="showPrayerRequestOption()">
+                    <i class="fas fa-pray"></i>
+                    <span>Prayer Request</span>
+                </button>
+                <button class="chat-option-btn" onclick="showStaffContactOption()">
+                    <i class="fas fa-user-tie"></i>
+                    <span>Contact Staff</span>
+                </button>
             </div>
             <form class="chat-form" id="chatForm">
                 <textarea placeholder="Type your message..." id="chatInput"></textarea>
@@ -327,6 +343,35 @@
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </form>
+        </div>
+    </div>
+
+    <!-- Messenger Modal -->
+    <div id="messengerModal" class="modal messenger-modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Connect via Messenger</h3>
+                <button class="modal-close" onclick="closeMessengerModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="church-branding">
+                    <img src="../logo/qonnect.png" alt="Quezon Central Church" width="50" height="50">
+                    <h4>Quezon Central Church</h4>
+                </div>
+                <p>Continue this conversation on Facebook Messenger for faster responses and notifications.</p>
+                <div class="messenger-options">
+                    <a href="https://messenger.com/t/quezon.central.7" target="_blank" class="btn btn-primary messenger-btn">
+                        <i class="fab fa-facebook-messenger"></i>
+                        Open Messenger
+                    </a>
+                    <div class="messenger-qr">
+                        <p>Or scan this QR code:</p>
+                        <div id="messengerQR">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://messenger.com/t/quezon.central.7" alt="Messenger QR Code">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -370,28 +415,45 @@ document.addEventListener('DOMContentLoaded', function() {
   var gmailLogin = document.getElementById('gmailLogin');
   if (gmailLogin) {
     gmailLogin.onclick = function() {
-      google.accounts.id.initialize({
-        client_id: '811392455616-5bcnc9196mlv2hu2soqjmd379oo0rui5.apps.googleusercontent.com', // <-- Replace this with your actual client ID
-        callback: function(response) {
-          // You should verify the token on your backend in production
-          if (response.credential) {
-            localStorage.setItem('isLoggedIn', 'true');
-            window.location.reload();
-          }
-        }
-      });
-      google.accounts.id.prompt();
+      // Fetch client ID from backend API for security
+      fetch('/api/config')
+        .then(response => response.json())
+        .then(config => {
+          google.accounts.id.initialize({
+            client_id: config.googleClientId,
+            callback: function(response) {
+              // Verify token on backend in production
+              if (response.credential) {
+                localStorage.setItem('isLoggedIn', 'true');
+                window.location.reload();
+              }
+            }
+          });
+          google.accounts.id.prompt();
+        })
+        .catch(error => {
+          console.error('Failed to load configuration:', error);
+          alert('Login temporarily unavailable. Please try again later.');
+        });
     };
   }
 
   // Facebook login
   window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1781666572438387',      // <-- put your real Facebook App ID here
-      cookie     : true,
-      xfbml      : true,
-      version    : 'v19.0'
-    });
+    // Fetch app ID from backend API for security
+    fetch('/api/config')
+      .then(response => response.json())
+      .then(config => {
+        FB.init({
+          appId      : config.facebookAppId,
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v19.0'
+        });
+      })
+      .catch(error => {
+        console.error('Failed to load Facebook configuration:', error);
+      });
   };
   var facebookLoginBtn = document.getElementById('facebookLoginBtn');
   if (facebookLoginBtn) facebookLoginBtn.onclick = function() {
@@ -406,6 +468,40 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 });
 </script>
+    <!-- Messenger Integration Scripts -->
+    <script src="messenger-integration.js"></script>
+    <script src="messenger-config.js"></script>
     <script src="script.js"></script>
+    
+    <script>
+        // Messenger integration functions
+        function showMessengerOption() {
+            document.getElementById('messengerModal').style.display = 'flex';
+        }
+        
+        function closeMessengerModal() {
+            document.getElementById('messengerModal').style.display = 'none';
+        }
+        
+        function showPrayerRequestOption() {
+            const chatInput = document.getElementById('chatInput');
+            chatInput.value = 'I would like to submit a prayer request: ';
+            chatInput.focus();
+        }
+        
+        function showStaffContactOption() {
+            const chatInput = document.getElementById('chatInput');
+            chatInput.value = 'I would like to speak with a staff member about: ';
+            chatInput.focus();
+        }
+        
+        // Initialize Messenger connect button
+        document.addEventListener('DOMContentLoaded', function() {
+            const messengerBtn = document.getElementById('messengerConnectBtn');
+            if (messengerBtn) {
+                messengerBtn.addEventListener('click', showMessengerOption);
+            }
+        });
+    </script>
 </body>
 </html>

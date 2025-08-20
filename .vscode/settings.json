@@ -1,5 +1,9 @@
 {
-    "liveServer.settings.port": 5504,
-    "workbench.experimental.cloudChanges.autoStore": "onShutdown",
-    "workbench.experimental.cloudChanges.partialMatches.enabled": true
+  "php.validate.enable": false,
+  "php.suggest.basic": false,
+  "files.associations": {
+    "*.js": "javascript",
+    "*.json": "json",
+    "*.html": "html"
+  }
 }

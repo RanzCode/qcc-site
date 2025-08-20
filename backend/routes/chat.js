@@ -121,15 +121,9 @@ router.post('/chat', async (req, res) => {
             statusCode = 503;
         } else if (error.code === 'ETIMEDOUT' || error.code === 'ECONNABORTED') {
             errorMessage = 'The request took too long to process. Please try a shorter message or try again later.';
-        const response = await axios.post(
-            `${OLLAMA_BASE_URL}/api/generate`,
-            {
-                model: OLLAMA_MODEL,
-                prompt: formattedPrompt,
-                stream: false
-            },
-            axiosConfig
-        });
+        }
+
+        res.status(statusCode).json({ error: errorMessage });
     }
 });
 
