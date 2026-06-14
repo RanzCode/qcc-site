@@ -25,8 +25,10 @@
                     <a href="index.html" class="nav-link active">Home</a>
                     <a href="about.html" class="nav-link">About</a>
                     <a href="worship.html" class="nav-link">Sabbath Worship</a>
+                    <a href="events.html" class="nav-link">Events</a>
+                    <a href="sermons.html" class="nav-link">Sermons</a>
+                    <a href="donate.html" class="nav-link">Donate</a>
                     <a href="contact.html" class="nav-link">Contact</a>
-                    <button class="nav-link login-btn" id="openLoginModal" style="margin-left:8px;">Log in / Sign up</button>
                 </nav>
                 <button class="mobile-menu-btn" id="mobileMenuBtn">
                     <i class="fas fa-bars"></i>
@@ -41,7 +43,6 @@
         <a href="about.html" class="mobile-nav-link">About</a>
         <a href="worship.html" class="mobile-nav-link">Sabbath Worship</a>
         <a href="contact.html" class="mobile-nav-link">Contact</a>
-        <button class="mobile-nav-link login-btn" id="openLoginModalMobile">Log in / Sign up</button>
     </div>
 
     <main>
@@ -101,7 +102,7 @@
                     </div>
                 </div>
                 <div class="section-cta">
-                    <a href="worship.html" class="btn btn-primary" id="viewFullScheduleBtn">View Full Schedule</a>
+                    <a href="worship.html" class="btn btn-primary">View Full Schedule</a>
                 </div>
             </div>
         </section>
@@ -117,7 +118,7 @@
                     <!-- Event cards will be dynamically inserted here -->
                 </div>
                 <div class="section-cta">
-                    <a href="events.html" class="btn btn-primary" id="viewAllEventsBtn">View All Events</a>
+                    <a href="events.html" class="btn btn-primary">View All Events</a>
                 </div>
             </div>
         </section>
@@ -126,8 +127,6 @@
         <section class="youtube-playlist-section">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Latest Videos</h2>
-                    <p class="section-subtitle">Watch our latest YouTube uploads</p>
                 </div>
                 <div id="youtube-video-section" class="youtube-video-grid">
                 </div>
@@ -155,7 +154,7 @@
                 </div>
                 <!-- Morning Manna (SSL) Subsection -->
                 <div class="media-subsection">
-                    <h4 class="subsection-title">Morning Manna (SSL)</h4>
+                    <h4 class="subsection-title" id="morning-manna">Morning Manna (SSL)</h4>
                     <div class="media-grid-wrapper">
                         <div class="media-grid" id="sabbath-school-grid">
                         </div>
@@ -171,9 +170,11 @@
                     <div class="media-grid-wrapper">
                         <div class="media-grid" id="music-media-grid">
                         </div>
-                        <a href="https://www.youtube.com/@qonnectmediamusic/playlists" target="_blank" class="floating-playlist-button">
-                            <i class="fab fa-youtube"></i>
-                            View Full Playlist
+                        <a href="https://www.youtube.com/@qonnectmediamusic/playlists"
+                        target="_blank"
+                        class="floating-playlist-button">
+                       <i class="fab fa-youtube"></i>
+                        View Full Playlist
                         </a>
                     </div>
                 </div>
@@ -187,7 +188,7 @@
                     <h2 class="section-title">Support Our Ministry</h2>
                     <p class="section-subtitle">Your generous contributions help us continue our mission and outreach programs in the community.</p>
                     <div class="donation-buttons">
-                        <a href="donate.html" class="btn btn-primary" id="donateNowBtn">Donate Now</a>
+                        <a href="donate.html#online" class="btn btn-primary" id="donateNowBtn">Donate Now</a>
                         <a href="donate.html#qr" class="btn btn-outline" id="scanQrBtn">Scan QR Code</a>
                     </div>
                 </div>
@@ -220,7 +221,7 @@
                                 <i class="fas fa-comments"></i>
                                 <div>
                                     <h3>Contact</h3>
-                                    <p>qccfsda@gmail.com | (123) 456-7890</p>
+                                    <p>qccfsda@gmail.com | (02) 8356-3919</p>
                                 </div>
                             </div>
                         </div>
@@ -268,10 +269,10 @@
                     <h3 class="footer-title">Resources</h3>
                     <ul class="footer-links">
                         <li><a href="devotionals.html">Daily Devotionals</a></li>
-                        <li><a href="sabbath-school.html">Morning Manna (SSL)</a></li>
-                        <li><a href="https://www.youtube.com/playlist?list=YOUR_SERMONS_PLAYLIST_ID">Sermons</a></li>
-                        <li><a href="https://www.youtube.com/playlist?list=YOUR_LESSONS_PLAYLIST_ID">Sabbath School Lessons</a></li>
-                        <li><a href="https://www.youtube.com/playlist?list=YOUR_MUSIC_PLAYLIST_ID">Music Media</a></li>
+                        <li><a href="index.html#morning-manna">Morning Manna (SSL)</a></li>
+                        <li><a href="https://www.youtube.com/playlist?list=PL615tmMR_c6UIx4yXrDinZCcfiS1BOTsV">Sermons</a></li>
+                        <li><a href="https://www.youtube.com/playlist?list=PL615tmMR_c6X0KfJvu07enaghDhdgYRFe">Sabbath School Lessons</a></li>
+                        <li><a href="https://www.youtube.com/@qonnectmediamusic/playlists" target="_blank">Music Media</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -289,7 +290,7 @@
                 <div class="footer-social">
                     <a href="https://www.facebook.com/share/1Aq5AoyzRJ/" class="social-link"><i class="fab fa-facebook"></i></a>
                     <a href="https://www.instagram.com/qonnectmedia?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="social-link"><i class="fab fa-instagram"></i></a>
-                    <a href="https://youtube.com/@quezoncentral8764?si=uBOk5xTX7DsFTvB8" class="social-link"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.youtube.com/@qonnectmediamusic/featured" class="social-link"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
         </div>
@@ -375,99 +376,7 @@
         </div>
     </div>
 
-    <!-- Login Modal -->
-<div id="loginModal" class="modal" style="display:none;position:fixed;z-index:1000;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.4);align-items:center;justify-content:center;">
-  <div style="background:#fff;padding:2rem 2rem 1.5rem 2rem;border-radius:0.75rem;max-width:350px;width:90%;margin:auto;position:relative;box-shadow:0 2px 16px rgba(0,0,0,0.12);">
-    <button id="closeLoginModal" style="position:absolute;top:10px;right:10px;background:none;border:none;font-size:1.2rem;cursor:pointer;">&times;</button>
-    <h2 style="text-align:center;font-size:1.5rem;font-weight:700;margin-bottom:1.5rem;">Log in or Sign up</h2>
-    <button class="social-btn" style="width:100%;margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:0.75rem;padding:0.75rem 0;border:1px solid #e5e7eb;border-radius:0.375rem;background:#fff;color:#1f2937;font-weight:600;font-size:1rem;cursor:pointer;" id="gmailLogin"><i class="fab fa-google"></i> Continue with Gmail</button>
-    <button class="social-btn" style="width:100%;margin-bottom:1rem;display:flex;align-items:center;justify-content:center;gap:0.75rem;padding:0.75rem 0;border:1px solid #e5e7eb;border-radius:0.375rem;background:#fff;color:#1f2937;font-weight:600;font-size:1rem;cursor:pointer;" id="facebookLoginBtn"><i class="fab fa-facebook"></i> Continue with Facebook</button>
-  </div>
-</div>
-<!-- Google Identity Services -->
-<script src="https://accounts.google.com/gsi/client" async defer></script>
-<!-- Facebook SDK -->
-<div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
-<script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
-<script>
-function isLoggedIn() {
-  return localStorage.getItem('isLoggedIn') === 'true';
-}
-function showLoginModal() {
-  var loginModal = document.getElementById('loginModal');
-  if (loginModal) loginModal.style.display = 'flex';
-}
-document.addEventListener('DOMContentLoaded', function() {
-  // Modal logic
-  var loginModal = document.getElementById('loginModal');
-  var closeLoginModal = document.getElementById('closeLoginModal');
-  var openLoginModal = document.getElementById('openLoginModal');
-  if (closeLoginModal) closeLoginModal.onclick = function() { loginModal.style.display = 'none'; };
-  if (openLoginModal && loginModal) {
-    openLoginModal.onclick = function() { loginModal.style.display = 'flex'; };
-  }
-  window.onclick = function(event) {
-    if (event.target === loginModal) loginModal.style.display = 'none';
-  };
-
-  // Google login
-  var gmailLogin = document.getElementById('gmailLogin');
-  if (gmailLogin) {
-    gmailLogin.onclick = function() {
-      // Fetch client ID from backend API for security
-      fetch('/api/config')
-        .then(response => response.json())
-        .then(config => {
-          google.accounts.id.initialize({
-            client_id: config.googleClientId,
-            callback: function(response) {
-              // Verify token on backend in production
-              if (response.credential) {
-                localStorage.setItem('isLoggedIn', 'true');
-                window.location.reload();
-              }
-            }
-          });
-          google.accounts.id.prompt();
-        })
-        .catch(error => {
-          console.error('Failed to load configuration:', error);
-          alert('Login temporarily unavailable. Please try again later.');
-        });
-    };
-  }
-
-  // Facebook login
-  window.fbAsyncInit = function() {
-    // Fetch app ID from backend API for security
-    fetch('/api/config')
-      .then(response => response.json())
-      .then(config => {
-        FB.init({
-          appId      : config.facebookAppId,
-          cookie     : true,
-          xfbml      : true,
-          version    : 'v19.0'
-        });
-      })
-      .catch(error => {
-        console.error('Failed to load Facebook configuration:', error);
-      });
-  };
-  var facebookLoginBtn = document.getElementById('facebookLoginBtn');
-  if (facebookLoginBtn) facebookLoginBtn.onclick = function() {
-    FB.login(function(response) {
-      if (response.authResponse) {
-        FB.api('/me', {fields: 'name,email'}, function(userInfo) {
-          localStorage.setItem('isLoggedIn', 'true');
-          window.location.reload();
-        });
-      }
-    }, {scope: 'email'});
-  };
-});
-</script>
+        <!-- Login removed: social sign-in (Google/Facebook/Apple) -->
     <!-- Messenger Integration Scripts -->
     <script src="messenger-integration.js"></script>
     <script src="messenger-config.js"></script>

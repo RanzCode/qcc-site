@@ -690,44 +690,32 @@ document.addEventListener('DOMContentLoaded', function () {
     if (viewFullScheduleBtn) {
         viewFullScheduleBtn.addEventListener('click', function (e) {
             e.preventDefault();
-            if (localStorage.getItem('isLoggedIn') === 'true') {
-                // Scroll to Events section
-                const eventsSection = document.querySelector('section.events');
-                if (eventsSection) {
-                    eventsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                } else {
-                    // fallback: go to events.html if section not found
-                    window.location.href = 'events.html';
-                }
+            // Always navigate/scroll to events section
+            const eventsSection = document.querySelector('section.events');
+            if (eventsSection) {
+                eventsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             } else {
-                // Show login modal
-                if (loginModal) loginModal.style.display = 'flex';
+                // fallback: go to events.html if section not found
+                window.location.href = 'events.html';
             }
         });
     }
     // View All Events button logic
     const viewAllEventsBtn = document.getElementById('viewAllEventsBtn');
     if (viewAllEventsBtn) {
+        // Allow navigation to events list without requiring login
         viewAllEventsBtn.addEventListener('click', function (e) {
-            if (localStorage.getItem('isLoggedIn') !== 'true') {
-                e.preventDefault();
-                if (loginModal) loginModal.style.display = 'flex';
-            }
-            // If logged in, default navigation proceeds
+            // default navigation proceeds
         });
     }
     // Donate Now and Scan QR Code buttons logic
     const donateNowBtn = document.getElementById('donateNowBtn');
     const scanQrBtn = document.getElementById('scanQrBtn');
+    // Donate Now and Scan QR Code: allow navigation without login
     [donateNowBtn, scanQrBtn].forEach(function(btn) {
         if (btn) {
-            btn.addEventListener('click', function(e) {
-                if (localStorage.getItem('isLoggedIn') !== 'true') {
-                    e.preventDefault();
-                    if (loginModal) loginModal.style.display = 'flex';
-                }
-                // If logged in, default navigation proceeds
-            });
+            // no-op click handler so default anchor navigation works
+            btn.addEventListener('click', function() {});
         }
     });
 });

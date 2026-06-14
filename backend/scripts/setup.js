@@ -110,7 +110,7 @@ const createSampleData = async () => {
             const sampleSermons = [
                 {
                     title: 'Walking in Faith',
-                    preacher: 'Pastor John Smith',
+                    preacher: 'Pastor Erwin Rivas',
                     date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // Last week
                     scripture: 'Hebrews 11:1-6',
                     description: 'A powerful message about the importance of faith in our daily walk with God.',
@@ -122,7 +122,7 @@ const createSampleData = async () => {
                 },
                 {
                     title: 'The Power of Prayer',
-                    preacher: 'Pastor John Smith',
+                    preacher: 'Pastor Erwin Rivas',
                     date: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000), // 2 weeks ago
                     scripture: 'Philippians 4:6-7',
                     description: 'Discover the transformative power of prayer and how it can change your life.',

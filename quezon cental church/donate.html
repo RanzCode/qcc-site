@@ -473,27 +473,31 @@
 
     <script src="script.js"></script>
     <script>
-    // Auto-activate QR tab if #qr is in the URL
+    // Auto-activate tab based on URL hash (e.g. #online, #qr, #other)
     document.addEventListener('DOMContentLoaded', function() {
-        if (window.location.hash === '#qr') {
-            // Find the QR tab button and tab content
-            var qrTabBtn = document.querySelector('.tab-btn[data-tab="qr"]');
-            var tabBtns = document.querySelectorAll('.tab-btn');
-            var tabContents = document.querySelectorAll('.tab-content');
-            if (qrTabBtn) {
-                // Remove active from all
-                tabBtns.forEach(btn => btn.classList.remove('active'));
-                tabContents.forEach(tab => tab.classList.remove('active'));
-                // Activate QR tab
-                qrTabBtn.classList.add('active');
-                var qrTabContent = document.getElementById('qr');
-                if (qrTabContent) {
-                    qrTabContent.classList.add('active');
-                    qrTabContent.scrollIntoView({behavior: 'smooth', block: 'start'});
-                }
+        var tabBtns = document.querySelectorAll('.tab-btn');
+        var tabContents = document.querySelectorAll('.tab-content');
+
+        function activateTab(name) {
+            if (!name) return;
+            // Remove active from all
+            tabBtns.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(tab => tab.classList.remove('active'));
+            // Find the tab button and content
+            var btn = document.querySelector('.tab-btn[data-tab="' + name + '"]');
+            var content = document.getElementById(name);
+            if (btn) btn.classList.add('active');
+            if (content) {
+                content.classList.add('active');
+                content.scrollIntoView({behavior: 'smooth', block: 'start'});
             }
         }
-        
+
+        var hash = window.location.hash;
+        if (hash && hash.length > 1) {
+            activateTab(hash.substring(1));
+        }
+
         // Messenger integration functions
         function showMessengerOption() {
             document.getElementById('messengerModal').style.display = 'flex';
