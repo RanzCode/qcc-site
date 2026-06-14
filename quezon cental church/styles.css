@@ -8,12 +8,14 @@
     border-radius: 0.5rem;
     min-height: 180px;
     transition: box-shadow 0.2s, border-color 0.2s;
-    box-shadow: 0 2px 12px rgba(59,130,246,0.04);
+    box-shadow: 0 2px 12px rgba(59, 130, 246, 0.04);
 }
+
 .watch-more-card:hover {
     border-color: #2563eb;
-    box-shadow: 0 8px 32px rgba(59,130,246,0.10);
+    box-shadow: 0 8px 32px rgba(59, 130, 246, 0.10);
 }
+
 .watch-more-btn {
     display: flex;
     align-items: center;
@@ -25,16 +27,18 @@
     padding: 0.75em 2em;
     font-size: 1.1rem;
     font-weight: 600;
-    box-shadow: 0 2px 8px rgba(59,130,246,0.10);
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.10);
     cursor: pointer;
     transition: background 0.18s, box-shadow 0.18s, transform 0.18s;
     outline: none;
 }
+
 .watch-more-btn:hover {
     background: #2563eb;
-    box-shadow: 0 4px 16px rgba(59,130,246,0.16);
+    box-shadow: 0 4px 16px rgba(59, 130, 246, 0.16);
     transform: translateY(-2px) scale(1.04);
 }
+
 .watch-more-btn i {
     font-size: 1.3em;
     margin-right: 0.3em;
@@ -57,16 +61,18 @@
     background: #fff;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
     text-decoration: none;
     color: #222;
     transition: transform 0.18s, box-shadow 0.18s;
     min-height: 340px;
 }
+
 .yt-video:hover {
     transform: translateY(-4px) scale(1.03);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
 }
+
 .yt-video iframe {
     width: 100%;
     aspect-ratio: 16/9;
@@ -74,6 +80,7 @@
     background: #222;
     display: block;
 }
+
 .yt-video h3 {
     font-size: 1.05rem;
     font-weight: 600;
@@ -87,6 +94,7 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
 }
+
 .yt-video .yt-meta {
     margin: 0 1rem 1rem 1rem;
     color: #666;
@@ -95,11 +103,13 @@
     gap: 1.5rem;
     align-items: center;
 }
+
 .yt-video .yt-meta span {
     display: flex;
     align-items: center;
     gap: 0.3em;
 }
+
 .yt-video .yt-meta .dot {
     width: 4px;
     height: 4px;
@@ -108,6 +118,7 @@
     display: inline-block;
     margin: 0 0.5em;
 }
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -261,37 +272,137 @@ body {
     font-size: 0.75rem;
 }
 
-/* Hero Section */
+/* =============================================
+   HERO SECTION — fully responsive, no fixed heights
+   ============================================= */
 .hero {
     position: relative;
-    height: 600px;
+    /* Let height be driven entirely by content (the video) */
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 3rem 1rem;
     overflow: hidden;
 }
 
-.hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: 10;
-}
-
+/* Background image fills the section */
 .hero-image {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center center;
+    z-index: 0;
 }
 
+/* Dark overlay — pointer-events:none lets clicks reach the iframe */
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.60);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Centered content wrapper sits above both image & overlay */
 .hero-content {
     position: relative;
-    z-index: 20;
-    text-align: center;
-    color: white;
+    z-index: 2;
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
+
+/* =============================================
+   LIVESTREAM / YouTube embed — always 16:9
+   ============================================= */
+.livestream-placeholder {
+    width: 100%;
+    /* aspect-ratio keeps height = width × 9/16 on resize */
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.55);
+    background: #000;
+    /* Needed so iframe is interactive above the overlay */
+    position: relative;
+    z-index: 3;
+}
+
+.livestream-placeholder iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* --- Legacy browser fallback (no aspect-ratio support) ---------- */
+@supports not (aspect-ratio: 1) {
+    .livestream-placeholder {
+        padding-bottom: 56.25%;
+        height: 0;
+    }
+
+    .livestream-placeholder iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+}
+
+/* -------------------------------------------------------------- */
+
+/* Tablet  ≤ 1024px */
+@media (max-width: 1024px) {
+    .hero {
+        padding: 2.5rem 1rem;
+    }
+
+    .hero-content {
+        max-width: 700px;
+    }
+}
+
+/* Large phones / landscape  ≤ 768px */
+@media (max-width: 768px) {
+    .hero {
+        padding: 2rem 0.75rem;
+    }
+
+    .hero-content {
+        max-width: 100%;
+    }
+
+    .livestream-placeholder {
+        border-radius: 8px;
+    }
+}
+
+/* Small phones  ≤ 480px */
+@media (max-width: 480px) {
+    .hero {
+        padding: 1.25rem 0.5rem;
+    }
+
+    .livestream-placeholder {
+        border-radius: 6px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.45);
+    }
+}
+
+/* Extra-small  ≤ 360px */
+@media (max-width: 360px) {
+    .hero {
+        padding: 1rem 0.25rem;
+    }
+}
+
+/* ============================================================= */
 
 .hero-title {
     font-size: 2.5rem;
@@ -507,13 +618,13 @@ body {
     background: #fff;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
     transition: transform 0.2s ease;
 }
 
 .view-playlist-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .playlist-card-content {
@@ -1189,27 +1300,40 @@ body {
 }
 
 /* Responsive Design */
-@media (max-width: 480px) {
+@media (max-width: 375px) {
     .chat-window {
-        width: calc(100vw - 2rem);
-        right: 1rem;
-        left: 1rem;
+        position: fixed !important;
+        bottom: 5.5rem !important;
+        right: 1rem !important;
+        left: 1rem !important;
+        width: auto !important;
+        max-height: calc(100vh - 7.5rem) !important;
+        flex-direction: column !important;
     }
-    
+
+    .chat-window.active {
+        display: flex !important;
+    }
+
     .chat-window.messenger-mode {
-        width: calc(100vw - 2rem);
+        width: auto !important;
     }
-    
+
+    .chat-messages {
+        height: auto !important;
+        flex: 1 1 auto !important;
+    }
+
     .chat-options-bar {
         flex-direction: column;
     }
-    
+
     .chat-option-btn {
         flex-direction: row;
         justify-content: flex-start;
         gap: 0.5rem;
     }
-    
+
     .messenger-modal .modal-content {
         width: 95%;
         margin: 1rem;
@@ -1344,10 +1468,14 @@ body {
 }
 
 @keyframes typing {
-    0%, 60%, 100% {
+
+    0%,
+    60%,
+    100% {
         opacity: 0.3;
         transform: translateY(0);
     }
+
     30% {
         opacity: 1;
         transform: translateY(-3px);
@@ -1399,48 +1527,48 @@ body {
     .nav {
         display: flex;
     }
-    
+
     .mobile-menu-btn {
         display: none;
     }
-    
+
     .hero-title {
         font-size: 3.75rem;
     }
-    
+
     .hero-buttons {
         flex-direction: row;
     }
-    
+
     .worship-grid {
         grid-template-columns: repeat(3, 1fr);
     }
-    
+
     .events-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .sermons-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .donation-buttons {
         flex-direction: row;
         justify-content: center;
     }
-    
+
     .contact-grid {
         grid-template-columns: 1fr 1fr;
     }
-    
+
     .contact-map {
         height: 400px;
     }
-    
+
     .footer-grid {
         grid-template-columns: repeat(4, 1fr);
     }
-    
+
     .footer-bottom {
         flex-direction: row;
         justify-content: space-between;
@@ -1451,7 +1579,7 @@ body {
     .events-grid {
         grid-template-columns: repeat(3, 1fr);
     }
-    
+
     .sermons-grid {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -1563,7 +1691,7 @@ body {
     font-weight: 700;
 }
 
-.qr-donation > p {
+.qr-donation>p {
     margin-bottom: 2rem;
     color: #6b7280;
 }
@@ -2264,44 +2392,44 @@ body {
     .tab-buttons {
         flex-direction: column;
     }
-    
+
     .form-row {
         grid-template-columns: 1fr;
     }
-    
+
     .radio-group {
         grid-template-columns: 1fr;
     }
-    
+
     .qr-container {
         flex-direction: column;
     }
-    
+
     .contact-main {
         grid-template-columns: 1fr;
     }
-    
+
     .calendar-controls {
         flex-direction: column;
         align-items: stretch;
     }
-    
+
     .calendar-filters {
         flex-direction: column;
     }
-    
+
     .search-box input {
         width: 100%;
     }
-    
+
     .featured-content {
         grid-template-columns: 1fr;
     }
-    
+
     .featured-buttons {
         justify-content: center;
     }
-    
+
     .calendar-buttons {
         flex-direction: column;
         align-items: center;
@@ -2312,15 +2440,15 @@ body {
     .events-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .categories-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .impact-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .contact-cards {
         grid-template-columns: 1fr;
     }
@@ -2508,26 +2636,10 @@ body {
     align-items: center;
     justify-content: center;
     height: 100%;
-    text-align: center;
-    padding: 2rem;
-}
-
-.livestream-placeholder i {
-    font-size: 4rem;
+    width: 100%;
     color: #6b7280;
-    margin-bottom: 1rem;
 }
 
-.livestream-placeholder h3 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-}
-
-.livestream-placeholder p {
-    color: #6b7280;
-    margin-bottom: 1.5rem;
-}
 
 .previous-services {
     display: grid;
@@ -2538,6 +2650,17 @@ body {
 .service-item {
     border: 1px solid #e5e7eb;
     border-radius: 0.5rem;
+
+    .livestream-placeholder iframe,
+    .livestream-placeholder embed,
+    .livestream-placeholder object {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 16 / 9;
+        display: block;
+        border: 0;
+    }
+
     padding: 1rem;
 }
 
@@ -2569,20 +2692,20 @@ body {
         flex-direction: row;
         align-items: center;
     }
-    
+
     .schedule-content {
         flex: 1;
     }
-    
+
     .join-us-buttons {
         flex-direction: row;
         justify-content: center;
     }
-    
+
     .expect-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .previous-services {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -2853,9 +2976,12 @@ body {
     width: 40px;
     height: 40px;
     object-fit: contain;
-    margin-right: -1rem;      /* Space between icon and text */
-    margin-left: -8px;         /* Nudges icon slightly to the left */
-    vertical-align: middle;    /* Keeps it centered with the text */
+    margin-right: -1rem;
+    /* Space between icon and text */
+    margin-left: -8px;
+    /* Nudges icon slightly to the left */
+    vertical-align: middle;
+    /* Keeps it centered with the text */
     filter: brightness(0) saturate(100%) invert(37%) sepia(96%) saturate(1242%) hue-rotate(199deg) brightness(95%) contrast(92%);
 }
 
@@ -2915,23 +3041,23 @@ body {
     .story-grid {
         grid-template-columns: 1fr 1fr;
     }
-    
+
     .mission-vision-grid {
         grid-template-columns: 1fr 1fr;
     }
-    
+
     .values-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .leadership-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .ministries-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .join-us-buttons {
         flex-direction: row;
         justify-content: center;
@@ -2942,11 +3068,11 @@ body {
     .values-grid {
         grid-template-columns: repeat(3, 1fr);
     }
-    
+
     .leadership-grid {
         grid-template-columns: repeat(3, 1fr);
     }
-    
+
     .ministries-grid {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -3176,15 +3302,15 @@ body {
     .contact-info-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .contact-form-grid {
         grid-template-columns: 1fr 1fr;
     }
-    
+
     .form-row {
         grid-template-columns: 1fr 1fr;
     }
-    
+
     .newsletter-form {
         flex-direction: row;
     }
@@ -3495,13 +3621,13 @@ body {
     background: white;
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
 }
 
 .grid-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 .grid-item h3 {
@@ -3527,7 +3653,7 @@ body {
         grid-template-columns: 1fr;
     }
 }
-}
+
 
 .sabbath-school {
     padding: 4rem 0;
@@ -3578,7 +3704,7 @@ body {
 
 .lesson-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
 .lesson-card a {
@@ -4009,6 +4135,7 @@ body {
     0% {
         background-position: 200% 0;
     }
+
     100% {
         background-position: -200% 0;
     }
@@ -4051,52 +4178,52 @@ body {
         flex-direction: column;
         align-items: stretch;
     }
-    
+
     .search-input-wrapper {
         min-width: auto;
     }
-    
+
     .filter-group {
         flex-direction: column;
     }
-    
+
     .featured-content {
         grid-template-columns: 1fr;
         gap: 2rem;
     }
-    
+
     .sermons-header,
     .lessons-header {
         flex-direction: column;
         gap: 1rem;
         align-items: stretch;
     }
-    
+
     .sermons-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .lessons-grid {
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     }
-    
+
     .egw-categories {
         grid-template-columns: 1fr;
     }
-    
+
     .media-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .subscribe-form {
         flex-direction: column;
     }
-    
+
     .modal-content {
         width: 95%;
         margin: 1rem;
     }
-    
+
     .featured-title {
         font-size: 1.5rem;
     }
@@ -4106,17 +4233,17 @@ body {
     .sermon-actions {
         flex-direction: column;
     }
-    
+
     .lesson-footer {
         flex-direction: column;
         gap: 0.5rem;
         align-items: flex-start;
     }
-    
+
     .modal-header {
         padding: 1rem;
     }
-    
+
     .modal-info {
         padding: 1rem;
     }
@@ -4124,12 +4251,13 @@ body {
 
 /* Print Styles */
 @media print {
+
     .sermon-modal,
     .chat-widget,
     .subscribe-section {
         display: none !important;
     }
-    
+
     .sermon-card,
     .lesson-card {
         break-inside: avoid;
@@ -4139,11 +4267,12 @@ body {
 
 /* High Contrast Mode */
 @media (prefers-contrast: high) {
+
     .sermon-tag,
     .quarter-badge {
         border: 1px solid currentColor;
     }
-    
+
     .video-overlay,
     .thumbnail-overlay {
         background: rgba(0, 0, 0, 0.8);
@@ -4152,20 +4281,21 @@ body {
 
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
+
     .sermon-card,
     .lesson-card,
     .media-card,
     .egw-category {
         transition: none;
     }
-    
+
     .sermon-card:hover,
     .lesson-card:hover,
     .media-card:hover,
     .egw-category:hover {
         transform: none;
     }
-    
+
     .loading-skeleton {
         animation: none;
         background: #f0f0f0;
@@ -4190,11 +4320,12 @@ body {
 
 /* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
+
     .recent-sermons,
     .egw-writings {
         background: #1f2937;
     }
-    
+
     .sermon-card,
     .lesson-card,
     .media-card,
@@ -4203,22 +4334,22 @@ body {
         border-color: #4b5563;
         color: #f9fafb;
     }
-    
+
     .sermon-excerpt,
     .lesson-description,
     .egw-category p {
         color: #d1d5db;
     }
-    
+
     .subscribe-section {
         background: #1e40af;
     }
-    
+
     .modal-content {
         background: #374151;
         color: #f9fafb;
     }
-    
+
     .modal-header {
         border-color: #4b5563;
     }
