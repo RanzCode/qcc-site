@@ -1,69 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Ollama SSE Stream Demo</title>
-  <style>
-    #output { border: 1px solid #ccc; padding: 10px; min-height: 40px; margin-top: 10px; }
-  </style>
-</head>
-<body>
-  <input type="text" id="userInput" placeholder="Type your message..." />
-  <button id="sendBtn">Send</button>
-  <div id="output"></div>
-  <script>
-    async function ollamaStreamChat(userMessage, onStreamChunk) {
-      const response = await fetch('http://localhost:11434/api/chat', {
+(function () {
+  const API_BASE = 'http://localhost:3001/api/chat';
+
+  const widget = document.getElementById('chatWidget');
+  const toggleBtn = document.getElementById('chatToggle');
+  const closeBtn = document.getElementById('chatClose');
+  const messagesEl = document.getElementById('chatMessages');
+  const input = document.getElementById('messageInput');
+  const sendBtn = document.getElementById('sendMessage');
+
+  if (!widget || !toggleBtn || !messagesEl || !input || !sendBtn) return;
+
+  let conversationId = null;
+  let isSending = false;
+
+  // Toggle open / close
+  toggleBtn.addEventListener('click', () => widget.classList.toggle('open'));
+  if (closeBtn) closeBtn.addEventListener('click', () => widget.classList.remove('open'));
+
+  // Welcome message on first open
+  let welcomed = false;
+  widget.addEventListener('transitionend', () => {
+    if (widget.classList.contains('open') && !welcomed) {
+      welcomed = true;
+      appendMessage('bot', 'Hello! How can we help you today? Feel free to ask questions about our church, services, or submit a prayer request.');
+    }
+  });
+
+  // Send on button click or Enter key
+  sendBtn.addEventListener('click', sendMessage);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
+    }
+  });
+
+  async function sendMessage() {
+    const text = input.value.trim();
+    if (!text || isSending) return;
+
+    isSending = true;
+    input.value = '';
+    sendBtn.disabled = true;
+
+    appendMessage('user', text);
+    const typing = showTyping();
+
+    try {
+      const res = await fetch(`${API_BASE}/send`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'llama3',
-          messages: [{ role: 'user', content: userMessage }],
-          stream: true
-        })
+        body: JSON.stringify({ message: text, conversationId })
       });
 
-      if (!response.body) throw new Error('No response body');
+      const data = await res.json();
 
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-
-      while (true) {
-        const { value, done } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-
-        // Process SSE lines
-        let lines = buffer.split('\n');
-        buffer = lines.pop(); // Save incomplete line for next chunk
-
-        for (const line of lines) {
-          if (line.startsWith('data:')) {
-            const data = line.replace(/^data:\s*/, '');
-            if (data.trim() === '[DONE]') return;
-            try {
-              const json = JSON.parse(data);
-              if (json.message && json.message.content) {
-                onStreamChunk(json.message.content);
-              }
-            } catch (e) { /* ignore parse errors */ }
-          }
-        }
+      if (!res.ok) {
+        throw new Error(data.error || `HTTP ${res.status}`);
       }
+
+      conversationId = data.conversationId || conversationId;
+      removeTyping(typing);
+      appendMessage('bot', data.message);
+    } catch (err) {
+      removeTyping(typing);
+      appendMessage('error', 'Sorry, I could not reach the server. Please try again later.');
+      console.error('Chat error:', err);
+    } finally {
+      isSending = false;
+      sendBtn.disabled = false;
+      input.focus();
     }
+  }
 
-    // Minimal HTML demo logic
-    const input = document.getElementById('userInput');
-    const btn = document.getElementById('sendBtn');
-    const output = document.getElementById('output');
+  function appendMessage(type, text) {
+    const div = document.createElement('div');
+    div.className = `message ${type === 'user' ? 'user-message' : type === 'error' ? 'error-message' : 'bot-message'}`;
+    const content = document.createElement('div');
+    content.className = 'message-content';
+    content.textContent = text;
+    div.appendChild(content);
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return div;
+  }
 
-    btn.onclick = async () => {
-      output.textContent = '';
-      await ollamaStreamChat(input.value, chunk => {
-        output.textContent += chunk;
-      });
-    };
-  </script>
-</body>
-</html>
+  function showTyping() {
+    const div = document.createElement('div');
+    div.className = 'typing-indicator';
+    div.innerHTML = '<span></span><span></span><span></span>';
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return div;
+  }
+
+  function removeTyping(el) {
+    if (el && el.parentNode) el.parentNode.removeChild(el);
+  }
+})();

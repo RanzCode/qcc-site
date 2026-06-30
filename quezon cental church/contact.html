@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- EmailJS SDK — required for contact form email delivery -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -133,8 +135,10 @@
                                 <label for="message">Message</label>
                                 <textarea id="message" name="message" rows="5" required></textarea>
                             </div>
-                            <button type="submit" class="btn btn-primary btn-full">Send Message</button>
+                            <button type="submit" class="btn btn-primary btn-full" id="contactSubmitBtn">Send Message</button>
                         </form>
+                        <!-- Status message shown after submission -->
+                        <div id="contactStatus" role="alert" style="display:none;margin-top:16px;padding:14px 18px;border-radius:8px;font-size:15px;line-height:1.5;"></div>
                     </div>
                     <div class="contact-map-container">
                     <iframe 

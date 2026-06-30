@@ -148,17 +148,21 @@ if (chatClose) {
     });
 }
 
+let chatConversationId = null;
+let chatIsSending = false;
+
 if (chatForm) {
     chatForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        
+
         const message = chatInput.value.trim();
-        if (!message) return;
-        
-        // Add user message
-        const now = new Date();
-        const timeString = now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-        
+        if (!message || chatIsSending) return;
+
+        chatIsSending = true;
+        chatInput.value = '';
+
+        const timeString = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+
         const userMessage = document.createElement('div');
         userMessage.className = 'message user-message';
         userMessage.innerHTML = `
@@ -167,14 +171,9 @@ if (chatForm) {
                 <span class="message-time">${timeString}</span>
             </div>
         `;
-        
         chatMessages.appendChild(userMessage);
-        chatInput.value = '';
-        
-        // Scroll to bottom
         chatMessages.scrollTop = chatMessages.scrollHeight;
-        
-        // Show typing indicator
+
         const typingIndicator = document.createElement('div');
         typingIndicator.className = 'message church-message typing-indicator';
         typingIndicator.innerHTML = `
@@ -184,56 +183,40 @@ if (chatForm) {
         `;
         chatMessages.appendChild(typingIndicator);
         chatMessages.scrollTop = chatMessages.scrollHeight;
-        
+
+        let replyText = 'Unable to connect to the server. Please make sure the backend is running and try again.';
+
         try {
-            // Send message to backend
             const response = await fetch('http://localhost:3001/api/chat/send', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ message })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message, conversationId: chatConversationId })
             });
-            
+
             const data = await response.json();
-            
-            // Remove typing indicator
-            chatMessages.removeChild(typingIndicator);
-            
-            // Add church response
-            const responseTime = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-            const churchMessage = document.createElement('div');
-            churchMessage.className = 'message church-message';
-            churchMessage.innerHTML = `
-                <div class="message-content">
-                    <p>${data.message}</p>
-                    <span class="message-time">${responseTime}</span>
-                </div>
-            `;
-            
-            chatMessages.appendChild(churchMessage);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
+
+            if (data.conversationId) chatConversationId = data.conversationId;
+            if (data.message) replyText = data.message;
+
         } catch (error) {
             console.error('Chat error:', error);
-            
-            // Remove typing indicator
-            chatMessages.removeChild(typingIndicator);
-            
-            // Show error message
-            const responseTime = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-            const errorMessage = document.createElement('div');
-            errorMessage.className = 'message church-message';
-            errorMessage.innerHTML = `
-                <div class="message-content">
-                    <p>I'm sorry, I'm experiencing technical difficulties right now. Please try again in a moment or contact our church directly for assistance.</p>
-                    <span class="message-time">${responseTime}</span>
-                </div>
-            `;
-            
-            chatMessages.appendChild(errorMessage);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
         }
+
+        chatMessages.removeChild(typingIndicator);
+
+        const responseTime = new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        const churchMessage = document.createElement('div');
+        churchMessage.className = 'message church-message';
+        churchMessage.innerHTML = `
+            <div class="message-content">
+                <p>${replyText}</p>
+                <span class="message-time">${responseTime}</span>
+            </div>
+        `;
+        chatMessages.appendChild(churchMessage);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+
+        chatIsSending = false;
     });
 }
 

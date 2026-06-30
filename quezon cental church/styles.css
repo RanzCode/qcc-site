@@ -357,6 +357,31 @@ body {
 
 /* -------------------------------------------------------------- */
 
+/* Facebook Post Embed Section */
+.fb-post-section {
+    padding: 2rem 1rem;
+    background: var(--background, #f9f9f9);
+}
+
+.fb-post-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+}
+
+.fb-post-grid iframe {
+    width: 100%;
+    min-height: 609px;
+    border: none;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    display: block;
+}
+
+/* -------------------------------------------------------------- */
+
 /* Tablet  ≤ 1024px */
 @media (max-width: 1024px) {
     .hero {
