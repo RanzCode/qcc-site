@@ -149,12 +149,41 @@
         }
     }
 
+    async function handleImport() {
+        clearAlert();
+        const btn = document.getElementById('sermonsImportBtn');
+        btn.disabled = true;
+        btn.textContent = 'Importing…';
+
+        try {
+            const res = await AdminAuth.authFetch('/api/sermons/fetch-youtube', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({})
+            });
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.error || 'Failed to import from YouTube');
+            }
+
+            showAlert(`Imported ${data.newSermons} new, updated ${data.updatedSermons} (${data.totalProcessed} processed).`, 'success');
+            await loadSermons();
+        } catch (error) {
+            showAlert(error.message, 'error');
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Import from YouTube Sermons playlist';
+        }
+    }
+
     function init() {
         document.getElementById('sermonsForm').addEventListener('submit', handleSubmit);
         document.getElementById('sermonsCancelBtn').addEventListener('click', () => {
             resetForm();
             clearAlert();
         });
+        document.getElementById('sermonsImportBtn').addEventListener('click', handleImport);
         loadSermons();
     }
 

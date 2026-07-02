@@ -656,26 +656,65 @@ function loadSermonsPage() {
                 `;
             }
 
-            // Render recent sermons
+            // Render recent sermons in the same "yt-video" card style used by the
+            // Morning Manna (SSL) and Music Media grids, for a consistent look.
             const grid = document.getElementById('sermons-grid');
             if (grid) {
                 grid.innerHTML = '';
                 recent.forEach(item => {
                     const card = document.createElement('div');
-                    card.className = 'sermon-card';
-                    card.innerHTML = `
-                        <div class="sermon-thumbnail">
-                            ${renderSermonMedia(item, '')}
-                        </div>
-                        <div class="sermon-info">
-                            <div class="sermon-date"><i class="fas fa-calendar"></i> <span>${formatDate(item.date)}</span></div>
-                            <h3><a href="${item.youtubeUrl || '#'}" target="_blank">${item.title}</a></h3>
-                            <p>${item.description || ''}</p>
-                            <div class="sermon-meta"><i class="fas fa-eye"></i> ${item.youtubeViewCount || 0} views</div>
-                            <a href="${item.youtubeUrl || '#'}" class="btn btn-outline btn-sm" target="_blank">Watch Sermon</a>
-                        </div>
-                    `;
+                    card.className = 'yt-video';
+
+                    if (item.youtubeVideoId) {
+                        const ytLink = item.youtubeUrl || `https://www.youtube.com/watch?v=${item.youtubeVideoId}`;
+                        card.setAttribute('data-video-id', item.youtubeVideoId);
+                        card.setAttribute('data-yt-link', ytLink);
+                        card.innerHTML = `
+                            <iframe src="https://www.youtube.com/embed/${item.youtubeVideoId}?enablejsapi=1" allowfullscreen loading="lazy"></iframe>
+                            <h3>${item.title}</h3>
+                        `;
+                    } else {
+                        const embedUrl = item.videoUrl && window.EmbedUtils
+                            ? window.EmbedUtils.detectPlatform(item.videoUrl).embedUrl
+                            : null;
+
+                        if (embedUrl) {
+                            card.innerHTML = `
+                                <iframe src="${embedUrl}" allowfullscreen loading="lazy"></iframe>
+                                <h3>${item.title}</h3>
+                            `;
+                        } else {
+                            card.innerHTML = `
+                                <img src="${NO_THUMBNAIL_IMG}" alt="${item.title}" style="width:100%;aspect-ratio:16/9;object-fit:cover;">
+                                <h3>${item.title}</h3>
+                            `;
+                        }
+                    }
+
                     grid.appendChild(card);
+                });
+
+                // Hover-to-play/pause + click-to-open, matching the other YouTube grids
+                const videoDivs = grid.querySelectorAll('.yt-video[data-video-id]');
+                let lastPlaying = null;
+                videoDivs.forEach(div => {
+                    const iframe = div.querySelector('iframe');
+                    div.addEventListener('mouseenter', () => {
+                        if (lastPlaying && lastPlaying !== iframe) {
+                            lastPlaying.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                        }
+                        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+                        lastPlaying = iframe;
+                    });
+                    div.addEventListener('mouseleave', () => {
+                        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+                        lastPlaying = null;
+                    });
+                    div.addEventListener('click', (e) => {
+                        if (e.target.tagName !== 'IFRAME') {
+                            window.open(div.getAttribute('data-yt-link'), '_blank');
+                        }
+                    });
                 });
             }
         });

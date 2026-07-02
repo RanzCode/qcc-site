@@ -176,28 +176,20 @@ router.delete('/:id', authenticateToken, requireEditor, async (req, res) => {
     }
 });
 
-// Fetch sermons from YouTube channel
+// Fetch sermons from the Sermons YouTube playlist
 router.post('/fetch-youtube', authenticateToken, requireEditor, async (req, res) => {
     try {
         const { maxResults = 50 } = req.body;
-        const channelId = process.env.YOUTUBE_CHANNEL_ID;
+        const playlistId = process.env.YOUTUBE_SERMONS_PLAYLIST_ID;
 
-        if (!channelId) {
-            return res.status(400).json({ error: 'YouTube channel ID not configured' });
+        if (!playlistId) {
+            return res.status(400).json({ error: 'Sermons playlist ID not configured' });
         }
 
-        // Get channel uploads playlist
-        const channelResponse = await youtube.channels.list({
-            part: 'contentDetails',
-            id: channelId
-        });
-
-        const uploadsPlaylistId = channelResponse.data.items[0].contentDetails.relatedPlaylists.uploads;
-
-        // Get videos from uploads playlist
+        // Get videos from the Sermons playlist
         const playlistResponse = await youtube.playlistItems.list({
             part: 'snippet',
-            playlistId: uploadsPlaylistId,
+            playlistId: playlistId,
             maxResults: parseInt(maxResults)
         });
 
