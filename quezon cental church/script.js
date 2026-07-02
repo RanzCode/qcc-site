@@ -595,6 +595,34 @@ document.addEventListener('DOMContentLoaded', function () {
     handleAuthButtons();
 });
 
+// Local fallback thumbnail (inline SVG) so cards never depend on an external
+// placeholder-image service being reachable.
+const NO_THUMBNAIL_IMG = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="200">' +
+    '<rect width="100%" height="100%" fill="#e5e7eb"/>' +
+    '<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" ' +
+    'font-family="Inter,sans-serif" font-size="16" fill="#6b7280">No Thumbnail</text>' +
+    '</svg>'
+);
+
+// Renders either a YouTube thumbnail link (existing behavior) or, when a sermon
+// has a generic FB/IG/YouTube post link but no YouTube API thumbnail, an iframe embed.
+function renderSermonMedia(item, imgClass) {
+    if (!item.youtubeThumbnail && item.videoUrl && window.EmbedUtils) {
+        const { embedUrl } = window.EmbedUtils.detectPlatform(item.videoUrl);
+        if (embedUrl) {
+            return `<iframe src="${embedUrl}" style="width:100%;height:100%;border:none;" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>`;
+        }
+    }
+
+    return `
+        <a href="${item.youtubeUrl || item.videoUrl || '#'}" target="_blank">
+            <img src="${item.youtubeThumbnail || NO_THUMBNAIL_IMG}" alt="${item.title}" class="${imgClass}">
+            <div class="play-overlay"><i class="fab fa-youtube"></i></div>
+        </a>
+    `;
+}
+
 function loadSermonsPage() {
     fetch('/api/sermons?limit=7')
         .then(res => res.json())
@@ -615,10 +643,7 @@ function loadSermonsPage() {
             if (featuredContainer) {
                 featuredContainer.innerHTML = `
                     <div class="featured-video">
-                        <a href="${featured.youtubeUrl || '#'}" target="_blank">
-                            <img src="${featured.youtubeThumbnail || 'https://via.placeholder.com/560x315?text=No+Thumbnail'}" alt="${featured.title}" class="featured-img">
-                            <div class="play-overlay"><i class="fab fa-youtube"></i></div>
-                        </a>
+                        ${renderSermonMedia(featured, 'featured-img')}
                     </div>
                     <div class="featured-info">
                         <div class="sermon-date"><i class="fas fa-calendar"></i> <span>${formatDate(featured.date)}</span></div>
@@ -642,10 +667,7 @@ function loadSermonsPage() {
                     card.className = 'sermon-card';
                     card.innerHTML = `
                         <div class="sermon-thumbnail">
-                            <a href="${item.youtubeUrl || '#'}" target="_blank">
-                                <img src="${item.youtubeThumbnail || 'https://via.placeholder.com/400x200?text=No+Thumbnail'}" alt="${item.title}">
-                                <div class="play-overlay"><i class="fab fa-youtube"></i></div>
-                            </a>
+                            ${renderSermonMedia(item, '')}
                         </div>
                         <div class="sermon-info">
                             <div class="sermon-date"><i class="fas fa-calendar"></i> <span>${formatDate(item.date)}</span></div>
@@ -798,6 +820,12 @@ async function fetchYouTubePlaylistItems() {
 }
 
 // Call the function on page load
-document.addEventListener('DOMContentLoaded', fetchYouTubePlaylistItems);
+// Skip on sermons.html: that page's #sermons-grid is owned by loadSermonsPage()
+// (DB-backed, admin-manageable), not the raw YouTube-playlist fetch below.
+document.addEventListener('DOMContentLoaded', function () {
+    if (!window.location.pathname.includes('sermons.html')) {
+        fetchYouTubePlaylistItems();
+    }
+});
 document.addEventListener('DOMContentLoaded', fetchSabbathSchoolPlaylistItems);
 document.addEventListener('DOMContentLoaded', fetchMusicMediaPlaylistItems);

@@ -35,6 +35,18 @@ router.post('/login', [
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 
+        // Extra allowlist gate for admin accounts (defense in depth beyond role check)
+        if (user.role === 'admin') {
+            const allowlist = (process.env.ADMIN_EMAILS || '')
+                .split(',')
+                .map(e => e.trim().toLowerCase())
+                .filter(Boolean);
+
+            if (allowlist.length && !allowlist.includes(user.email.toLowerCase())) {
+                return res.status(403).json({ error: 'This admin account is not authorized' });
+            }
+        }
+
         // Update last login
         user.lastLogin = new Date();
         await user.save();

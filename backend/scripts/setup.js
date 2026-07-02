@@ -56,14 +56,12 @@ const createSampleData = async () => {
         // Create sample events
         const Event = require('../models/Event');
         const Sermon = require('../models/Sermon');
-        const SabbathSchool = require('../models/SabbathSchool');
         const MusicMedia = require('../models/MusicMedia');
         const Contact = require('../models/Contact');
 
         // Check if sample data already exists
         const existingEvents = await Event.countDocuments();
         const existingSermons = await Sermon.countDocuments();
-        const existingSabbathSchool = await SabbathSchool.countDocuments();
         const existingMusicMedia = await MusicMedia.countDocuments();
         const existingContacts = await Contact.countDocuments();
 
@@ -135,41 +133,6 @@ const createSampleData = async () => {
 
             await Sermon.insertMany(sampleSermons);
             console.log('✅ Sample sermons created');
-        }
-
-        if (existingSabbathSchool === 0) {
-            const sampleSabbathSchool = [
-                {
-                    title: 'Lesson 1: The Beginning of the Gospel',
-                    lessonNumber: 1,
-                    quarter: 'Q1',
-                    year: 2024,
-                    date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-                    scripture: 'Mark 1:1-8',
-                    description: 'An introduction to the Gospel of Mark and the ministry of John the Baptist.',
-                    summary: 'This lesson explores the beginning of the gospel and the role of John the Baptist as the forerunner of Christ.',
-                    tags: ['gospel', 'mark', 'john the baptist'],
-                    status: 'published',
-                    isFeatured: true,
-                    createdBy: (await User.findOne({ role: 'admin' }))._id
-                },
-                {
-                    title: 'Lesson 2: The Baptism and Temptation',
-                    lessonNumber: 2,
-                    quarter: 'Q1',
-                    year: 2024,
-                    date: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000),
-                    scripture: 'Mark 1:9-13',
-                    description: 'Exploring the baptism of Jesus and His temptation in the wilderness.',
-                    summary: 'This lesson examines the significance of Jesus\' baptism and His victory over temptation.',
-                    tags: ['baptism', 'temptation', 'wilderness'],
-                    status: 'published',
-                    createdBy: (await User.findOne({ role: 'admin' }))._id
-                }
-            ];
-
-            await SabbathSchool.insertMany(sampleSabbathSchool);
-            console.log('✅ Sample Sabbath School lessons created');
         }
 
         if (existingMusicMedia === 0) {

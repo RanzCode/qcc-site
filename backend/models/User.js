@@ -50,7 +50,9 @@ const userSchema = new mongoose.Schema({
         sermons: { type: Boolean, default: false },
         donations: { type: Boolean, default: false },
         users: { type: Boolean, default: false },
-        announcements: { type: Boolean, default: false }
+        announcements: { type: Boolean, default: false },
+        posts: { type: Boolean, default: false },
+        sabbathSchool: { type: Boolean, default: false }
     }
 }, {
     timestamps: true

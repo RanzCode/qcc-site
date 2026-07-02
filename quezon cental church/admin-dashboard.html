@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Quezon Central Church</title>
+    <link rel="icon" type="image/x-icon" href="../logo/qonnect.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-body">
+    <div class="admin-shell">
+        <div class="admin-topbar">
+            <span class="admin-topbar-title">Quezon Central Church — Admin</span>
+            <button class="admin-logout-btn" id="logoutBtn">Log Out</button>
+        </div>
+
+        <div class="admin-tabs">
+            <button class="admin-tab-btn active" data-tab="posts">Post Grid</button>
+            <button class="admin-tab-btn" data-tab="sermons">Sermons</button>
+            <button class="admin-tab-btn" data-tab="sabbath-school">Sabbath School Slides</button>
+        </div>
+
+        <!-- Post Grid Panel -->
+        <section class="admin-panel active" id="panel-posts">
+            <div class="admin-panel-grid">
+                <div class="admin-form-card">
+                    <h3 id="postsFormTitle">Add Post</h3>
+                    <div id="postsAlert"></div>
+                    <form class="admin-form" id="postsForm">
+                        <input type="hidden" id="postId">
+                        <div class="form-group">
+                            <label for="postUrl">Post / Video URL</label>
+                            <input type="url" id="postUrl" placeholder="https://www.facebook.com/... or youtube.com/... or instagram.com/..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="postTitle">Label (optional)</label>
+                            <input type="text" id="postTitle">
+                        </div>
+                        <div class="form-group">
+                            <label for="postOrder">Display order</label>
+                            <input type="number" id="postOrder" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" id="postActive" checked> Visible on site</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" id="postsSubmitBtn">Add Post</button>
+                        <button type="button" class="btn btn-full" id="postsCancelBtn" style="display:none;">Cancel Edit</button>
+                    </form>
+                </div>
+                <div class="admin-list-card">
+                    <h3>Current Posts</h3>
+                    <div id="postsList"><div class="admin-empty-state">Loading…</div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sermons Panel -->
+        <section class="admin-panel" id="panel-sermons">
+            <div class="admin-panel-grid">
+                <div class="admin-form-card">
+                    <h3 id="sermonsFormTitle">Add Sermon</h3>
+                    <div id="sermonsAlert"></div>
+                    <form class="admin-form" id="sermonsForm">
+                        <input type="hidden" id="sermonId">
+                        <div class="form-group">
+                            <label for="sermonTitle">Title</label>
+                            <input type="text" id="sermonTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sermonPreacher">Preacher</label>
+                            <input type="text" id="sermonPreacher" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sermonDate">Date</label>
+                            <input type="date" id="sermonDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="sermonScripture">Scripture</label>
+                            <input type="text" id="sermonScripture">
+                        </div>
+                        <div class="form-group">
+                            <label for="sermonDescription">Description</label>
+                            <textarea id="sermonDescription"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="sermonVideoUrl">Video / post link (FB, IG, or YouTube)</label>
+                            <input type="url" id="sermonVideoUrl">
+                        </div>
+                        <div class="form-group">
+                            <label for="sermonStatus">Status</label>
+                            <select id="sermonStatus">
+                                <option value="draft">Draft</option>
+                                <option value="published" selected>Published</option>
+                                <option value="archived">Archived</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" id="sermonFeatured"> Featured</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" id="sermonsSubmitBtn">Add Sermon</button>
+                        <button type="button" class="btn btn-full" id="sermonsCancelBtn" style="display:none;">Cancel Edit</button>
+                    </form>
+                </div>
+                <div class="admin-list-card">
+                    <h3>Current Sermons</h3>
+                    <div id="sermonsList"><div class="admin-empty-state">Loading…</div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sabbath School Slides Panel -->
+        <section class="admin-panel" id="panel-sabbath-school">
+            <div class="admin-panel-grid">
+                <div class="admin-form-card">
+                    <h3 id="slidesFormTitle">Add Slide</h3>
+                    <div id="slidesAlert"></div>
+                    <form class="admin-form" id="slidesForm">
+                        <input type="hidden" id="slideId">
+                        <div class="form-group">
+                            <label for="slideUrl">Google Slides link</label>
+                            <input type="url" id="slideUrl" placeholder="https://docs.google.com/presentation/d/..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="slideTitle">Label (optional)</label>
+                            <input type="text" id="slideTitle">
+                        </div>
+                        <div class="form-group">
+                            <label for="slideOrder">Display order</label>
+                            <input type="number" id="slideOrder" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label><input type="checkbox" id="slideActive" checked> Visible on site</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" id="slidesSubmitBtn">Add Slide</button>
+                        <button type="button" class="btn btn-full" id="slidesCancelBtn" style="display:none;">Cancel Edit</button>
+                    </form>
+                </div>
+                <div class="admin-list-card">
+                    <h3>Current Slides</h3>
+                    <div id="slidesList"><div class="admin-empty-state">Loading…</div></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="js/admin-auth.js"></script>
+    <script>
+        document.getElementById('logoutBtn').addEventListener('click', function () {
+            AdminAuth.logout();
+        });
+
+        document.querySelectorAll('.admin-tab-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+            });
+        });
+
+    </script>
+    <script src="js/admin-posts.js"></script>
+    <script src="js/admin-sermons.js"></script>
+    <script src="js/admin-sabbath-school.js"></script>
+    <script>
+        (async function init() {
+            const user = await AdminAuth.requireAdminAuth();
+            if (!user) return;
+            if (window.AdminPosts) window.AdminPosts.init();
+            if (window.AdminSermons) window.AdminSermons.init();
+            if (window.AdminSabbathSchool) window.AdminSabbathSchool.init();
+        })();
+    </script>
+</body>
+</html>

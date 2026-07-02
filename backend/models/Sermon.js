@@ -50,6 +50,15 @@ const sermonSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    // Generic social/video link (FB/IG/YouTube post, video, or livestream)
+    videoUrl: {
+        type: String,
+        trim: true
+    },
+    videoPlatform: {
+        type: String,
+        enum: ['youtube', 'facebook', 'instagram']
+    },
     // Local media
     audioFile: {
         type: String

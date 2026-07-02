@@ -3,6 +3,7 @@ const { google } = require('googleapis');
 const { body, validationResult } = require('express-validator');
 const Sermon = require('../models/Sermon');
 const { authenticateToken, requirePermission, requireEditor } = require('../middleware/auth');
+const { detectPlatform } = require('../utils/embedUtils');
 
 const router = express.Router();
 
@@ -89,7 +90,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create sermon (admin/editor only)
-router.post('/', requireEditor, [
+router.post('/', authenticateToken, requireEditor, [
     body('title').trim().notEmpty().withMessage('Title is required'),
     body('preacher').trim().notEmpty().withMessage('Preacher is required'),
     body('date').isISO8601().withMessage('Valid date is required'),
@@ -109,6 +110,10 @@ router.post('/', requireEditor, [
             lastUpdatedBy: req.user._id
         };
 
+        if (sermonData.videoUrl) {
+            sermonData.videoPlatform = detectPlatform(sermonData.videoUrl).platform;
+        }
+
         const sermon = new Sermon(sermonData);
         await sermon.save();
 
@@ -123,13 +128,17 @@ router.post('/', requireEditor, [
 });
 
 // Update sermon (admin/editor only)
-router.put('/:id', requireEditor, async (req, res) => {
+router.put('/:id', authenticateToken, requireEditor, async (req, res) => {
     try {
         const { id } = req.params;
         const updates = {
             ...req.body,
             lastUpdatedBy: req.user._id
         };
+
+        if (updates.videoUrl) {
+            updates.videoPlatform = detectPlatform(updates.videoUrl).platform;
+        }
 
         const sermon = await Sermon.findByIdAndUpdate(
             id,
@@ -152,7 +161,7 @@ router.put('/:id', requireEditor, async (req, res) => {
 });
 
 // Delete sermon (admin/editor only)
-router.delete('/:id', requireEditor, async (req, res) => {
+router.delete('/:id', authenticateToken, requireEditor, async (req, res) => {
     try {
         const sermon = await Sermon.findByIdAndDelete(req.params.id);
         
@@ -168,7 +177,7 @@ router.delete('/:id', requireEditor, async (req, res) => {
 });
 
 // Fetch sermons from YouTube channel
-router.post('/fetch-youtube', requireEditor, async (req, res) => {
+router.post('/fetch-youtube', authenticateToken, requireEditor, async (req, res) => {
     try {
         const { maxResults = 50 } = req.body;
         const channelId = process.env.YOUTUBE_CHANNEL_ID;

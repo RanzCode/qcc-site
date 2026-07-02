@@ -1,30 +1,41 @@
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
-// File intentionally left blank as Sabbath School Lessons model is removed.
-
-// Indexes for efficient queries
-sabbathSchoolSchema.index({ date: -1 });
-sabbathSchoolSchema.index({ status: 1 });
-sabbathSchoolSchema.index({ lessonNumber: 1 });
-sabbathSchoolSchema.index({ quarter: 1, year: 1 });
-sabbathSchoolSchema.index({ isFeatured: 1 });
-sabbathSchoolSchema.index({ youtubeVideoId: 1 });
-
-// Virtual for formatted date
-sabbathSchoolSchema.virtual('formattedDate').get(function() {
-    return this.date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-    });
-});
-
-// Virtual for YouTube embed URL
-sabbathSchoolSchema.virtual('youtubeEmbedUrl').get(function() {
-    if (this.youtubeVideoId) {
-        return `https://www.youtube.com/embed/${this.youtubeVideoId}`;
+const sabbathSchoolSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        trim: true,
+        default: 'Sabbath School Lesson'
+    },
+    slideUrl: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    embedUrl: {
+        type: String,
+        required: true
+    },
+    order: {
+        type: Number,
+        default: 0
+    },
+    isActive: {
+        type: Boolean,
+        default: true
+    },
+    createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    lastUpdatedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
-    return null;
+}, {
+    timestamps: true
 });
 
-module.exports = mongoose.model('SabbathSchool', sabbathSchoolSchema); 
+sabbathSchoolSchema.index({ isActive: 1, order: 1 });
+
+module.exports = mongoose.model('SabbathSchool', sabbathSchoolSchema);

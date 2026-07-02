@@ -1,4 +1,5 @@
 require('dotenv').config();
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -11,6 +12,7 @@ const contactRoutes = require('./routes/contact');
 const donationsRoutes = require('./routes/donations');
 const eventsRoutes = require('./routes/events');
 const musicMediaRoutes = require('./routes/music-media');
+const postsRoutes = require('./routes/posts');
 const sabbathSchoolRoutes = require('./routes/sabbath-school');
 const sermonsRoutes = require('./routes/sermons');
 
@@ -28,20 +30,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Root route
-app.get('/', (req, res) => {
-  res.json({
-    message: '🏛️ Quezon Central Church API',
-    status: 'running',
-    endpoints: {
-      api: '/api',
-      chat: '/api/chat',
-      contact: '/api/contact',
-      events: '/api/events',
-      sermons: '/api/sermons'
-    }
-  });
-});
+// Serve the static church website (same origin as the API)
+app.use(express.static(path.join(__dirname, '..', 'quezon cental church')));
 
 // Test route
 app.get('/api', (req, res) => {
@@ -56,6 +46,7 @@ app.use('/api/contact', contactRoutes);
 app.use('/api/donations', donationsRoutes);
 app.use('/api/events', eventsRoutes);
 app.use('/api/music-media', musicMediaRoutes);
+app.use('/api/posts', postsRoutes);
 app.use('/api/sabbath-school', sabbathSchoolRoutes);
 app.use('/api/sermons', sermonsRoutes);
 
