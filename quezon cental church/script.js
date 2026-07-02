@@ -187,7 +187,7 @@ if (chatForm) {
         let replyText = 'Unable to connect to the server. Please make sure the backend is running and try again.';
 
         try {
-            const response = await fetch('http://localhost:3001/api/chat/send', {
+            const response = await fetch('/api/chat/send', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message, conversationId: chatConversationId })
@@ -618,7 +618,7 @@ function renderSermonMedia(item, imgClass) {
     return `
         <a href="${item.youtubeUrl || item.videoUrl || '#'}" target="_blank">
             <img src="${item.youtubeThumbnail || NO_THUMBNAIL_IMG}" alt="${item.title}" class="${imgClass}">
-            <div class="play-overlay"><i class="fab fa-youtube"></i></div>
+            <div class="thumbnail-overlay"><div class="thumbnail-play"><i class="fab fa-youtube"></i></div></div>
         </a>
     `;
 }
@@ -741,7 +741,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // Fetch API status from the backend
 async function getApiStatus() {
   try {
-    const response = await fetch('http://localhost:3001/api');
+    const response = await fetch('/api');
     const data = await response.text();
     const apiStatusElement = document.getElementById('api-status');
     if (apiStatusElement) {
