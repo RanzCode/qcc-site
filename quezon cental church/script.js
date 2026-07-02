@@ -258,10 +258,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             initializeAnimations()
         ]);
         
-        // Load sermons page if needed
-        if (window.location.pathname.includes('sermons.html')) {
-            await loadSermonsPage();
-        }
+        // Load the admin-managed sermon list wherever #sermons-grid exists
+        // (Sermons page's "Recent Sermons" and Home's "Media Library" both use it)
+        await loadSermonsPage();
     } catch (error) {
         console.error('Error initializing page:', error);
     }
@@ -350,17 +349,16 @@ function loadEvents() {
 }
 
 async function loadMedia() {
+    // Note: #sermons-grid is intentionally not handled here - it's owned by
+    // loadSermonsPage() (DB-backed via /api/sermons) so Home and Sermons match.
     try {
-        // Load all media sections
         await Promise.all([
-            fetchSermonsPlaylistItems(),
             fetchSabbathSchoolPlaylistItems(),
             fetchMusicMediaPlaylistItems()
         ]);
     } catch (error) {
         console.error('Error loading media:', error);
         // Fallback to sample data if API fails
-        populateMediaGrid('sermons-grid', sermonsData);
         populateMediaGrid('sabbath-school-grid', sabbathSchoolData);
         populateMediaGrid('music-media-grid', musicMediaData);
     }
@@ -819,13 +817,8 @@ async function fetchYouTubePlaylistItems() {
   }
 }
 
-// Call the function on page load
-// Skip on sermons.html: that page's #sermons-grid is owned by loadSermonsPage()
-// (DB-backed, admin-manageable), not the raw YouTube-playlist fetch below.
-document.addEventListener('DOMContentLoaded', function () {
-    if (!window.location.pathname.includes('sermons.html')) {
-        fetchYouTubePlaylistItems();
-    }
-});
+// Note: fetchYouTubePlaylistItems() (raw YouTube playlist fetch) is no longer
+// called - #sermons-grid on every page is now owned by loadSermonsPage()
+// (DB-backed, admin-manageable via /api/sermons) so Home and Sermons show the same list.
 document.addEventListener('DOMContentLoaded', fetchSabbathSchoolPlaylistItems);
 document.addEventListener('DOMContentLoaded', fetchMusicMediaPlaylistItems);
