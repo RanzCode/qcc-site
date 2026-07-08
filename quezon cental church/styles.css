@@ -567,6 +567,20 @@ body {
     transform: scale(1.05);
 }
 
+/* Home page's loadEvents() puts the "event-image" class directly on the
+   <img> (no wrapper div), so it needs its own sizing/cropping rule. */
+img.event-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 2/1;
+    object-fit: cover;
+    transition: transform 0.2s;
+}
+
+.event-card:hover img.event-image {
+    transform: scale(1.05);
+}
+
 .event-content {
     padding: 1.25rem;
 }
