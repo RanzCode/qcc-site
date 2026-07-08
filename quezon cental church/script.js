@@ -281,9 +281,14 @@ window.openForm = function(url) {
     originalOpenForm(url);
 };
 
+// Cache-busting suffix: bump this whenever an event image is replaced under
+// the same filename, so returning visitors' browsers fetch the new file
+// instead of reusing an old cached copy.
+const EVENT_IMAGE_VERSION = 'v=20260708';
+
 const eventsData = [
     {
-        imageUrl: 'assets/Community_outreach.png',
+        imageUrl: `assets/Community_outreach.png?${EVENT_IMAGE_VERSION}`,
         title: 'Community Outreach',
         description: 'Join us as we serve our local community.',
         buttonText: 'Register',
@@ -291,14 +296,14 @@ const eventsData = [
 
     },
     {
-        imageUrl: 'assets/YOUTH_rally.png',
+        imageUrl: `assets/YOUTH_rally.png?${EVENT_IMAGE_VERSION}`,
         title: 'Youth Rally',
         description: 'A day of fun, fellowship, and spiritual growth for the youth.',
         buttonText: 'Register',
         formUrl: 'https://forms.gle/your-registration-form'
     },
     {
-        imageUrl: 'assets/VBS.png',
+        imageUrl: `assets/VBS.png?${EVENT_IMAGE_VERSION}`,
         title: 'Vacation Bible School',
         description: 'Help us make this year\'s VBS a success for the kids!',
         buttonText: 'Volunteer Now',
