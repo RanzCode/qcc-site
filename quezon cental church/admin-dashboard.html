@@ -19,6 +19,7 @@
             <button class="admin-tab-btn active" data-tab="posts">Post Grid</button>
             <button class="admin-tab-btn" data-tab="sermons">Sermons</button>
             <button class="admin-tab-btn" data-tab="sabbath-school">Sabbath School Slides</button>
+            <button class="admin-tab-btn" data-tab="stories">Stewardship Stories</button>
         </div>
 
         <!-- Post Grid Panel -->
@@ -143,6 +144,16 @@
                 </div>
             </div>
         </section>
+
+        <!-- Stewardship Stories Panel -->
+        <section class="admin-panel" id="panel-stories">
+            <div class="admin-list-card">
+                <h3>Submitted Stories</h3>
+                <p>Stories submitted by visitors on the Donate page. They are visible to everyone immediately — delete any that shouldn't be public.</p>
+                <div id="storiesAlert"></div>
+                <div id="storiesList"><div class="admin-empty-state">Loading…</div></div>
+            </div>
+        </section>
     </div>
 
     <script src="js/admin-auth.js"></script>
@@ -164,6 +175,7 @@
     <script src="js/admin-posts.js"></script>
     <script src="js/admin-sermons.js"></script>
     <script src="js/admin-sabbath-school.js"></script>
+    <script src="js/admin-stories.js"></script>
     <script>
         (async function init() {
             const user = await AdminAuth.requireAdminAuth();
@@ -171,6 +183,7 @@
             if (window.AdminPosts) window.AdminPosts.init();
             if (window.AdminSermons) window.AdminSermons.init();
             if (window.AdminSabbathSchool) window.AdminSabbathSchool.init();
+            if (window.AdminStories) window.AdminStories.init();
         })();
     </script>
 </body>

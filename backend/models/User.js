@@ -52,7 +52,8 @@ const userSchema = new mongoose.Schema({
         users: { type: Boolean, default: false },
         announcements: { type: Boolean, default: false },
         posts: { type: Boolean, default: false },
-        sabbathSchool: { type: Boolean, default: false }
+        sabbathSchool: { type: Boolean, default: false },
+        stories: { type: Boolean, default: false }
     }
 }, {
     timestamps: true

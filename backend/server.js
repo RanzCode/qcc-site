@@ -15,6 +15,7 @@ const musicMediaRoutes = require('./routes/music-media');
 const postsRoutes = require('./routes/posts');
 const sabbathSchoolRoutes = require('./routes/sabbath-school');
 const sermonsRoutes = require('./routes/sermons');
+const storiesRoutes = require('./routes/stories');
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
@@ -52,6 +53,7 @@ app.use('/api/music-media', musicMediaRoutes);
 app.use('/api/posts', postsRoutes);
 app.use('/api/sabbath-school', sabbathSchoolRoutes);
 app.use('/api/sermons', sermonsRoutes);
+app.use('/api/stories', storiesRoutes);
 
 const PORT = process.env.PORT || 3001; // for example, use 3001
 app.listen(PORT, () => {

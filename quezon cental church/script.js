@@ -281,25 +281,24 @@ window.openForm = function(url) {
     originalOpenForm(url);
 };
 
-// Placeholder data - replace with your API calls
 const eventsData = [
     {
-        imageUrl: 'https://via.placeholder.com/400x200/3B82F6/FFFFFF?text=Event+1',
+        imageUrl: 'assets/Community_outreach.png',
         title: 'Community Outreach',
         description: 'Join us as we serve our local community.',
         buttonText: 'Register',
         formUrl: 'https://forms.gle/your-registration-form'
-        
+
     },
     {
-        imageUrl: 'https://via.placeholder.com/400x200/3B82F6/FFFFFF?text=Event+2',
+        imageUrl: 'assets/YOUTH_rally.png',
         title: 'Youth Rally',
         description: 'A day of fun, fellowship, and spiritual growth for the youth.',
         buttonText: 'Register',
         formUrl: 'https://forms.gle/your-registration-form'
     },
     {
-        imageUrl: 'https://via.placeholder.com/400x200/3B82F6/FFFFFF?text=Event+3',
+        imageUrl: 'assets/VBS.png',
         title: 'Vacation Bible School',
         description: 'Help us make this year\'s VBS a success for the kids!',
         buttonText: 'Volunteer Now',
@@ -774,28 +773,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-
-// Fetch API status from the backend
-async function getApiStatus() {
-  try {
-    const response = await fetch('/api');
-    const data = await response.text();
-    const apiStatusElement = document.getElementById('api-status');
-    if (apiStatusElement) {
-      apiStatusElement.textContent = data;
-    }
-  } catch (error) {
-    console.error('Error fetching API status:', error);
-    const apiStatusElement = document.getElementById('api-status');
-    if (apiStatusElement) {
-      apiStatusElement.textContent = 'Error connecting to API';
-    }
-  }
-}
-
-// Call the function on page load
-document.addEventListener('DOMContentLoaded', getApiStatus);
-
 
 // Fetch YouTube playlist items and render them in the Sermons subsection (sermons-grid)
 async function fetchYouTubePlaylistItems() {

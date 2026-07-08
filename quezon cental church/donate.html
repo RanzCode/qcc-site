@@ -267,28 +267,25 @@
                     <p class="section-subtitle">Hear from members about the blessings of giving</p>
                 </div>
 
-                <div class="testimonials-grid">
-                    <div class="testimonial-card">
-                        <div class="testimonial-header">
-                            <img src="https://via.placeholder.com/60x60/3B82F6/FFFFFF?text=MS" alt="Maria Santos">
-                            <div class="testimonial-info">
-                                <h4>Maria Santos</h4>
-                                <p>Church Member</p>
-                            </div>
-                        </div>
-                        <p class="testimonial-text">"Faithful giving has been a blessing in my life. I've seen how my contributions have helped our church reach more people with God's love."</p>
-                    </div>
+                <div class="testimonials-grid" id="storiesGrid">
+                    <p class="testimonials-empty">Loading stories…</p>
+                </div>
 
-                    <div class="testimonial-card">
-                        <div class="testimonial-header">
-                            <img src="https://via.placeholder.com/60x60/3B82F6/FFFFFF?text=JR" alt="Juan Reyes">
-                            <div class="testimonial-info">
-                                <h4>Juan Reyes</h4>
-                                <p>Church Member</p>
-                            </div>
+                <div class="story-form-container">
+                    <h3>Share Your Story</h3>
+                    <p>Has giving been a blessing in your life? Share your story below — it will be visible to everyone who visits this page.</p>
+                    <div id="storyAlert"></div>
+                    <form class="story-form" id="storyForm">
+                        <div class="form-group">
+                            <label for="storyName">Your Name</label>
+                            <input type="text" id="storyName" name="name" maxlength="100" required>
                         </div>
-                        <p class="testimonial-text">"Supporting our church's mission has allowed me to be part of something bigger than myself. It's amazing to see how our collective giving makes a difference."</p>
-                    </div>
+                        <div class="form-group">
+                            <label for="storyMessage">Your Story</label>
+                            <textarea id="storyMessage" name="message" rows="4" maxlength="2000" required placeholder="Share how giving has blessed you..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Share Your Story</button>
+                    </form>
                 </div>
             </div>
         </section>
@@ -472,6 +469,7 @@
     </div>
 
     <script src="script.js"></script>
+    <script src="js/stories.js"></script>
     <script>
     // Auto-activate tab based on URL hash (e.g. #online, #qr, #other)
     document.addEventListener('DOMContentLoaded', function() {

@@ -119,10 +119,10 @@
 
 | Location | Use | Capacity |
 |----------|-----|----------|
-| Sanctuary | Main worship services, prayer meetings | [TO BE UPDATED] |
-| Fellowship Hall | Bible studies, fellowship lunch | [TO BE UPDATED] |
-| Youth Hall | Youth programs, activities | [TO BE UPDATED] |
-| Main Hall | Sabbath School | [TO BE UPDATED] |
+| Chapel | Main worship services, prayer meetings | [TO BE UPDATED] |
+| QCC Studio / via Zoom Meeting | Bible studies, fellowship lunch | [TO BE UPDATED] |
+| Church Hall | Youth programs, activities | [TO BE UPDATED] |
+| Chapel | Sabbath School | [TO BE UPDATED] |
 
 ---
 
