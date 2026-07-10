@@ -262,6 +262,13 @@ body {
     border: 1px solid #3b82f6;
 }
 
+.btn-disabled {
+    background-color: #cbd5e1;
+    color: #64748b;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
 .btn-outline:hover {
     background-color: #3b82f6;
     color: white;

@@ -257,6 +257,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Load all sections in parallel
         await Promise.all([
             loadEvents(),
+            loadEventLinks(),
             loadMedia(),
             loadDevotional(),
             initializeAnimations()
@@ -355,6 +356,42 @@ function loadEvents() {
             </div>
         `;
         eventsGrid.appendChild(card);
+    });
+}
+
+// Points each event card's "View Details" button at the Facebook post the
+// admin pasted for that event title in the admin dashboard (see admin-events.js).
+async function loadEventLinks() {
+    const cards = document.querySelectorAll('.event-card[data-event-title]');
+    if (!cards.length) return;
+
+    let links = [];
+    try {
+        const res = await fetch('/api/event-links');
+        const data = await res.json();
+        links = data.links || [];
+    } catch (error) {
+        console.error('Error loading event links:', error);
+    }
+
+    const linkByTitle = {};
+    links.forEach(link => { linkByTitle[link.eventTitle] = link.facebookUrl; });
+
+    cards.forEach(card => {
+        const btn = card.querySelector('.event-details-btn');
+        if (!btn) return;
+
+        const url = linkByTitle[card.dataset.eventTitle];
+        if (url) {
+            btn.href = url;
+            btn.target = '_blank';
+            btn.rel = 'noopener';
+            btn.classList.remove('btn-disabled');
+        } else {
+            btn.removeAttribute('href');
+            btn.removeAttribute('target');
+            btn.classList.add('btn-disabled');
+        }
     });
 }
 
