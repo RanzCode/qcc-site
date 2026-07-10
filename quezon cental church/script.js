@@ -341,7 +341,9 @@ function loadEvents() {
         const card = document.createElement('div');
         card.className = 'card event-card';
         card.innerHTML = `
-            <img class="event-image" src="${event.imageUrl}" alt="${event.title}">
+            <div class="event-image">
+                <img src="${event.imageUrl}" alt="${event.title}">
+            </div>
             <div class="event-content">
                 <h3>${event.title}</h3>
                 <p>${event.description}</p>

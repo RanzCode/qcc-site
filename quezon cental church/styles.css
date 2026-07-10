@@ -531,10 +531,9 @@ body {
 
 /* ===== EVENT CARDS =====
    Shared by the Home page ("Upcoming Events" - cards built by loadEvents()
-   in script.js, where .event-image is on the <img> itself) and the Events
-   page (events.html - cards are static markup with .event-image as a
-   wrapper <div> around an <img>). Both markup shapes are handled by the
-   same rules below so there's a single source of truth for card sizing. */
+   in script.js) and the Events page (events.html - static markup). Both
+   use the same <div class="event-card"><div class="event-image"><img>...
+   shape, so a single set of rules covers card sizing for both. */
 .events {
     padding: 4rem 0;
 }
@@ -563,21 +562,25 @@ body {
 }
 
 /* Fixed-height image container so every card's photo area is identical
-   regardless of the card's width or the source image's own dimensions. */
-.event-image,
-.event-image img,
-img.event-image {
-    display: block;
+   regardless of the card's width or the source image's own dimensions.
+   Both the Home page and Events page build the same markup shape:
+   <div class="event-image"><img></div> */
+.event-image {
     width: 100%;
     height: 200px;
     overflow: hidden;
-    object-fit: cover;
     flex-shrink: 0;
+}
+
+.event-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     transition: transform 0.3s ease;
 }
 
-.event-card:hover .event-image img,
-.event-card:hover img.event-image {
+.event-card:hover .event-image img {
     transform: scale(1.05);
 }
 
@@ -622,9 +625,7 @@ img.event-image {
 }
 
 @media (max-width: 639px) {
-    .event-image,
-    .event-image img,
-    img.event-image {
+    .event-image {
         height: 180px;
     }
 }
