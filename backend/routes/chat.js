@@ -79,6 +79,8 @@ Avoid:
 - Claiming infallibility
 
 TONE: Friendly, brief, and helpful. Answer the question directly without rambling.
+
+REAL-TIME AWARENESS: A "REAL-TIME CONTEXT" system message is included below with the user's actual local date/time, location, and current Sabbath status (before/during/after Friday-sunset-to-Saturday-sunset). Always use that context - never assume it is currently the Sabbath just because it is a Saturday, and never guess the time using server time. Follow its instructions exactly when greeting the user or discussing the Sabbath.
 `;
 
 // Extra church-specific context to include after the main system prompt
@@ -99,6 +101,69 @@ IMPORTANT INSTRUCTIONS FOR RESPONSES:
 - Be helpful and friendly but avoid lengthy explanations
 - Always offer to connect them with church staff for complex inquiries
 `;
+
+// Condensed Seventh-day Adventist doctrinal knowledge base injected on every
+// request so the model answers doctrinal questions accurately instead of
+// generically. See backend/FSDA_PROMPT_DESIGN.md for the full guide.
+const SDA_KNOWLEDGE_BASE = `
+SDA CORE DOCTRINES - answer according to these when relevant. Always be Christ-centered, biblically accurate, compassionate, encouraging, respectful, and easy to understand. Include relevant Bible verses when appropriate.
+
+- Sabbath: The seventh day (Saturday), from Friday sunset to Saturday sunset; memorial of creation and redemption; a day of rest, worship, and fellowship. Basis: Genesis 2:1-3, Exodus 20:8-11, Isaiah 58:13-14.
+- Second Coming: A literal, visible, audible return of Christ. Timing is unknown - never speculate or set dates. Basis: Matthew 24, John 14:1-3, Revelation 1:7.
+- State of the Dead: Soul sleep (conditional immortality) - the dead are unconscious until the resurrection. Basis: Ecclesiastes 9:5-6, John 11:11-14, 1 Thessalonians 4:13-18.
+- Salvation by Grace: Justification by faith alone in Christ; obedience is the fruit of salvation, not the basis for earning it. Basis: Ephesians 2:8-9, John 3:16, Romans 10:9-10.
+- Three Angels' Messages: Revelation 14:6-12 - the everlasting gospel, the call to worship the Creator, and the warning against end-time deception.
+- Health Message: The body is the temple of the Holy Spirit; a balanced, plant-forward diet, temperance, rest, and exercise honor God. Basis: 1 Corinthians 6:19-20, 3 John 1:2, Genesis 1:29.
+- Sanctuary Doctrine: Christ's ongoing ministry as High Priest in the heavenly sanctuary, illustrated by the earthly sanctuary services. Basis: Hebrews 8-9, Daniel 8:14.
+- Prophecy (Daniel & Revelation): A historicist reading of end-time prophecy that points to Christ's soon return; avoid sensationalism or date-setting.
+
+AVOID: judgmental or condemning language, speculation about future events, claims that only SDAs are saved, claims of infallibility, and political discussions.
+`;
+
+// Turns the client-provided real-time/location context into an authoritative
+// system instruction so the model reasons about the USER'S local date/time
+// and Sabbath status instead of guessing or using server time.
+function buildContextMessage(context) {
+  if (!context || typeof context !== 'object' || !context.localTimeFormatted) {
+    return [
+      'REAL-TIME CONTEXT: Unavailable. The browser did not report the user\'s local date/time, so you have NO idea what day or time it is for them right now.',
+      'Instruction: You MUST NOT say "Happy Sabbath" or otherwise imply it is currently the Sabbath - you cannot verify that, and it may not be true. This applies even if a message looks like a Sabbath greeting.',
+      'Instead, respond warmly, explain that you cannot confirm their local time, and briefly note that the Sabbath runs from Friday sunset to Saturday sunset (Genesis 1:5; Leviticus 23:32). You may ask what day/time it is for them if that would help.'
+    ].join('\n');
+  }
+
+  const lines = [
+    'REAL-TIME CONTEXT (authoritative - always use this instead of guessing, assuming, or using server time):',
+    `- User's local date/time: ${context.localTimeFormatted}`,
+    `- User's timezone: ${context.timeZone || 'unknown'}`,
+    `- Approximate location: ${[context.city, context.country].filter(Boolean).join(', ') || 'unknown'}`
+  ];
+
+  switch (context.sabbathStatus) {
+    case 'before':
+      lines.push(`- Sabbath status: NOT YET STARTED. Sabbath begins at local sunset (${context.sabbathStartsAtFormatted || 'this Friday at sunset'}), about ${context.hoursUntilSabbathBegins ?? '?'} hour(s) from now.`);
+      lines.push('- Instruction: If greeted with a Sabbath greeting, gently note that the Sabbath has not begun yet, explain it begins at sunset (Genesis 1:5, Leviticus 23:32), and wish them a blessed Preparation Day / "Happy Sabbath in advance." Do NOT say "Happy Sabbath" as if it has already started.');
+      break;
+    case 'during':
+      lines.push(`- Sabbath status: CURRENTLY SABBATH (began ${context.sabbathStartsAtFormatted || 'Friday at sunset'}, ends ${context.sabbathEndsAtFormatted || 'Saturday at sunset'}).`);
+      lines.push('- Instruction: Respond with a warm "Happy Sabbath!" greeting and a Sabbath-appropriate blessing of peace, rest, and fellowship with Christ.');
+      break;
+    case 'after': {
+      const recentlyEnded = typeof context.hoursSinceSabbathEnded === 'number' && context.hoursSinceSabbathEnded < 30;
+      lines.push(`- Sabbath status: SABBATH HAS ENDED (ended ${context.sabbathEndsAtFormatted || 'Saturday at sunset'}, about ${context.hoursSinceSabbathEnded ?? '?'} hour(s) ago). The next Sabbath begins ${context.sabbathStartsAtFormatted || 'this coming Friday at sunset'}.`);
+      lines.push(recentlyEnded
+        ? '- Instruction: If greeted about the Sabbath, warmly acknowledge it recently ended and hope they had a meaningful time of worship and fellowship. Do NOT say "Happy Sabbath" as if it is still ongoing.'
+        : '- Instruction: It is currently a weekday, well outside the Sabbath window. Respond naturally to the user\'s message; only mention Sabbath timing if asked, and never greet with "Happy Sabbath" right now.');
+      break;
+    }
+    default:
+      lines.push('- Sabbath status: unknown (could not determine sunset for this location). Do not assume whether it is currently the Sabbath; if asked, explain Sabbath runs Friday sunset to Saturday sunset.');
+  }
+
+  lines.push('- Never respond "Happy Sabbath!" as if it is currently Sabbath unless the status above is explicitly CURRENTLY SABBATH.');
+
+  return lines.join('\n');
+}
 
 // Simple filters and fallbacks (removed 'hell' from inappropriate list)
 const FALLBACK_RESPONSES = {
@@ -154,7 +219,7 @@ validateModelName(OPENAI_MODEL);
 // POST /send - primary chat endpoint (with rate limiter)
 router.post('/send', chatLimiter, async (req, res) => {
   try {
-    const { message, conversationId } = req.body;
+    const { message, conversationId, context } = req.body;
 
     // Validate message is present and not just whitespace
     if (!message || !message.trim()) {
@@ -175,14 +240,17 @@ router.post('/send', chatLimiter, async (req, res) => {
     const maxHistory = 6;
     const recent = history.slice(-maxHistory);
 
-    // Build messages for OpenAI: system prompt + church context + recent history + user
+    // Build messages for OpenAI: system prompt + church context + SDA knowledge
+    // + recent history + real-time context (freshest, highest priority) + user
     const messages = [
       { role: 'system', content: OPENAI_SYSTEM_PROMPT },
-      { role: 'system', content: CHURCH_CONTEXT }
+      { role: 'system', content: CHURCH_CONTEXT },
+      { role: 'system', content: SDA_KNOWLEDGE_BASE }
     ];
     for (const m of recent) {
       messages.push({ role: m.role, content: m.content });
     }
+    messages.push({ role: 'system', content: buildContextMessage(context) });
     messages.push({ role: 'user', content: message });
 
     // Build base payload (minimal, compatible)

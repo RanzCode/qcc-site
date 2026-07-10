@@ -187,10 +187,14 @@ if (chatForm) {
         let replyText = 'Unable to connect to the server. Please make sure the backend is running and try again.';
 
         try {
+            const context = typeof window.getSabbathContext === 'function'
+                ? await window.getSabbathContext().catch(() => null)
+                : null;
+
             const response = await fetch('/api/chat/send', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message, conversationId: chatConversationId })
+                body: JSON.stringify({ message, conversationId: chatConversationId, context })
             });
 
             const data = await response.json();
