@@ -529,7 +529,12 @@ body {
     margin-top: auto;
 }
 
-/* Events Section */
+/* ===== EVENT CARDS =====
+   Shared by the Home page ("Upcoming Events" - cards built by loadEvents()
+   in script.js, where .event-image is on the <img> itself) and the Events
+   page (events.html - cards are static markup with .event-image as a
+   wrapper <div> around an <img>). Both markup shapes are handled by the
+   same rules below so there's a single source of truth for card sizing. */
 .events {
     padding: 4rem 0;
 }
@@ -538,60 +543,60 @@ body {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
+    align-items: stretch;
 }
 
 .event-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: white;
     border: 1px solid #e5e7eb;
     border-radius: 0.5rem;
     overflow: hidden;
-    transition: transform 0.2s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .event-card:hover {
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.event-image {
-    aspect-ratio: 2/1;
-    overflow: hidden;
-}
-
-.event-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.2s;
-}
-
-.event-card:hover .event-image img {
-    transform: scale(1.05);
-}
-
-/* Home page's loadEvents() puts the "event-image" class directly on the
-   <img> (no wrapper div), so it needs its own sizing/cropping rule. */
+/* Fixed-height image container so every card's photo area is identical
+   regardless of the card's width or the source image's own dimensions. */
+.event-image,
+.event-image img,
 img.event-image {
     display: block;
     width: 100%;
-    aspect-ratio: 2/1;
+    height: 200px;
+    overflow: hidden;
     object-fit: cover;
-    transition: transform 0.2s;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
 }
 
+.event-card:hover .event-image img,
 .event-card:hover img.event-image {
     transform: scale(1.05);
 }
 
 .event-content {
-    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1.5rem;
 }
 
-.event-date {
+.event-date,
+.event-time,
+.event-location {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     color: #6b7280;
     font-size: 0.875rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
 }
 
 .event-title {
@@ -603,17 +608,26 @@ img.event-image {
 .event-description {
     color: #6b7280;
     margin-bottom: 1rem;
+    line-height: 1.5;
 }
 
-.event-location {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #6b7280;
-    font-size: 0.875rem;
+.event-details {
+    margin-bottom: 1rem;
 }
 
+/* Keep the Register / Volunteer Now / View Details button pinned to the
+   bottom of the card no matter how much text precedes it. */
+.event-content .btn {
+    margin-top: auto;
+}
 
+@media (max-width: 639px) {
+    .event-image,
+    .event-image img,
+    img.event-image {
+        height: 180px;
+    }
+}
 
 /* Resources Section */
 .resources {
@@ -2273,79 +2287,9 @@ img.event-image {
     background: #f9fafb;
 }
 
-.events-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-}
-
-.event-card {
-    background: white;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.5rem;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.event-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.event-image {
-    aspect-ratio: 2/1;
-    overflow: hidden;
-}
-
-.event-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.event-card:hover .event-image img {
-    transform: scale(1.05);
-}
-
-.event-content {
-    padding: 1.5rem;
-}
-
-.event-date {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #6b7280;
-    font-size: 0.875rem;
-    margin-bottom: 0.5rem;
-}
-
-.event-title {
-    font-weight: 700;
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-}
-
-.event-description {
-    color: #6b7280;
-    margin-bottom: 1rem;
-    line-height: 1.5;
-}
-
-.event-details {
-    margin-bottom: 1rem;
-}
-
-.event-time,
-.event-location {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #6b7280;
-    font-size: 0.875rem;
-    margin-bottom: 0.25rem;
-}
+/* .events-grid / .event-card / .event-image / .event-content and friends
+   are defined once, above, in the "EVENT CARDS" block near .events - both
+   this section and the Home page share those rules. */
 
 /* Featured Event */
 .featured-event {
@@ -4505,34 +4449,6 @@ img.event-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
-
-/* Enhanced Event Cards */
-.event-card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.event-card:hover {
-    transform: translateY(-5px);
-}
-
-.event-card .registration-form {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    display: none;
-    z-index: 10;
-}
-
-.event-card.show-form .registration-form {
-    display: block;
 }
 
 /* Resources Section */
