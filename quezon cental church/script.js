@@ -258,6 +258,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         await Promise.all([
             loadEvents(),
             loadEventLinks(),
+            loadFeaturedEvent(),
             loadMedia(),
             loadDevotional(),
             initializeAnimations()
@@ -393,6 +394,59 @@ async function loadEventLinks() {
             btn.classList.add('btn-disabled');
         }
     });
+}
+
+// Fills in the "Featured Event" (Annual Church Camp) date and points its
+// "View Details" / "Register Now" buttons at the links the admin set for it.
+async function loadFeaturedEvent() {
+    const dateEl = document.getElementById('featuredEventDate');
+    const viewDetailsBtn = document.getElementById('featuredViewDetailsBtn');
+    const registerBtn = document.getElementById('featuredRegisterBtn');
+    if (!dateEl && !viewDetailsBtn && !registerBtn) return;
+
+    try {
+        const res = await fetch('/api/featured-event');
+        const data = await res.json();
+        const featuredEvent = data.featuredEvent;
+        if (!featuredEvent) return;
+
+        if (dateEl && featuredEvent.startDate && featuredEvent.endDate) {
+            dateEl.textContent = formatDateRange(featuredEvent.startDate, featuredEvent.endDate);
+        }
+
+        [
+            [viewDetailsBtn, featuredEvent.viewDetailsUrl],
+            [registerBtn, featuredEvent.registerUrl]
+        ].forEach(([btn, url]) => {
+            if (!btn) return;
+            if (url) {
+                btn.href = url;
+                btn.target = '_blank';
+                btn.rel = 'noopener';
+                btn.classList.remove('btn-disabled');
+            } else {
+                btn.removeAttribute('href');
+                btn.removeAttribute('target');
+                btn.classList.add('btn-disabled');
+            }
+        });
+    } catch (error) {
+        console.error('Error loading featured event:', error);
+    }
+}
+
+function formatDateRange(startDate, endDate) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const startText = start.toLocaleDateString('en-US', options);
+
+    if (start.toDateString() === end.toDateString()) {
+        return startText;
+    }
+
+    const endText = end.toLocaleDateString('en-US', options);
+    return `${startText} - ${endText}`;
 }
 
 async function loadMedia() {

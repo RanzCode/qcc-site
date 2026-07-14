@@ -89,6 +89,33 @@
                     <div id="eventsList"><div class="admin-empty-state">Loading…</div></div>
                 </div>
             </div>
+
+            <div class="admin-panel-grid">
+                <div class="admin-form-card">
+                    <h3>Featured Event (Annual Church Camp)</h3>
+                    <p>Set the camp's dates and where its "View Details" and "Register Now" buttons should go.</p>
+                    <div id="featuredEventAlert"></div>
+                    <form class="admin-form" id="featuredEventForm">
+                        <div class="form-group">
+                            <label for="featuredStartDate">Start date</label>
+                            <input type="date" id="featuredStartDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="featuredEndDate">End date</label>
+                            <input type="date" id="featuredEndDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="featuredViewDetailsUrl">View Details link (Facebook post or other)</label>
+                            <input type="url" id="featuredViewDetailsUrl" placeholder="https://www.facebook.com/...">
+                        </div>
+                        <div class="form-group">
+                            <label for="featuredRegisterUrl">Register Now link (Google Form or other)</label>
+                            <input type="url" id="featuredRegisterUrl" placeholder="https://forms.gle/...">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" id="featuredEventSubmitBtn">Save Featured Event</button>
+                    </form>
+                </div>
+            </div>
         </section>
 
         <!-- Sermons Panel -->

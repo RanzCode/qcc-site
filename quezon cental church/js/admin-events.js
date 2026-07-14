@@ -129,9 +129,68 @@
         }
     }
 
+    // --- Featured Event (Annual Church Camp) ---
+
+    function showFeaturedAlert(message, type) {
+        document.getElementById('featuredEventAlert').innerHTML =
+            `<div class="admin-alert admin-alert-${type}">${message}</div>`;
+    }
+
+    function toDateInputValue(dateString) {
+        if (!dateString) return '';
+        return new Date(dateString).toISOString().slice(0, 10);
+    }
+
+    async function loadFeaturedEvent() {
+        try {
+            const res = await fetch('/api/featured-event');
+            const data = await res.json();
+            const featuredEvent = data.featuredEvent;
+            if (!featuredEvent) return;
+
+            document.getElementById('featuredStartDate').value = toDateInputValue(featuredEvent.startDate);
+            document.getElementById('featuredEndDate').value = toDateInputValue(featuredEvent.endDate);
+            document.getElementById('featuredViewDetailsUrl').value = featuredEvent.viewDetailsUrl || '';
+            document.getElementById('featuredRegisterUrl').value = featuredEvent.registerUrl || '';
+        } catch (error) {
+            showFeaturedAlert(error.message, 'error');
+        }
+    }
+
+    async function handleFeaturedEventSubmit(e) {
+        e.preventDefault();
+        document.getElementById('featuredEventAlert').innerHTML = '';
+
+        const payload = {
+            startDate: document.getElementById('featuredStartDate').value,
+            endDate: document.getElementById('featuredEndDate').value,
+            viewDetailsUrl: document.getElementById('featuredViewDetailsUrl').value.trim(),
+            registerUrl: document.getElementById('featuredRegisterUrl').value.trim()
+        };
+
+        try {
+            const res = await AdminAuth.authFetch('/api/featured-event', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.error || (data.errors && data.errors[0] && data.errors[0].msg) || 'Failed to save featured event');
+            }
+
+            showFeaturedAlert('Featured event saved.', 'success');
+        } catch (error) {
+            showFeaturedAlert(error.message, 'error');
+        }
+    }
+
     function init() {
         document.getElementById('eventsForm').addEventListener('submit', handleSubmit);
+        document.getElementById('featuredEventForm').addEventListener('submit', handleFeaturedEventSubmit);
         loadLinks();
+        loadFeaturedEvent();
     }
 
     window.AdminEvents = { init };
