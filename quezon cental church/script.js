@@ -191,7 +191,7 @@ if (chatForm) {
                 ? await window.getSabbathContext().catch(() => null)
                 : null;
 
-            const response = await fetch('/api/chat/send', {
+            const response = await fetch(apiUrl('/api/chat/send'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ message, conversationId: chatConversationId, context })
@@ -368,7 +368,7 @@ async function loadEventLinks() {
 
     let links = [];
     try {
-        const res = await fetch('/api/event-links');
+        const res = await fetch(apiUrl('/api/event-links'));
         const data = await res.json();
         links = data.links || [];
     } catch (error) {
@@ -405,7 +405,7 @@ async function loadFeaturedEvent() {
     if (!dateEl && !viewDetailsBtn && !registerBtn) return;
 
     try {
-        const res = await fetch('/api/featured-event');
+        const res = await fetch(apiUrl('/api/featured-event'));
         const data = await res.json();
         const featuredEvent = data.featuredEvent;
         if (!featuredEvent) return;
@@ -723,7 +723,7 @@ function renderSermonMedia(item, imgClass) {
 }
 
 function loadSermonsPage() {
-    fetch('/api/sermons?limit=7')
+    fetch(apiUrl('/api/sermons?limit=7'))
         .then(res => res.json())
         .then(data => {
             const sermons = data.sermons || [];

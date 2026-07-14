@@ -148,7 +148,7 @@ class MessengerIntegration {
         }
 
         // Send to backend for processing
-        fetch('/api/chat/messenger-message', {
+        fetch(apiUrl('/api/chat/messenger-message'), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -331,7 +331,7 @@ We look forward to worshiping with you! 🙏`;
         }
 
         // Send to backend for staff notification
-        fetch('/api/admin/messenger-request', {
+        fetch(apiUrl('/api/admin/messenger-request'), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

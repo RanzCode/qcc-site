@@ -42,7 +42,7 @@
         if (!grid) return;
 
         try {
-            const res = await fetch('/api/stories');
+            const res = await fetch(apiUrl('/api/stories'));
             const data = await res.json();
             renderStories(data.stories || []);
         } catch (error) {
@@ -69,7 +69,7 @@
             const message = document.getElementById('storyMessage').value.trim();
 
             try {
-                const res = await fetch('/api/stories', {
+                const res = await fetch(apiUrl('/api/stories'), {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, message })

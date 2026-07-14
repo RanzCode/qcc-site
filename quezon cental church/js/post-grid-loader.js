@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (!grid) return;
 
     try {
-        const res = await fetch('/api/posts');
+        const res = await fetch(apiUrl('/api/posts'));
         const data = await res.json();
         const posts = data.posts || [];
 

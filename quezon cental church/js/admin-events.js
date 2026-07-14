@@ -71,7 +71,7 @@
 
     async function loadLinks() {
         try {
-            const res = await fetch('/api/event-links');
+            const res = await fetch(apiUrl('/api/event-links'));
             const data = await res.json();
             renderList(data.links || []);
         } catch (error) {
@@ -143,7 +143,7 @@
 
     async function loadFeaturedEvent() {
         try {
-            const res = await fetch('/api/featured-event');
+            const res = await fetch(apiUrl('/api/featured-event'));
             const data = await res.json();
             const featuredEvent = data.featuredEvent;
             if (!featuredEvent) return;

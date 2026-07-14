@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     if (!grid) return;
 
     try {
-        const res = await fetch('/api/sabbath-school');
+        const res = await fetch(apiUrl('/api/sabbath-school'));
         const data = await res.json();
         const lessons = data.lessons || [];
 

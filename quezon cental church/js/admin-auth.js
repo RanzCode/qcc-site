@@ -3,7 +3,7 @@
     const USER_KEY = 'qcc_admin_user';
 
     async function login(email, password) {
-        const res = await fetch('/api/auth/login', {
+        const res = await fetch(apiUrl('/api/auth/login'), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username: email, password })
@@ -58,7 +58,7 @@
             Authorization: `Bearer ${token}`
         });
 
-        const res = await fetch(url, opts);
+        const res = await fetch(apiUrl(url), opts);
 
         if (res.status === 401 || res.status === 403) {
             goToLogin();
@@ -77,7 +77,7 @@
         }
 
         try {
-            const res = await fetch('/api/auth/me', {
+            const res = await fetch(apiUrl('/api/auth/me'), {
                 headers: { Authorization: `Bearer ${token}` }
             });
 

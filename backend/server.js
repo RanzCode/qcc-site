@@ -29,8 +29,29 @@ mongoose.connect(process.env.MONGODB_URI, {
   console.error('MongoDB connection error:', err);
 });
 
+const defaultOrigins = [
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'http://localhost:5500',
+  'http://127.0.0.1:5500',
+  'https://qccqonnect.org',
+  'https://www.qccqonnect.org',
+];
+const allowedOrigins = (process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(',').map((origin) => origin.trim())
+  : defaultOrigins
+);
+
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin(origin, callback) {
+    // Allow requests with no origin (curl, server-to-server, mobile apps)
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error(`CORS blocked for origin: ${origin}`));
+  },
+}));
 app.use(express.json());
 
 // Serve the static church website (same origin as the API)
