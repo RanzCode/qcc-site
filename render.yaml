@@ -10,12 +10,16 @@ services:
     envVars:
       - key: NODE_VERSION
         value: 20
+      - key: NODE_ENV
+        value: production
       - key: CORS_ORIGINS
         value: https://qccqonnect.org,https://www.qccqonnect.org,http://localhost:3000,http://127.0.0.1:5500
       - key: MONGODB_URI
         sync: false
       - key: JWT_SECRET
         sync: false
+      - key: JWT_EXPIRES_IN
+        value: 7d
       - key: ADMIN_EMAILS
         sync: false
       - key: EMAIL_HOST
@@ -25,6 +29,8 @@ services:
       - key: EMAIL_USER
         sync: false
       - key: EMAIL_PASS
+        sync: false
+      - key: EMAIL_FROM
         sync: false
       - key: CLOUDINARY_CLOUD_NAME
         sync: false
@@ -36,6 +42,8 @@ services:
         sync: false
       - key: STRIPE_PUBLISHABLE_KEY
         sync: false
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
       - key: GOOGLE_CLIENT_ID
         sync: false
       - key: GOOGLE_CLIENT_SECRET
@@ -45,4 +53,14 @@ services:
       - key: FACEBOOK_APP_SECRET
         sync: false
       - key: YOUTUBE_API_KEY
+        sync: false
+      - key: YOUTUBE_CHANNEL_ID
+        sync: false
+      - key: YOUTUBE_SERMONS_PLAYLIST_ID
+        sync: false
+      - key: YOUTUBE_MUSIC_PLAYLIST_ID
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MODEL
         sync: false
