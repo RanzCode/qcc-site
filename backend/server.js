@@ -55,7 +55,7 @@ app.use(cors({
 app.use(express.json());
 
 // Serve the static church website (same origin as the API)
-app.use(express.static(path.join(__dirname, '..', 'quezon cental church')));
+app.use(express.static(path.join(__dirname, '..', 'quezon central church')));
 
 // Serve shared logo assets referenced via "../logo/..." from the website pages
 app.use('/logo', express.static(path.join(__dirname, '..', 'logo')));

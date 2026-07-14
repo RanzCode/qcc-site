@@ -39,7 +39,7 @@ This integration allows your Church chat widget to communicate bidirectionally w
 
 ### 2.1 Install Dependencies
 ```bash
-cd "quezon cental church"
+cd "legacy-messenger-webhook"
 npm install
 ```
 
