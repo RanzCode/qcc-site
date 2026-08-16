@@ -97,30 +97,28 @@ const ENTRIES = [
         lastVerifiedAt: new Date()
     },
     {
-        // Still unresolved: index.html says the general Sabbath window runs
-        // 3:00 PM-Sunset, worship.html says Afternoon Programs run 3:00-5:00
-        // PM, contact.html's FAQ says 2:30 PM, and the admin's own
-        // CHURCH_INFO_TO_EDIT.md reference doc has a garbled row suggesting
-        // 1:00-3:00 PM. Four different values from four sources - do not
-        // guess. Leave CONFLICTING until an admin confirms the real time.
+        // Resolved 2026-08-17 directly by church admin, superseding the
+        // conflicting index.html/worship.html/contact.html/CHURCH_INFO_TO_EDIT.md
+        // values previously logged here: after Fellowship Lunch ends at
+        // 1:00 PM, 1:00-2:55 PM has no fixed program - it's used for
+        // whatever that week's events calendar has scheduled (community
+        // outreach, Bible study, etc.). Sabbath Afternoon Worship is the
+        // fixed program, starting 3:00 PM and running until sunset.
         key: 'worship-schedule-afternoon',
-        title: 'Sabbath Afternoon Programs',
+        title: 'Sabbath Afternoon Schedule',
         category: 'WORSHIP_SCHEDULE',
-        content: "The exact start time for Sabbath Afternoon Programs is still unconfirmed - the church's own sources disagree (values seen range from 1:00 PM to 3:00 PM), so this should not be stated as a fact until an admin verifies it.",
-        conflictNotes: "index.html: general 'Every Saturday: 8:30 AM-12:00 PM | 3:00 PM-Sunset' line (not labeled as a specific program). worship.html: Afternoon Programs 3:00 PM-5:00 PM. contact.html FAQ: afternoon programs starting 2:30 PM. CHURCH_INFO_TO_EDIT.md (admin reference doc, dated 2026-06-10): a malformed table row suggesting 1:00 PM-3:00 PM, immediately followed by a separate '3:00 PM - Sunset' row of unclear meaning. Four different candidate start times across sources - do not pick one.",
+        content: "After Fellowship Lunch ends at 1:00 PM, the 1:00-2:55 PM window is flexible and has no fixed program - it depends on that week's events calendar (e.g. Community Outreach, Bible Study). Check the Events page or ask the church for what's scheduled on a given Sabbath. Sabbath Afternoon Worship is the fixed program: it begins at 3:00 PM and runs until sunset.",
+        conflictNotes: null,
         structuredData: {
-            candidateStartTimes: ['1:00 PM', '2:30 PM', '3:00 PM'],
-            sources: [
-                { page: 'index.html', note: "general 'Every Saturday ... 3:00 PM - Sunset' line" },
-                { page: 'worship.html', afternoonPrograms: '3:00 PM - 5:00 PM' },
-                { page: 'contact.html FAQ', afternoonPrograms: '2:30 PM' },
-                { page: 'CHURCH_INFO_TO_EDIT.md', afternoonPrograms: '1:00 PM - 3:00 PM (formatting unclear)' }
-            ]
+            flexibleWindow: '1:00 PM - 2:55 PM',
+            flexibleWindowNote: "No fixed program - depends on the week's events calendar (Community Outreach, Bible Study, etc.)",
+            sabbathAfternoonWorship: '3:00 PM - Sunset'
         },
-        tags: ['afternoon program', 'sabbath afternoon', 'schedule'],
-        source: 'OFFICIAL_WEBSITE',
-        status: 'CONFLICTING',
-        requiresVerification: true
+        tags: ['afternoon program', 'sabbath afternoon', 'schedule', 'sabbath afternoon worship'],
+        source: 'ADMIN_VERIFIED',
+        status: 'VERIFIED',
+        requiresVerification: false,
+        lastVerifiedAt: new Date()
     },
     {
         key: 'livestream',
