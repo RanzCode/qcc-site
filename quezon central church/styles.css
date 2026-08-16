@@ -440,6 +440,8 @@ body {
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
 }
 
 .hero-subtitle {
@@ -448,6 +450,8 @@ body {
     max-width: 32rem;
     margin-left: auto;
     margin-right: auto;
+    color: #f3f4f6;
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
 }
 
 .hero-buttons {

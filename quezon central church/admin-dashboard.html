@@ -92,6 +92,34 @@
 
             <div class="admin-panel-grid">
                 <div class="admin-form-card">
+                    <h3>Set Homepage Event Link</h3>
+                    <p>The "Upcoming Events" cards on the homepage are fixed — pick which one and paste the Google Form or Facebook link it should point to. Its Register/Volunteer button updates automatically.</p>
+                    <div id="homeEventsAlert"></div>
+                    <form class="admin-form" id="homeEventsForm">
+                        <div class="form-group">
+                            <label for="homeEventTitleSelect">Homepage event card</label>
+                            <select id="homeEventTitleSelect" required>
+                                <option value="">Select event…</option>
+                                <option value="Community Outreach">Community Outreach</option>
+                                <option value="Youth Rally">Youth Rally</option>
+                                <option value="Vacation Bible School">Vacation Bible School</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="homeEventUrl">Registration link</label>
+                            <input type="url" id="homeEventUrl" placeholder="https://forms.gle/... or https://www.facebook.com/..." required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" id="homeEventsSubmitBtn">Save Link</button>
+                    </form>
+                </div>
+                <div class="admin-list-card">
+                    <h3>Homepage Event Cards</h3>
+                    <div id="homeEventsList"><div class="admin-empty-state">Loading…</div></div>
+                </div>
+            </div>
+
+            <div class="admin-panel-grid">
+                <div class="admin-form-card">
                     <h3>Featured Event (Annual Church Camp)</h3>
                     <p>Set the camp's dates and where its "View Details" and "Register Now" buttons should go.</p>
                     <div id="featuredEventAlert"></div>

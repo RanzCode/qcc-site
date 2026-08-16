@@ -237,8 +237,14 @@ if (chatInput) {
 // Smooth scrolling for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
+        // href may be swapped out later (e.g. event-details-btn gets a real
+        // URL assigned once the admin sets one), so re-check at click time
+        // instead of assuming it's still a same-page hash link.
+        const href = this.getAttribute('href');
+        if (!href || href === '#') return;
+
         e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
+        const target = document.querySelector(href);
         if (target) {
             target.scrollIntoView({
                 behavior: 'smooth',
@@ -272,20 +278,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-function openForm(url) {
-    window.open(url, '_blank');
-}
-
-// Intercept openForm to require login
-const originalOpenForm = window.openForm;
-window.openForm = function(url) {
-    if (localStorage.getItem('isLoggedIn') !== 'true') {
-        const loginModal = document.getElementById('loginModal');
-        if (loginModal) loginModal.style.display = 'flex';
-        return;
-    }
-    originalOpenForm(url);
-};
 
 // Cache-busting suffix: bump this whenever an event image is replaced under
 // the same filename, so returning visitors' browsers fetch the new file
@@ -297,23 +289,19 @@ const eventsData = [
         imageUrl: `assets/Community_outreach.png?${EVENT_IMAGE_VERSION}`,
         title: 'Community Outreach',
         description: 'Join us as we serve our local community.',
-        buttonText: 'Register',
-        formUrl: 'https://forms.gle/your-registration-form'
-
+        buttonText: 'Register'
     },
     {
         imageUrl: `assets/YOUTH_rally.png?${EVENT_IMAGE_VERSION}`,
         title: 'Youth Rally',
         description: 'A day of fun, fellowship, and spiritual growth for the youth.',
-        buttonText: 'Register',
-        formUrl: 'https://forms.gle/your-registration-form'
+        buttonText: 'Register'
     },
     {
         imageUrl: `assets/VBS.png?${EVENT_IMAGE_VERSION}`,
         title: 'Vacation Bible School',
         description: 'Help us make this year\'s VBS a success for the kids!',
-        buttonText: 'Volunteer Now',
-        formUrl: 'https://forms.gle/your-volunteer-form'
+        buttonText: 'Volunteer Now'
     }
 ];
 
@@ -346,6 +334,7 @@ function loadEvents() {
     eventsData.forEach(event => {
         const card = document.createElement('div');
         card.className = 'card event-card';
+        card.dataset.eventTitle = event.title;
         card.innerHTML = `
             <div class="event-image">
                 <img src="${event.imageUrl}" alt="${event.title}">
@@ -353,7 +342,7 @@ function loadEvents() {
             <div class="event-content">
                 <h3>${event.title}</h3>
                 <p>${event.description}</p>
-                <button class="btn btn-primary event-btn" onclick="openForm('${event.formUrl}')">${event.buttonText}</button>
+                <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary event-btn event-details-btn btn-disabled">${event.buttonText}</a>
             </div>
         `;
         eventsGrid.appendChild(card);
@@ -386,7 +375,7 @@ async function loadEventLinks() {
         if (url) {
             btn.href = url;
             btn.target = '_blank';
-            btn.rel = 'noopener';
+            btn.rel = 'noopener noreferrer';
             btn.classList.remove('btn-disabled');
         } else {
             btn.removeAttribute('href');
@@ -422,7 +411,7 @@ async function loadFeaturedEvent() {
             if (url) {
                 btn.href = url;
                 btn.target = '_blank';
-                btn.rel = 'noopener';
+                btn.rel = 'noopener noreferrer';
                 btn.classList.remove('btn-disabled');
             } else {
                 btn.removeAttribute('href');

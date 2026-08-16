@@ -129,6 +129,129 @@
         }
     }
 
+    // --- Homepage "Upcoming Events" cards ---
+
+    // Must match the titles in eventsData in script.js
+    const HOME_EVENT_TITLES = [
+        'Community Outreach',
+        'Youth Rally',
+        'Vacation Bible School'
+    ];
+
+    function showHomeAlert(message, type) {
+        document.getElementById('homeEventsAlert').innerHTML =
+            `<div class="admin-alert admin-alert-${type}">${message}</div>`;
+    }
+
+    function clearHomeAlert() {
+        document.getElementById('homeEventsAlert').innerHTML = '';
+    }
+
+    function resetHomeForm() {
+        document.getElementById('homeEventTitleSelect').value = '';
+        document.getElementById('homeEventUrl').value = '';
+    }
+
+    function renderHomeList(links) {
+        const container = document.getElementById('homeEventsList');
+        const linkByTitle = {};
+        links.forEach(link => { linkByTitle[link.eventTitle] = link; });
+
+        container.innerHTML = HOME_EVENT_TITLES.map(title => {
+            const link = linkByTitle[title];
+            return `
+                <div class="admin-item-row">
+                    <div>
+                        <p class="admin-item-title">
+                            <span class="admin-badge${link ? '' : ' admin-badge-inactive'}">${link ? 'Linked' : 'Not linked'}</span>
+                            ${escapeHtml(title)}
+                        </p>
+                        <p class="admin-item-meta">${link ? escapeHtml(link.facebookUrl) : 'No link set yet — the button stays disabled on the homepage.'}</p>
+                    </div>
+                    <div class="admin-item-actions">
+                        <button class="admin-btn-small" data-home-edit="${escapeHtml(title)}">${link ? 'Edit' : 'Add link'}</button>
+                        ${link ? `<button class="admin-btn-small admin-btn-danger" data-home-delete="${link._id}">Remove</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        container.querySelectorAll('[data-home-edit]').forEach(btn => {
+            btn.addEventListener('click', () => editHomeLink(btn.dataset.homeEdit, linkByTitle));
+        });
+        container.querySelectorAll('[data-home-delete]').forEach(btn => {
+            btn.addEventListener('click', () => deleteHomeLink(btn.dataset.homeDelete));
+        });
+    }
+
+    function editHomeLink(title, linkByTitle) {
+        const link = linkByTitle[title];
+        document.getElementById('homeEventTitleSelect').value = title;
+        document.getElementById('homeEventUrl').value = link ? link.facebookUrl : '';
+        clearHomeAlert();
+        document.getElementById('homeEventUrl').focus();
+    }
+
+    async function loadHomeLinks() {
+        try {
+            const res = await fetch(apiUrl('/api/event-links'));
+            const data = await res.json();
+            renderHomeList(data.links || []);
+        } catch (error) {
+            document.getElementById('homeEventsList').innerHTML =
+                `<div class="admin-empty-state">${error.message}</div>`;
+        }
+    }
+
+    async function deleteHomeLink(id) {
+        if (!confirm('Remove this link? The button will go back to disabled on the homepage.')) return;
+
+        try {
+            const res = await AdminAuth.authFetch(`/api/event-links/${id}`, { method: 'DELETE' });
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data.error || 'Failed to remove link');
+            }
+            await loadHomeLinks();
+        } catch (error) {
+            showHomeAlert(error.message, 'error');
+        }
+    }
+
+    async function handleHomeSubmit(e) {
+        e.preventDefault();
+        clearHomeAlert();
+
+        const payload = {
+            eventTitle: document.getElementById('homeEventTitleSelect').value,
+            facebookUrl: document.getElementById('homeEventUrl').value.trim()
+        };
+
+        if (!payload.eventTitle) {
+            showHomeAlert('Choose which homepage card this link is for.', 'error');
+            return;
+        }
+
+        try {
+            const res = await AdminAuth.authFetch('/api/event-links', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.error || (data.errors && data.errors[0] && data.errors[0].msg) || 'Failed to save link');
+            }
+
+            showHomeAlert('Link saved.', 'success');
+            resetHomeForm();
+            await loadHomeLinks();
+        } catch (error) {
+            showHomeAlert(error.message, 'error');
+        }
+    }
+
     // --- Featured Event (Annual Church Camp) ---
 
     function showFeaturedAlert(message, type) {
@@ -188,8 +311,10 @@
 
     function init() {
         document.getElementById('eventsForm').addEventListener('submit', handleSubmit);
+        document.getElementById('homeEventsForm').addEventListener('submit', handleHomeSubmit);
         document.getElementById('featuredEventForm').addEventListener('submit', handleFeaturedEventSubmit);
         loadLinks();
+        loadHomeLinks();
         loadFeaturedEvent();
     }
 
