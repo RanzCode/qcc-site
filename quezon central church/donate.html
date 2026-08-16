@@ -205,7 +205,7 @@
 
                             <div class="method-item">
                                 <div class="method-icon">
-                                    <i class="fas fa-university"></i>
+                                    <img src="assets/BDO.png" alt="BDO" style="width:100%; height:100%; object-fit:contain; padding:0.4rem;">
                                 </div>
                                 <div class="method-content">
                                     <h3>Bank Transfer</h3>
@@ -330,7 +330,7 @@
                     <p>If you have any questions about giving or need assistance, please contact our church office.</p>
                     <div class="contact-buttons">
                         <a href="contact.html" class="btn btn-primary">Contact Us</a>
-                        <a href="tel:+1234567890" class="btn btn-outline">Call (02) 456-7890</a>
+                        <a href="tel:+63283563919" class="btn btn-outline">Call (02) 8356-3919</a>
                     </div>
                 </div>
             </div>
@@ -362,9 +362,9 @@
                     <ul class="footer-links">
                         <li><a href="devotionals.html">Daily Devotionals</a></li>
                         <li><a href="sabbath-school.html">Morning Manna (SSL)</a></li>
-                        <li><a href="https://www.youtube.com/playlist?list=YOUR_SERMONS_PLAYLIST_ID">Sermons</a></li>
-                        <li><a href="https://www.youtube.com/playlist?list=YOUR_LESSONS_PLAYLIST_ID">Sabbath School Lessons</a></li>
-                        <li><a href="https://www.youtube.com/playlist?list=YOUR_MUSIC_PLAYLIST_ID">Music Media</a></li>
+                        <li><a href="https://www.youtube.com/playlist?list=PL615tmMR_c6UIx4yXrDinZCcfiS1BOTsV">Sermons</a></li>
+                        <li><a href="https://www.youtube.com/playlist?list=PL615tmMR_c6X0KfJvu07enaghDhdgYRFe">Sabbath School Lessons</a></li>
+                        <li><a href="https://www.youtube.com/@qonnectmediamusic/playlists" target="_blank">Music Media</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
@@ -474,6 +474,27 @@
     <script src="script.js?v=20260710"></script>
     <script src="js/stories.js"></script>
     <script>
+    // Messenger integration functions
+    function showMessengerOption() {
+        document.getElementById('messengerModal').style.display = 'flex';
+    }
+
+    function closeMessengerModal() {
+        document.getElementById('messengerModal').style.display = 'none';
+    }
+
+    function showPrayerRequestOption() {
+        const chatInput = document.getElementById('chatInput');
+        chatInput.value = 'I would like to submit a prayer request: ';
+        chatInput.focus();
+    }
+
+    function showStaffContactOption() {
+        const chatInput = document.getElementById('chatInput');
+        chatInput.value = 'I would like to speak with a staff member about: ';
+        chatInput.focus();
+    }
+
     // Auto-activate tab based on URL hash (e.g. #online, #qr, #other)
     document.addEventListener('DOMContentLoaded', function() {
         var tabBtns = document.querySelectorAll('.tab-btn');
@@ -499,27 +520,6 @@
             activateTab(hash.substring(1));
         }
 
-        // Messenger integration functions
-        function showMessengerOption() {
-            document.getElementById('messengerModal').style.display = 'flex';
-        }
-        
-        function closeMessengerModal() {
-            document.getElementById('messengerModal').style.display = 'none';
-        }
-        
-        function showPrayerRequestOption() {
-            const chatInput = document.getElementById('chatInput');
-            chatInput.value = 'I would like to submit a prayer request: ';
-            chatInput.focus();
-        }
-        
-        function showStaffContactOption() {
-            const chatInput = document.getElementById('chatInput');
-            chatInput.value = 'I would like to speak with a staff member about: ';
-            chatInput.focus();
-        }
-        
         // Initialize Messenger connect button
         const messengerBtn = document.getElementById('messengerConnectBtn');
         if (messengerBtn) {

@@ -6,6 +6,10 @@ const axios = require('axios');
 const rateLimit = require('express-rate-limit');
 const { randomUUID } = require('crypto');
 
+const ChatConversation = require('../models/ChatConversation');
+const { detectIntent, requiresEscalation } = require('../utils/intentDetection');
+const { buildRetrievedKnowledgeMessage, retrieveKnowledge } = require('../utils/knowledgeRetrieval');
+
 const router = express.Router();
 
 // Rate limiter: 50 requests per 15 minutes per IP
@@ -83,23 +87,29 @@ TONE: Friendly, brief, and helpful. Answer the question directly without ramblin
 REAL-TIME AWARENESS: A "REAL-TIME CONTEXT" system message is included below with the user's actual local date/time, location, and current Sabbath status (before/during/after Friday-sunset-to-Saturday-sunset). Always use that context - never assume it is currently the Sabbath just because it is a Saturday, and never guess the time using server time. Follow its instructions exactly when greeting the user or discussing the Sabbath.
 `;
 
-// Extra church-specific context to include after the main system prompt
-const CHURCH_CONTEXT = `
-Church Name: Quezon Central Free Seventh Day Adventist Church
-Location: Quezon City, Philippines
-Website: https://your-church-website.com
-Contact Phone: [Add church phone]
-Contact Email: qccfsda@gmail.com
-Senior Pastor: Pastor Erwin Rivas (Senior Pastor - 15+ years of service, passionate about expository preaching and pastoral care)
+// Behavioral rules for grounding church-specific answers in retrieved
+// knowledge instead of the model's general knowledge or a hardcoded fact
+// dump. The actual facts (address, bank details, schedule, etc.) are NOT
+// here - they come from the RETRIEVED CHURCH KNOWLEDGE system message built
+// per-request in utils/knowledgeRetrieval.js, sourced from the KnowledgeBase
+// collection so admins can keep it current without a code change.
+const CHURCH_ASSISTANT_GROUNDING_RULES = `
+You are the official AI assistant for Quezon City Central Church of Free Seventh-Day Adventists, in addition to your role answering Bible/doctrinal questions.
 
-IMPORTANT INSTRUCTIONS FOR RESPONSES:
-- Keep answers SHORT and SPECIFIC (aim for 2-3 sentences for most questions)
-- For church-specific questions, include relevant details: times, locations, contact info
-- When asked about the pastor or leadership, mention Pastor Erwin Rivas as the Senior Pastor
-- If church-specific information is unavailable, politely direct visitors to contact church staff
-- Reference the church website for events, schedules, and announcements
-- Be helpful and friendly but avoid lengthy explanations
-- Always offer to connect them with church staff for complex inquiries
+CHURCH-SPECIFIC QUESTIONS (contact info, address, worship schedule, leadership, ministries, donations, events, livestream, social media):
+- Use ONLY the facts provided in the "RETRIEVED CHURCH KNOWLEDGE" system message for this turn. Never invent or guess church-specific details (phone numbers, emails, URLs, bank account numbers, dates, staff names, links) that are not present there.
+- If verified (status VERIFIED) information is available, answer directly and confidently. Do NOT tell the user to "check the church website" or "visit our website" when you already have the verified answer - just give it to them, and only add a link if it helps them complete an action (e.g. the giving page, a registration link).
+- If the retrieved knowledge is marked CONFLICTING, do not pick one value. Say the church's own sources currently disagree, so you don't want to give incorrect information, and offer to connect them with the church (phone, email, or Messenger) to confirm.
+- If the retrieved knowledge is marked OUTDATED, or a live event/date is flagged outdated, do not present it as current or upcoming. Say so plainly and offer the appropriate contact channel instead.
+- If nothing relevant was retrieved, say you don't currently have verified information about that - do not guess. Offer to connect them with the church if that would help.
+- A donation method described as temporary or personal (e.g. a temporary GCash account) must always be identified as temporary - never present it as the church's permanent official account.
+- Never ask the user for a credit card number, CVV, bank password, online banking credentials, OTP, ATM PIN, GCash PIN, cryptocurrency private keys/recovery phrases, or any other authentication credential. Direct them to the church's official, verified giving methods instead.
+
+HUMAN ESCALATION:
+- If the user asks to speak with a staff member, the pastor, or "a real person", or says they don't want to talk to an AI: acknowledge it warmly, explain that church administrators may not be available 24/7 so response times may vary, and offer the Messenger/email/phone contact details from the retrieved knowledge plus the option to leave their contact info for a follow-up. Never claim an administrator is currently online or that someone will reply immediately.
+- If the user submits a prayer request, respond with warmth and offer to pass it along to the church (via the same contact options), in addition to any spiritual encouragement you'd normally give.
+
+Be friendly, respectful, concise, transparent, and helpful. Always prioritize verified retrieved church knowledge over general AI knowledge for anything church-specific.
 `;
 
 // Condensed Seventh-day Adventist doctrinal knowledge base injected on every
@@ -216,6 +226,44 @@ function validateModelName(model) {
 }
 validateModelName(OPENAI_MODEL);
 
+// Writes this turn's user/assistant messages onto the ChatConversation doc
+// for the Admin Dashboard. Only escalates the stored status to NEEDS_HUMAN
+// when this turn actually warrants it - never downgrades a conversation an
+// admin has already moved to CONTACT_REQUESTED/CONTACTED/RESOLVED just
+// because a later message in the same thread was benign.
+async function persistConversationTurn(conversationId, userMessage, assistantMessage, intent, escalate, req) {
+  const existing = await ChatConversation.findOne({ conversationId }).select('status');
+
+  const update = {
+    $push: {
+      messages: {
+        $each: [
+          { role: 'user', content: userMessage, intent },
+          { role: 'assistant', content: assistantMessage }
+        ]
+      }
+    },
+    $set: { lastIntent: intent },
+    $setOnInsert: {
+      ipAddress: req.ip,
+      userAgent: req.get('User-Agent')
+    }
+  };
+
+  const settledStatuses = new Set(['CONTACT_REQUESTED', 'CONTACTED', 'RESOLVED']);
+  if (!existing) {
+    update.$set.status = escalate ? 'NEEDS_HUMAN' : 'AI_HANDLED';
+  } else if (escalate && !settledStatuses.has(existing.status)) {
+    update.$set.status = 'NEEDS_HUMAN';
+  }
+
+  await ChatConversation.findOneAndUpdate(
+    { conversationId },
+    update,
+    { upsert: true, setDefaultsOnInsert: true }
+  );
+}
+
 // POST /send - primary chat endpoint (with rate limiter)
 router.post('/send', chatLimiter, async (req, res) => {
   try {
@@ -240,12 +288,36 @@ router.post('/send', chatLimiter, async (req, res) => {
     const maxHistory = 6;
     const recent = history.slice(-maxHistory);
 
-    // Build messages for OpenAI: system prompt + church context + SDA knowledge
-    // + recent history + real-time context (freshest, highest priority) + user
+    // Classify the message and pull grounded facts for it (see
+    // utils/intentDetection.js and utils/knowledgeRetrieval.js). Retrieval
+    // failures must never take the chatbot down - fall back to "no
+    // knowledge retrieved" rather than 500ing the whole request.
+    const intent = detectIntent(message);
+    let retrievedKnowledgeMessage;
+    let retrievedDocs = [];
+    try {
+      retrievedDocs = await retrieveKnowledge(message, intent);
+      retrievedKnowledgeMessage = await buildRetrievedKnowledgeMessage(message, intent);
+    } catch (retrievalError) {
+      console.error('Knowledge retrieval error:', retrievalError);
+      retrievedKnowledgeMessage = 'RETRIEVED CHURCH KNOWLEDGE: unavailable right now. Do not invent church-specific facts; offer to connect the user with the church instead.';
+    }
+
+    // Escalate to a human-contact panel when the user explicitly asked for
+    // one, submitted a prayer request, or the only relevant knowledge is a
+    // conflicting worship schedule (never guess a time - see section 10).
+    const hasConflictingSchedule = retrievedDocs.some((doc) => doc.category === 'WORSHIP_SCHEDULE' && doc.status === 'CONFLICTING');
+    const escalate = requiresEscalation(intent) || hasConflictingSchedule;
+
+    // Build messages for OpenAI: system prompt + behavioral grounding rules
+    // + SDA doctrinal knowledge + retrieved church knowledge (all static
+    // system context), then recent history + real-time context (freshest,
+    // highest priority) + user
     const messages = [
       { role: 'system', content: OPENAI_SYSTEM_PROMPT },
-      { role: 'system', content: CHURCH_CONTEXT },
-      { role: 'system', content: SDA_KNOWLEDGE_BASE }
+      { role: 'system', content: CHURCH_ASSISTANT_GROUNDING_RULES },
+      { role: 'system', content: SDA_KNOWLEDGE_BASE },
+      { role: 'system', content: retrievedKnowledgeMessage }
     ];
     for (const m of recent) {
       messages.push({ role: m.role, content: m.content });
@@ -321,11 +393,21 @@ router.post('/send', chatLimiter, async (req, res) => {
 
     conversationHistories.set(convId, newHistory);
 
+    // Persist a durable copy for the Admin Dashboard. This is purely for
+    // visibility/audit - the in-memory Map above remains the source of
+    // truth for building the next request's context, so a DB hiccup here
+    // must never affect the chat reply already being sent to the user.
+    persistConversationTurn(convId, message, filtered, intent, escalate, req).catch((persistError) => {
+      console.error('Failed to persist chat conversation:', persistError);
+    });
+
     res.json({
       message: filtered,
       timestamp: new Date().toISOString(),
       source: 'openai',
-      conversationId: convId
+      conversationId: convId,
+      intent,
+      escalate
     });
 
   } catch (err) {
@@ -355,8 +437,7 @@ Production-readiness notes and recommendations:
 
 - Secrets: OPENAI_API_KEY in .env is fine for development; in production set it via your host's secret manager and never commit .env.
 
-- Conversation storage: Currently stored in-process (Map). This will be lost on server restart and can grow unbounded. For production:
-  - Persist per-session conversation histories in a database (MongoDB, Redis).
+- Conversation storage: The in-process Map remains the source of truth for building each request's context (unchanged, and lost on restart/unbounded across many concurrent conversations). A durable copy is now also written to the ChatConversation collection (see persistConversationTurn) purely for Admin Dashboard visibility - if you want restart-safe context too, switch the Map lookups to read from Mongo instead of maintaining both.
   - Enforce a strict max history length and consider trimming by token budget rather than message count.
 
 - Rate limiting: Implemented here per-IP. For authenticated users, prefer per-user limits.

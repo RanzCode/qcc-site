@@ -1050,6 +1050,9 @@ body {
     cursor: pointer;
     transition: all 0.2s;
     font-size: 0.75rem;
+    text-decoration: none;
+    color: inherit;
+    text-align: center;
 }
 
 .chat-option-btn:hover {

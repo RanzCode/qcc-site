@@ -9,6 +9,7 @@
     "test": "jest",
     "setup": "node scripts/setup.js",
     "seed:admin": "node scripts/seed-admin-and-content.js",
+    "seed:knowledge": "node scripts/seed-knowledge-base.js",
     "test-ollama": "node test-ollama.js"
   },
   "dependencies": {

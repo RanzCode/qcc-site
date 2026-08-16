@@ -21,6 +21,9 @@
             <button class="admin-tab-btn" data-tab="sermons">Sermons</button>
             <button class="admin-tab-btn" data-tab="sabbath-school">Sabbath School Slides</button>
             <button class="admin-tab-btn" data-tab="stories">Stewardship Stories</button>
+            <button class="admin-tab-btn" data-tab="knowledge">Church AI Knowledge</button>
+            <button class="admin-tab-btn" data-tab="contacts">Contact Requests</button>
+            <button class="admin-tab-btn" data-tab="conversations">Chat Conversations</button>
         </div>
 
         <!-- Post Grid Panel -->
@@ -244,6 +247,156 @@
                 <div id="storiesList"><div class="admin-empty-state">Loading…</div></div>
             </div>
         </section>
+
+        <!-- Church AI Knowledge Panel -->
+        <section class="admin-panel" id="panel-knowledge">
+            <div class="admin-list-card" id="knowledgeAttentionCard" style="display:none;">
+                <h3>⚠️ Needs Verification</h3>
+                <p>These entries are conflicting, outdated, or unverified. The chatbot will not present them as settled fact until they're resolved here.</p>
+                <div id="knowledgeAttentionList"></div>
+            </div>
+            <div class="admin-panel-grid">
+                <div class="admin-form-card">
+                    <h3 id="knowledgeFormTitle">Add Knowledge Entry</h3>
+                    <div id="knowledgeAlert"></div>
+                    <form class="admin-form" id="knowledgeForm">
+                        <input type="hidden" id="knowledgeId">
+                        <div class="form-group">
+                            <label for="knowledgeKey">Key (stable slug, optional)</label>
+                            <input type="text" id="knowledgeKey" placeholder="e.g. donation-bank">
+                        </div>
+                        <div class="form-group">
+                            <label for="knowledgeTitle">Title</label>
+                            <input type="text" id="knowledgeTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="knowledgeCategory">Category</label>
+                            <select id="knowledgeCategory" required>
+                                <option value="CHURCH_INFORMATION">Church Information</option>
+                                <option value="CONTACT">Contact</option>
+                                <option value="SOCIAL_MEDIA">Social Media</option>
+                                <option value="WORSHIP_SCHEDULE">Worship Schedule</option>
+                                <option value="LEADERSHIP">Leadership</option>
+                                <option value="MISSION">Mission</option>
+                                <option value="VISION">Vision</option>
+                                <option value="VALUES">Values</option>
+                                <option value="BELIEFS">Beliefs</option>
+                                <option value="MINISTRY">Ministry</option>
+                                <option value="DONATION">Donation</option>
+                                <option value="EVENT">Event</option>
+                                <option value="LIVESTREAM">Livestream</option>
+                                <option value="FAQ">FAQ</option>
+                                <option value="OTHER">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="knowledgeContent">Content (what the AI will say)</label>
+                            <textarea id="knowledgeContent" rows="4" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="knowledgeStatus">Status</label>
+                            <select id="knowledgeStatus">
+                                <option value="VERIFIED">Verified</option>
+                                <option value="UNVERIFIED">Unverified</option>
+                                <option value="CONFLICTING">Conflicting</option>
+                                <option value="OUTDATED">Outdated</option>
+                                <option value="DISABLED">Disabled</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="knowledgeConflictNotes">Conflict notes (shown to admins when status is Conflicting)</label>
+                            <textarea id="knowledgeConflictNotes" rows="2"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="knowledgeStructuredData">Structured data (JSON, optional)</label>
+                            <textarea id="knowledgeStructuredData" rows="3" placeholder='{"phone":"(02) 8356-3919"}'></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="knowledgeTags">Tags (comma-separated)</label>
+                            <input type="text" id="knowledgeTags" placeholder="donate, tithe, bank">
+                        </div>
+                        <div class="form-group">
+                            <label for="knowledgeSource">Source</label>
+                            <select id="knowledgeSource">
+                                <option value="ADMIN_VERIFIED">Admin Verified</option>
+                                <option value="OFFICIAL_WEBSITE">Official Website</option>
+                                <option value="OTHER_APPROVED_CHURCH_SOURCE">Other Approved Source</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="knowledgeSourceUrl">Source URL (optional)</label>
+                            <input type="url" id="knowledgeSourceUrl">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full" id="knowledgeSubmitBtn">Add Entry</button>
+                        <button type="button" class="btn btn-full" id="knowledgeCancelBtn" style="display:none;">Cancel Edit</button>
+                    </form>
+                </div>
+                <div class="admin-list-card">
+                    <h3>Knowledge Entries</h3>
+                    <div class="admin-form" style="flex-direction:row; gap:0.5rem; margin-bottom:1rem;">
+                        <select id="knowledgeCategoryFilter" style="flex:1;">
+                            <option value="">All categories</option>
+                        </select>
+                        <select id="knowledgeStatusFilter" style="flex:1;">
+                            <option value="">All statuses</option>
+                            <option value="VERIFIED">Verified</option>
+                            <option value="UNVERIFIED">Unverified</option>
+                            <option value="CONFLICTING">Conflicting</option>
+                            <option value="OUTDATED">Outdated</option>
+                            <option value="DISABLED">Disabled</option>
+                        </select>
+                    </div>
+                    <div id="knowledgeList"><div class="admin-empty-state">Loading…</div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Requests Panel -->
+        <section class="admin-panel" id="panel-contacts">
+            <div class="admin-list-card">
+                <h3>Contact Requests</h3>
+                <p>Submissions from the Contact page form and from the chatbot's "leave your contact info" flow.</p>
+                <div class="admin-form" style="flex-direction:row; gap:0.5rem; margin-bottom:1rem;">
+                    <select id="contactsStatusFilter" style="flex:1;">
+                        <option value="">All statuses</option>
+                        <option value="new">New</option>
+                        <option value="read">Read</option>
+                        <option value="replied">Replied</option>
+                        <option value="contacted">Contacted</option>
+                        <option value="resolved">Resolved</option>
+                        <option value="archived">Archived</option>
+                    </select>
+                    <select id="contactsSourceFilter" style="flex:1;">
+                        <option value="">All sources</option>
+                        <option value="website_form">Website form</option>
+                        <option value="chatbot">Chatbot</option>
+                    </select>
+                </div>
+                <div id="contactsAlert"></div>
+                <div id="contactsList"><div class="admin-empty-state">Loading…</div></div>
+            </div>
+        </section>
+
+        <!-- Chat Conversations Panel -->
+        <section class="admin-panel" id="panel-conversations">
+            <div class="admin-list-card">
+                <h3>Chat Conversations</h3>
+                <p>Every conversation held with the church chatbot, most recently active first.</p>
+                <div class="admin-form" style="flex-direction:row; gap:0.5rem; margin-bottom:1rem;">
+                    <select id="conversationsStatusFilter" style="flex:1;">
+                        <option value="">All statuses</option>
+                        <option value="AI_HANDLED">AI handled</option>
+                        <option value="NEEDS_HUMAN">Needs human</option>
+                        <option value="CONTACT_REQUESTED">Contact requested</option>
+                        <option value="CONTACTED">Contacted</option>
+                        <option value="RESOLVED">Resolved</option>
+                    </select>
+                </div>
+                <div id="conversationsAlert"></div>
+                <div id="conversationsList"><div class="admin-empty-state">Loading…</div></div>
+                <div id="conversationDetail"></div>
+            </div>
+        </section>
     </div>
 
     <script src="js/api-config.js"></script>
@@ -268,6 +421,9 @@
     <script src="js/admin-sermons.js"></script>
     <script src="js/admin-sabbath-school.js"></script>
     <script src="js/admin-stories.js"></script>
+    <script src="js/admin-knowledge.js"></script>
+    <script src="js/admin-contacts.js"></script>
+    <script src="js/admin-conversations.js"></script>
     <script>
         (async function init() {
             const user = await AdminAuth.requireAdminAuth();
@@ -277,6 +433,9 @@
             if (window.AdminSermons) window.AdminSermons.init();
             if (window.AdminSabbathSchool) window.AdminSabbathSchool.init();
             if (window.AdminStories) window.AdminStories.init();
+            if (window.AdminKnowledge) window.AdminKnowledge.init();
+            if (window.AdminContacts) window.AdminContacts.init();
+            if (window.AdminConversations) window.AdminConversations.init();
         })();
     </script>
 </body>

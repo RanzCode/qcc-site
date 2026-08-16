@@ -185,6 +185,7 @@ if (chatForm) {
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
         let replyText = 'Unable to connect to the server. Please make sure the backend is running and try again.';
+        let responseData = null;
 
         try {
             const context = typeof window.getSabbathContext === 'function'
@@ -198,6 +199,7 @@ if (chatForm) {
             });
 
             const data = await response.json();
+            responseData = data;
 
             if (data.conversationId) chatConversationId = data.conversationId;
             if (data.message) replyText = data.message;
@@ -220,9 +222,149 @@ if (chatForm) {
         chatMessages.appendChild(churchMessage);
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
+        if (responseData && responseData.escalate) {
+            renderStaffContactPanel(responseData.intent);
+        }
+
         chatIsSending = false;
     });
 }
+
+// --- Church AI escalation panel + quick actions ------------------------
+// Rendered inline in the chat window whenever the backend flags a response
+// as needing human follow-up (explicit staff request, prayer request, or a
+// conflicting worship schedule it couldn't safely answer). Never claims a
+// human is online - just offers the real contact channels plus an optional
+// "leave your info" form that reuses the existing /api/contact/submit
+// endpoint (the same one the Contact page form posts to).
+const CHURCH_CONTACT = {
+    messenger: 'https://m.me/quezon.central.7',
+    email: 'qccfsda@gmail.com',
+    phone: '+63283563919',
+    phoneDisplay: '(02) 8356-3919'
+};
+
+function renderStaffContactPanel(intent) {
+    if (!chatMessages || document.getElementById('staffContactPanel')) return;
+
+    const panel = document.createElement('div');
+    panel.className = 'message church-message';
+    panel.id = 'staffContactPanel';
+    panel.innerHTML = `
+        <div class="message-content">
+            <p><strong>Contact the Church</strong><br>
+            Please note: church administrators may not be available 24/7, so response times may vary.</p>
+            <div class="chat-options-bar" style="margin:10px 0;">
+                <a class="chat-option-btn" href="${CHURCH_CONTACT.messenger}" target="_blank" rel="noopener noreferrer">
+                    <i class="fab fa-facebook-messenger"></i><span>Message on Messenger</span>
+                </a>
+                <a class="chat-option-btn" href="mailto:${CHURCH_CONTACT.email}">
+                    <i class="fas fa-envelope"></i><span>Email</span>
+                </a>
+                <a class="chat-option-btn" href="tel:${CHURCH_CONTACT.phone}">
+                    <i class="fas fa-phone"></i><span>Call ${CHURCH_CONTACT.phoneDisplay}</span>
+                </a>
+                <button type="button" class="chat-option-btn" id="leaveContactRequestBtn">
+                    <i class="fas fa-pen"></i><span>Leave Contact Request</span>
+                </button>
+            </div>
+            <div id="contactRequestFormWrap"></div>
+        </div>
+    `;
+    chatMessages.appendChild(panel);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    document.getElementById('leaveContactRequestBtn').addEventListener('click', () => {
+        renderContactRequestForm(intent);
+    });
+}
+
+function renderContactRequestForm(intent) {
+    const wrap = document.getElementById('contactRequestFormWrap');
+    if (!wrap || wrap.querySelector('form')) return;
+
+    wrap.innerHTML = `
+        <form id="contactRequestForm" style="display:flex; flex-direction:column; gap:8px; margin-top:8px;">
+            <input type="text" id="crName" placeholder="Your name" required>
+            <input type="email" id="crEmail" placeholder="Your email" required>
+            <input type="tel" id="crPhone" placeholder="Phone (optional)">
+            <select id="crMethod">
+                <option value="any">Any contact method</option>
+                <option value="email">Prefer email</option>
+                <option value="phone">Prefer phone</option>
+                <option value="messenger">Prefer Messenger</option>
+            </select>
+            <textarea id="crMessage" placeholder="What would you like to talk about? (at least 10 characters)" rows="3" required></textarea>
+            <div id="crStatus"></div>
+            <button type="submit" class="btn btn-primary">Send to the Church</button>
+        </form>
+    `;
+
+    document.getElementById('contactRequestForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('crName').value.trim();
+        const [firstName, ...rest] = name.split(' ');
+        const lastName = rest.join(' ');
+        const email = document.getElementById('crEmail').value.trim();
+        const phone = document.getElementById('crPhone').value.trim();
+        const preferredContactMethod = document.getElementById('crMethod').value;
+        const message = document.getElementById('crMessage').value.trim();
+        const statusEl = document.getElementById('crStatus');
+
+        if (message.length < 10) {
+            statusEl.textContent = 'Please add a few more details (at least 10 characters).';
+            return;
+        }
+
+        try {
+            const res = await fetch(apiUrl('/api/contact/submit'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    firstName: firstName || name,
+                    lastName,
+                    email,
+                    phone,
+                    subject: intent === 'PRAYER_REQUEST' ? 'prayer' : 'chat-support',
+                    message,
+                    preferredContactMethod,
+                    source: 'chatbot',
+                    conversationId: chatConversationId
+                })
+            });
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.error || (data.errors && data.errors[0] && data.errors[0].msg) || 'Failed to send request');
+            }
+
+            wrap.innerHTML = '<p style="margin-top:8px;"><em>Thanks - the church team will follow up when available.</em></p>';
+        } catch (error) {
+            statusEl.textContent = error.message;
+        }
+    });
+}
+
+// Adds real, working quick-action buttons (Give/Donate, Church Info,
+// Upcoming Events, Livestream) to the chat widget's options bar, if present
+// on this page. Purely additive - the existing Messenger/Prayer/Contact
+// Staff buttons defined inline in each page's HTML are untouched.
+document.addEventListener('DOMContentLoaded', () => {
+    const optionsBar = document.getElementById('chatOptionsBar');
+    if (!optionsBar || optionsBar.querySelector('.chat-quick-links')) return;
+
+    const quickLinks = document.createElement('div');
+    quickLinks.className = 'chat-quick-links';
+    quickLinks.style.cssText = 'display:flex; flex-wrap:wrap; gap:6px; width:100%;';
+    quickLinks.innerHTML = `
+        <a class="chat-option-btn" href="donate.html#online"><i class="fas fa-hand-holding-heart"></i><span>Give / Donate</span></a>
+        <a class="chat-option-btn" href="about.html"><i class="fas fa-info-circle"></i><span>Church Information</span></a>
+        <a class="chat-option-btn" href="events.html"><i class="fas fa-calendar-alt"></i><span>Upcoming Events</span></a>
+        <a class="chat-option-btn" href="https://youtube.com/live/gwY1VAmuZpA" target="_blank" rel="noopener noreferrer"><i class="fas fa-video"></i><span>Livestream</span></a>
+    `;
+    optionsBar.appendChild(quickLinks);
+});
 
 // Handle Enter key in chat input
 if (chatInput) {

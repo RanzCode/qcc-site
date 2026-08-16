@@ -53,7 +53,10 @@ const userSchema = new mongoose.Schema({
         announcements: { type: Boolean, default: false },
         posts: { type: Boolean, default: false },
         sabbathSchool: { type: Boolean, default: false },
-        stories: { type: Boolean, default: false }
+        stories: { type: Boolean, default: false },
+        contacts: { type: Boolean, default: false },
+        knowledge: { type: Boolean, default: false },
+        conversations: { type: Boolean, default: false }
     }
 }, {
     timestamps: true

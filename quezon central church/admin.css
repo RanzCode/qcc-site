@@ -187,6 +187,11 @@
     color: #6b7280;
 }
 
+.admin-badge-warning {
+    background: #fffbeb;
+    color: #b45309;
+}
+
 .admin-item-actions {
     display: flex;
     gap: 0.5rem;

@@ -35,7 +35,11 @@ const ALL_PERMISSIONS_TRUE = {
     users: true,
     announcements: true,
     posts: true,
-    sabbathSchool: true
+    sabbathSchool: true,
+    stories: true,
+    contacts: true,
+    knowledge: true,
+    conversations: true
 };
 
 async function connectDB() {
