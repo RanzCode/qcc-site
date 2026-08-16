@@ -346,26 +346,6 @@ function renderContactRequestForm(intent) {
     });
 }
 
-// Adds real, working quick-action buttons (Give/Donate, Church Info,
-// Upcoming Events, Livestream) to the chat widget's options bar, if present
-// on this page. Purely additive - the existing Messenger/Prayer/Contact
-// Staff buttons defined inline in each page's HTML are untouched.
-document.addEventListener('DOMContentLoaded', () => {
-    const optionsBar = document.getElementById('chatOptionsBar');
-    if (!optionsBar || optionsBar.querySelector('.chat-quick-links')) return;
-
-    const quickLinks = document.createElement('div');
-    quickLinks.className = 'chat-quick-links';
-    quickLinks.style.cssText = 'display:flex; flex-wrap:wrap; gap:6px; width:100%;';
-    quickLinks.innerHTML = `
-        <a class="chat-option-btn" href="donate.html#online"><i class="fas fa-hand-holding-heart"></i><span>Give / Donate</span></a>
-        <a class="chat-option-btn" href="about.html"><i class="fas fa-info-circle"></i><span>Church Information</span></a>
-        <a class="chat-option-btn" href="events.html"><i class="fas fa-calendar-alt"></i><span>Upcoming Events</span></a>
-        <a class="chat-option-btn" href="https://youtube.com/live/gwY1VAmuZpA" target="_blank" rel="noopener noreferrer"><i class="fas fa-video"></i><span>Livestream</span></a>
-    `;
-    optionsBar.appendChild(quickLinks);
-});
-
 // Handle Enter key in chat input
 if (chatInput) {
     chatInput.addEventListener('keydown', (e) => {
