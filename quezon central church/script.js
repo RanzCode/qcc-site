@@ -148,6 +148,117 @@ if (chatClose) {
     });
 }
 
+// --- Chat window resize --------------------------------------------------
+// The window is anchored to the bottom-right corner (near the toggle
+// button), so growing it bigger means extending the top-left edge outward,
+// away from that anchor - dragging the handle left/up grows the window,
+// not the usual down-right. Size is clamped to sane bounds and remembered
+// per-browser via localStorage. Disabled on the smallest phones, where
+// styles.css forces the window to a fixed full-width layout instead.
+if (chatWindow) {
+    const CHAT_SIZE_STORAGE_KEY = 'qcc_chat_size';
+    const MIN_CHAT_WIDTH = 300;
+    const MIN_CHAT_HEIGHT = 340;
+
+    const isChatResizable = () => window.innerWidth > 375;
+    const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+    function getMaxChatSize() {
+        return {
+            maxWidth: Math.min(560, window.innerWidth - 32),
+            maxHeight: Math.min(640, window.innerHeight * 0.75)
+        };
+    }
+
+    function applyChatSize(width, height) {
+        const { maxWidth, maxHeight } = getMaxChatSize();
+        const clampedWidth = clamp(width, MIN_CHAT_WIDTH, maxWidth);
+        const clampedHeight = clamp(height, MIN_CHAT_HEIGHT, maxHeight);
+        chatWindow.style.width = clampedWidth + 'px';
+        chatWindow.style.height = clampedHeight + 'px';
+    }
+
+    // Restore a previously saved size, if the current viewport can fit it.
+    try {
+        const saved = JSON.parse(localStorage.getItem(CHAT_SIZE_STORAGE_KEY));
+        if (saved && saved.width && saved.height && isChatResizable()) {
+            applyChatSize(saved.width, saved.height);
+        }
+    } catch (e) {
+        // ignore corrupt/blocked storage
+    }
+
+    const chatResizeHandle = document.createElement('div');
+    chatResizeHandle.className = 'chat-resize-handle';
+    chatResizeHandle.title = 'Drag to resize';
+    chatWindow.insertBefore(chatResizeHandle, chatWindow.firstChild);
+
+    let chatResizing = false;
+    let resizeStartX = 0;
+    let resizeStartY = 0;
+    let resizeStartWidth = 0;
+    let resizeStartHeight = 0;
+
+    function startChatResize(clientX, clientY) {
+        if (!isChatResizable()) return;
+        chatResizing = true;
+        resizeStartX = clientX;
+        resizeStartY = clientY;
+        const rect = chatWindow.getBoundingClientRect();
+        resizeStartWidth = rect.width;
+        resizeStartHeight = rect.height;
+        document.body.style.userSelect = 'none';
+    }
+
+    function moveChatResize(clientX, clientY) {
+        if (!chatResizing) return;
+        const deltaX = clientX - resizeStartX;
+        const deltaY = clientY - resizeStartY;
+        applyChatSize(resizeStartWidth - deltaX, resizeStartHeight - deltaY);
+    }
+
+    function endChatResize() {
+        if (!chatResizing) return;
+        chatResizing = false;
+        document.body.style.userSelect = '';
+        const rect = chatWindow.getBoundingClientRect();
+        try {
+            localStorage.setItem(CHAT_SIZE_STORAGE_KEY, JSON.stringify({ width: rect.width, height: rect.height }));
+        } catch (e) {
+            // ignore
+        }
+    }
+
+    chatResizeHandle.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        startChatResize(e.clientX, e.clientY);
+    });
+    document.addEventListener('mousemove', (e) => moveChatResize(e.clientX, e.clientY));
+    document.addEventListener('mouseup', endChatResize);
+
+    chatResizeHandle.addEventListener('touchstart', (e) => {
+        const touch = e.touches[0];
+        startChatResize(touch.clientX, touch.clientY);
+    }, { passive: true });
+    document.addEventListener('touchmove', (e) => {
+        if (!chatResizing) return;
+        const touch = e.touches[0];
+        moveChatResize(touch.clientX, touch.clientY);
+    }, { passive: true });
+    document.addEventListener('touchend', endChatResize);
+
+    // Re-clamp (or clear, on very small screens) whenever the viewport changes.
+    window.addEventListener('resize', () => {
+        if (!isChatResizable()) {
+            chatWindow.style.width = '';
+            chatWindow.style.height = '';
+            return;
+        }
+        const rect = chatWindow.getBoundingClientRect();
+        if (rect.width && rect.height) applyChatSize(rect.width, rect.height);
+    });
+}
+
 let chatConversationId = null;
 let chatIsSending = false;
 
