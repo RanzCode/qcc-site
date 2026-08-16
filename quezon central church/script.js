@@ -239,9 +239,11 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         // href may be swapped out later (e.g. event-details-btn gets a real
         // URL assigned once the admin sets one), so re-check at click time
-        // instead of assuming it's still a same-page hash link.
+        // instead of assuming it's still a same-page hash link. Once it's a
+        // real URL, let the browser handle the click normally (href/target
+        // do the work) instead of intercepting it.
         const href = this.getAttribute('href');
-        if (!href || href === '#') return;
+        if (!href || href === '#' || !href.startsWith('#')) return;
 
         e.preventDefault();
         const target = document.querySelector(href);
